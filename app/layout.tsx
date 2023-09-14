@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Noto_Sans } from 'next/font/google'
+import Sidebar from './sidebar'
 
 const noto = Noto_Sans({ subsets: ['latin'], weight: ['400', '500'] })
 
@@ -15,8 +16,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={noto.className}>{children}</body>
+    <html className={`h-full bg-gray-900 ${noto.className}`}>
+    <body className="h-full">
+        <Sidebar />
+        {children}
+        </body>
     </html>
+    
   )
 }

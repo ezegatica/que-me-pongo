@@ -39,3 +39,7 @@ export interface WeatherResponse {
   name: string;
   cod: number;
 }
+
+export function round(temp: number) {
+  return Math.round(temp);
+}
