@@ -1,9 +1,9 @@
 import React from 'react';
-import { getBuenosAiresWeather } from './querys';
-import { Clothes, round } from './utils';
-import Link from 'next/link';
+import { getBuenosAiresWeather } from '../../querys';
+import { emojiByWeather, round } from '../../utils';
+import WeatherForm from './form';
 
-export default async function Landing() {
+export default async function FormPage() {
   const clima = await getBuenosAiresWeather();
 
   return (
@@ -14,14 +14,12 @@ export default async function Landing() {
             <h1 className="text-base font-semibold leading-7 text-white">
               ¿Que me pongo? - Buenos Aires
             </h1>
-            <span className="flex items-center gap-x-1 text-sm font-medium leading-6 text-white relative">
-              Hacen {round(clima.main.temp)}°C <br />
-              Está: {clima.weather[0].description}
+            <span title={clima.weather[0].description} className="flex items-center gap-x-1 text-sm font-medium leading-6 text-white relative">
+              Hacen {round(clima.main.temp)}°C {emojiByWeather(clima.weather[0].icon)}
             </span>
           </header>
-          <hr />
-          <h1>Landing</h1>
-          <Link href="/app">Entrar a app</Link>
+          {/* form de data */}
+         <WeatherForm />
         </main>
       </div>
     </div>
