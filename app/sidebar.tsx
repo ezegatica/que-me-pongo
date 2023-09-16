@@ -2,33 +2,29 @@
 import React, { Fragment, useState } from 'react';
 import {
   Bars3Icon,
-  ChartBarSquareIcon,
   Cog6ToothIcon,
-  FolderIcon,
-  GlobeAltIcon,
   MagnifyingGlassIcon,
-  ServerIcon,
-  SignalIcon,
   XMarkIcon,
-  UserCircleIcon
+  UserCircleIcon,
+  PencilSquareIcon,
+  ClipboardDocumentIcon
 } from '@heroicons/react/24/outline';
 import { Transition, Dialog } from '@headlessui/react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function Sidebar() {
   const router = useRouter();
+  const pathname = usePathname();
+
   const { data: session, status } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigation = [
-    { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-    { name: 'Deployments', href: '#', icon: ServerIcon, current: true },
-    { name: 'Activity', href: '#', icon: SignalIcon, current: false },
-    { name: 'Domains', href: '#', icon: GlobeAltIcon, current: false },
-    { name: 'Usage', href: '#', icon: ChartBarSquareIcon, current: false },
-    { name: 'Settings', href: '#', icon: Cog6ToothIcon, current: false }
+    { name: 'Formulario', href: '/app', icon: PencilSquareIcon, current: pathname === '/app' },
+    { name: 'Mis Respuestas', href: '/app/respuestas', icon: ClipboardDocumentIcon, current: pathname === '/app/respuestas' },
+    { name: 'Configuración', href: '/app/settings', icon: Cog6ToothIcon, current: pathname === '/app/settings' }
   ];
 
   function classNames(...classes: string[]) {
@@ -41,7 +37,7 @@ export default function Sidebar() {
         redirect: false,
         callbackUrl: '/'
       });
-      router.push("/");
+      router.push('/');
     } else {
       return signIn();
     }
@@ -225,8 +221,8 @@ export default function Sidebar() {
                   id="search-field"
                   className="block h-full w-full border-0 bg-transparent py-0 pl-8 pr-0 text-white focus:ring-0 sm:text-sm"
                   placeholder=" ¿Donde estás ahora?"
-                  type="search"
-                  name="search"
+                  type="text"
+                  name="city"
                 />
               </div>
             </form>
