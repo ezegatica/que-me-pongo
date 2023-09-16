@@ -1,3 +1,5 @@
+import { randomBytes } from "crypto";
+
 export interface WeatherResponse {
   coord: {
     lon: number;
@@ -46,6 +48,13 @@ export function round(temp: number) {
 export const config = {
   weatherApi: {
     key: process.env.WEATHER_API_KEY
+  },
+  auth: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || ''
+    },
+    secret: process.env.secret as string
   }
 };
 
