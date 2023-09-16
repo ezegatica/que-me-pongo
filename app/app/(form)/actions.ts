@@ -1,9 +1,9 @@
 'use server';
 import { Session } from 'next-auth';
 import { prisma } from '../../db';
-import { Clothes } from '../../utils';
+import { Clothes, WeatherResponse } from '../../utils';
 
-export async function Submit(formData: FormData, session: Session | null) {
+export async function Submit(formData: FormData, session: Session | null, clima: WeatherResponse) {
   if (!session?.user?.email) {
     throw new Error('No user logged in');
   }
@@ -33,7 +33,8 @@ export async function Submit(formData: FormData, session: Session | null) {
       date,
       userId: user?.id,
       lower: lowerSelected,
-      upper: upperSelected
+      upper: upperSelected,
+      temp: clima.main.temp
     }
   });
 

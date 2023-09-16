@@ -27,6 +27,7 @@ model Report {
   day    Int
   upper  String   @db.VarChar(255)
   lower  String   @db.VarChar(255)
+  temp   Float
   userId String
   date   DateTime @default(now())
 

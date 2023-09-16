@@ -1,4 +1,5 @@
-import { randomBytes } from "crypto";
+import { NextAuthOptions, getServerSession } from "next-auth";
+import { prisma } from "./db";
 
 export interface WeatherResponse {
   coord: {
@@ -106,4 +107,22 @@ export function emojiByWeather(icon: string) {
   }
 
   return '🌎';
+}
+
+export const getUser = async (authOptions: NextAuthOptions) => {
+  const session = await getServerSession(authOptions);
+  const user = await prisma.user.findUnique({
+    where: {
+      email: session?.user?.email as string
+    },
+    include: {
+      Reports: true
+    }
+  })
+  
+  if (!user) {
+    throw new Error("User doesn't exist in database");
+  }
+
+  return {user, session};
 }
