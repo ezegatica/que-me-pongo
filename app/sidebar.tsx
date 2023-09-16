@@ -16,8 +16,10 @@ import { Transition, Dialog } from '@headlessui/react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Sidebar() {
+  const router = useRouter();
   const { data: session, status } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigation = [
@@ -36,9 +38,10 @@ export default function Sidebar() {
   const handleClickUser = async () => {
     if (session?.user) {
       await signOut({
+        redirect: false,
         callbackUrl: '/'
       });
-      // router.push("/");
+      router.push("/");
     } else {
       return signIn();
     }
