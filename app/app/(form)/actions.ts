@@ -1,19 +1,41 @@
 'use server';
 import { Session } from 'next-auth';
 import { prisma } from '../../db';
+import { Clothes } from '../../utils';
 
 export async function Submit(formData: FormData, session: Session | null) {
   if (!session?.user?.email) {
-    return;
+    throw new Error('No user logged in');
+  }
+  const lowerSelected = formData.get(Clothes.Lower.value)?.toString();
+  const upperSelected = formData.get(Clothes.Upper.value)?.toString();
+
+  if (!lowerSelected || !upperSelected) {
+    throw new Error('Missing clothes selected');
   }
   const user = await prisma.user.findUnique({
     where: {
       email: session?.user?.email
     }
   });
-  console.log({
-    user,
-    formData: { upper: formData.get('upper'), lower: formData.get('lower') }
+
+  if (!user) {
+    throw new Error("User doesn't exist in database");
+  }
+
+  const now = Date.now();
+  const day = Math.floor(now / 1000 / 60 / 60 / 24); // Dada una timestamp, agarrar el numero de día
+  const date = new Date(now);
+
+  const newReport = await prisma.report.create({
+    data: {
+      day,
+      date,
+      userId: user?.id,
+      lower: lowerSelected,
+      upper: upperSelected
+    }
   });
-  // Guardar en la DB del usuario
+
+  return newReport;
 }
