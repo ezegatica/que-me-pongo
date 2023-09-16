@@ -14,12 +14,12 @@ import {
 } from '@heroicons/react/24/outline';
 import { Transition, Dialog } from '@headlessui/react';
 import { signIn, signOut, useSession } from 'next-auth/react';
-// import { useRouter } from 'next/navigation';
+import { Session } from 'next-auth';
+import Link from 'next/link';
 
 export default function Sidebar() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  // const router = useRouter();
   const navigation = [
     { name: 'Projects', href: '#', icon: FolderIcon, current: false },
     { name: 'Deployments', href: '#', icon: ServerIcon, current: true },
@@ -36,13 +36,13 @@ export default function Sidebar() {
   const handleClickUser = async () => {
     if (session?.user) {
       await signOut({
-        callbackUrl: "/"
+        callbackUrl: '/'
       });
       // router.push("/");
     } else {
       return signIn();
     }
-  }
+  };
 
   return (
     <div>
@@ -113,7 +113,7 @@ export default function Sidebar() {
                         <ul role="list" className="-mx-2 space-y-1">
                           {navigation.map(item => (
                             <li key={item.name}>
-                              <a
+                              <Link
                                 href={item.href}
                                 className={classNames(
                                   item.current
@@ -127,24 +127,18 @@ export default function Sidebar() {
                                   aria-hidden="true"
                                 />
                                 {item.name}
-                              </a>
+                              </Link>
                             </li>
                           ))}
                         </ul>
                       </li>
                       <li className="-mx-6 mt-auto">
-                        <a
-                          href="#"
-                          className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800"
+                        <button
+                          className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800 w-full"
+                          onClick={handleClickUser}
                         >
-                          <img
-                            className="h-8 w-8 rounded-full bg-gray-800"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                          />
-                          <span className="sr-only">Your profile</span>
-                          <span aria-hidden="true">Tom Cook</span>
-                        </a>
+                          <UserSlot session={session} status={status} />
+                        </button>
                       </li>
                     </ul>
                   </nav>
@@ -172,7 +166,7 @@ export default function Sidebar() {
                 <ul role="list" className="-mx-2 space-y-1">
                   {navigation.map(item => (
                     <li key={item.name}>
-                      <a
+                      <Link
                         href={item.href}
                         className={classNames(
                           item.current
@@ -186,7 +180,7 @@ export default function Sidebar() {
                           aria-hidden="true"
                         />
                         {item.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -196,26 +190,7 @@ export default function Sidebar() {
                   className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800 w-full"
                   onClick={handleClickUser}
                 >
-                  {session?.user ? (
-                    <>
-                      {session.user.image ? (
-                        <img
-                          className="h-8 w-8 rounded-full bg-gray-800"
-                          src={session.user.image}
-                          alt=""
-                        />
-                      ) : (
-                        <UserCircleIcon className="h-8 w-8 rounded-full bg-gray-800" />
-                      )}
-                      <span className="sr-only">Tu perfil</span>
-                      <span aria-hidden="true">{session.user.name}</span>
-                    </>
-                  ) : (
-                    <>
-                      <UserCircleIcon className="h-8 w-8 rounded-full bg-gray-800" />
-                      <span>Iniciar sesión</span>
-                    </>
-                  )}
+                  <UserSlot session={session} status={status} />
                 </button>
               </li>
             </ul>
@@ -258,3 +233,44 @@ export default function Sidebar() {
     </div>
   );
 }
+
+const UserSlot = ({
+  session,
+  status
+}: {
+  session: Session | null;
+  status: 'authenticated' | 'loading' | 'unauthenticated';
+}): React.ReactNode => {
+  if (status === 'loading') {
+    return (
+      <>
+        <UserCircleIcon className="h-8 w-8 rounded-full bg-black-800" />
+        <span className="sr-only">Cargando...</span>
+        <span className="animate-pulse bg-gray-800 px-12 py-2"></span>
+      </>
+    );
+  }
+
+  if (session?.user) {
+    return (
+      <>
+        {session.user.image ? (
+          <img
+            className="h-8 w-8 rounded-full bg-gray-800"
+            src={session.user.image}
+            alt=""
+          />
+        ) : (
+          <UserCircleIcon className="h-8 w-8 rounded-full bg-gray-800" />
+        )}
+        <span className="sr-only">Tu perfil</span>
+        <span aria-hidden="true">{session.user.name}</span>
+      </>
+    );
+  } else {
+    <>
+      <UserCircleIcon className="h-8 w-8 rounded-full bg-gray-800" />
+      <span>Iniciar sesión</span>
+    </>;
+  }
+};
