@@ -43,3 +43,25 @@ export interface WeatherResponse {
 export function round(temp: number) {
   return Math.round(temp);
 }
+export const config = {
+  weatherApi: {
+    key: process.env.WEATHER_API_KEY
+  }
+};
+
+export const Clothes = {
+  Upper: {
+    value: 'upper',
+    Shirt: {
+      value: 'shirt',
+      displayName: 'Remerita'
+    },
+    Hoodie: { value: 'hoodie', displayName: 'Remerita + Bucito' },
+    Jacket: { value: 'jacket', displayName: 'Remerita + Bucito + Campera' }
+  },
+  Lower: {
+    value: 'lower',
+    Shorts: { value: 'shorts', displayName: 'Shorts' },
+    Pants: { value: 'pants', displayName: 'Pantalon Largo' }
+  }
+};

@@ -1,11 +1,14 @@
 import React from 'react';
 import { getBuenosAiresWeather } from './querys';
-import { round } from './utils';
+import { Clothes, round } from './utils';
 
 export default async function Example() {
   const clima = await getBuenosAiresWeather();
 
-  console.log({ clima });
+  async function create(formData: FormData) {
+    'use server';
+    // Guardar en la DB del usuario
+  }
 
   return (
     <div>
@@ -21,7 +24,7 @@ export default async function Example() {
             </span>
           </header>
           {/* form de data */}
-          <form className="pl-12 pl-12 pt-8 pb-8">
+          <form className="pl-12 pl-12 pt-8 pb-8" action={create}>
             <div className="space-y-5">
               <div className="border-b border-white/10 pb-6">
                 <h2 className="text-base font-semibold leading-7 text-white">
@@ -32,44 +35,47 @@ export default async function Example() {
                     <div className="mt-6 space-y-6">
                       <div className="flex items-center gap-x-3">
                         <input
-                          id="push-everything"
-                          name="push-notifications"
+                          id={Clothes.Upper.Shirt.value}
+                          value={Clothes.Upper.Shirt.value}
+                          name={Clothes.Upper.value}
                           type="radio"
                           className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
                         />
                         <label
-                          htmlFor="push-everything"
+                          htmlFor={Clothes.Upper.Shirt.value}
                           className="block text-sm font-medium leading-6 text-white"
                         >
-                          Remerita
+                          {Clothes.Upper.Shirt.displayName}
                         </label>
                       </div>
                       <div className="flex items-center gap-x-3">
                         <input
-                          id="push-email"
-                          name="push-notifications"
+                          id={Clothes.Upper.Hoodie.value}
+                          value={Clothes.Upper.Hoodie.value}
+                          name={Clothes.Upper.value}
                           type="radio"
                           className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
                         />
                         <label
-                          htmlFor="push-email"
+                          htmlFor={Clothes.Upper.Hoodie.value}
                           className="block text-sm font-medium leading-6 text-white"
                         >
-                          Remerita + Bucito
+                          {Clothes.Upper.Hoodie.displayName}
                         </label>
                       </div>
                       <div className="flex items-center gap-x-3">
                         <input
-                          id="push-nothing"
-                          name="push-notifications"
+                          id={Clothes.Upper.Jacket.value}
+                          value={Clothes.Upper.Jacket.value}
+                          name={Clothes.Upper.value}
                           type="radio"
                           className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
                         />
                         <label
-                          htmlFor="push-nothing"
+                          htmlFor={Clothes.Upper.Jacket.value}
                           className="block text-sm font-medium leading-6 text-white"
                         >
-                          Remerita + Bucito + Campera
+                          {Clothes.Upper.Jacket.displayName}
                         </label>
                       </div>
                     </div>
@@ -87,44 +93,32 @@ export default async function Example() {
                     <div className="mt-6 space-y-6">
                       <div className="flex items-center gap-x-3">
                         <input
-                          id="push-everything"
-                          name="push-notifications"
+                          id={Clothes.Lower.Shorts.value}
+                          value={Clothes.Lower.Shorts.value}
+                          name={Clothes.Lower.value}
                           type="radio"
                           className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
                         />
                         <label
-                          htmlFor="push-everything"
+                          htmlFor={Clothes.Lower.Shorts.value}
                           className="block text-sm font-medium leading-6 text-white"
                         >
-                          Shorcito
+                          {Clothes.Lower.Shorts.displayName}
                         </label>
                       </div>
                       <div className="flex items-center gap-x-3">
                         <input
-                          id="push-email"
-                          name="push-notifications"
+                          id={Clothes.Lower.Pants.value}
+                          value={Clothes.Lower.Pants.value}
+                          name={Clothes.Lower.value}
                           type="radio"
                           className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
                         />
                         <label
-                          htmlFor="push-email"
+                          htmlFor={Clothes.Lower.Pants.value}
                           className="block text-sm font-medium leading-6 text-white"
                         >
-                          Pantalon largo
-                        </label>
-                      </div>
-                      <div className="flex items-center gap-x-3">
-                        <input
-                          id="push-nothing"
-                          name="push-notifications"
-                          type="radio"
-                          className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
-                        />
-                        <label
-                          htmlFor="push-nothing"
-                          className="block text-sm font-medium leading-6 text-white"
-                        >
-                          Nada 😳
+                          {Clothes.Lower.Pants.displayName}
                         </label>
                       </div>
                     </div>
