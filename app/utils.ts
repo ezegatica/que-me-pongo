@@ -1,48 +1,6 @@
 import { NextAuthOptions, getServerSession } from "next-auth";
 import { prisma } from "./db";
 
-export interface WeatherResponse {
-  coord: {
-    lon: number;
-    lat: number;
-  };
-  weather: {
-    id: number;
-    main: string;
-    description: string;
-    icon: string;
-  }[];
-  base: string;
-  main: {
-    temp: number;
-    feels_like: number;
-    temp_min: number;
-    temp_max: number;
-    pressure: number;
-    humidity: number;
-  };
-  visibility: number;
-  wind: {
-    speed: number;
-    deg: number;
-  };
-  clouds: {
-    all: number;
-  };
-  dt: number;
-  sys: {
-    type: number;
-    id: number;
-    country: string;
-    sunrise: number;
-    sunset: number;
-  };
-  timezone: number;
-  id: number;
-  name: string;
-  cod: number;
-}
-
 export function round(temp: number) {
   return Math.round(temp);
 }
@@ -125,4 +83,60 @@ export const getUser = async (authOptions: NextAuthOptions) => {
   }
 
   return {user, session};
+}
+
+export async function getBuenosAiresWeather(): Promise<WeatherResponse> {
+  const res = await fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=-34.6075682&lon=-58.4370894&appid=${config.weatherApi.key}&units=metric&lang=es`,
+    {
+      next: {
+        revalidate: 3600 * 0.5, // 1/2 Hora
+        tags: ['weather']
+      }
+    }
+  );
+  const data = await res.json();
+  return data;
+}
+
+export interface WeatherResponse {
+  coord: {
+    lon: number;
+    lat: number;
+  };
+  weather: {
+    id: number;
+    main: string;
+    description: string;
+    icon: string;
+  }[];
+  base: string;
+  main: {
+    temp: number;
+    feels_like: number;
+    temp_min: number;
+    temp_max: number;
+    pressure: number;
+    humidity: number;
+  };
+  visibility: number;
+  wind: {
+    speed: number;
+    deg: number;
+  };
+  clouds: {
+    all: number;
+  };
+  dt: number;
+  sys: {
+    type: number;
+    id: number;
+    country: string;
+    sunrise: number;
+    sunset: number;
+  };
+  timezone: number;
+  id: number;
+  name: string;
+  cod: number;
 }
