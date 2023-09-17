@@ -21,19 +21,22 @@ export const config = {
 export const Clothes = {
   Upper: {
     value: 'upper',
-    Shirt: {
+    shirt: {
       value: 'shirt',
       displayName: 'Remerita'
     },
-    Hoodie: { value: 'hoodie', displayName: 'Remerita + Bucito' },
-    Jacket: { value: 'jacket', displayName: 'Remerita + Bucito + Campera' }
+    hoodie: { value: 'hoodie', displayName: 'Remerita + Bucito' },
+    jacket: { value: 'jacket', displayName: 'Remerita + Bucito + Campera' }
   },
   Lower: {
     value: 'lower',
-    Shorts: { value: 'shorts', displayName: 'Shorts' },
-    Pants: { value: 'pants', displayName: 'Pantalon Largo' }
+    shorts: { value: 'shorts', displayName: 'Shorts' },
+    pants: { value: 'pants', displayName: 'Pantalon Largo' }
   }
 };
+
+export type UpperType = 'shirt' | 'hoodie' | 'jacket';
+export type LowerType = 'shorts' | 'pants';
 
 export function emojiByWeather(icon: string) {
   const emojisCode: Record<string, string> = {
@@ -99,12 +102,17 @@ export async function getBuenosAiresWeather(): Promise<WeatherResponse> {
   return data;
 }
 
-export async function getOutfitByWeather(user: User, weather: WeatherResponse) {
+export async function getOutfitByWeather(
+  user: User,
+  weather: WeatherResponse
+): Promise<{
+  upper: UpperType;
+  lower: LowerType;
+}> {
   const tempmin = weather.main.temp_min;
   const tempmax = weather.main.temp_max;
-  const temp = weather.main.temp;
+  // const temp = weather.main.temp;
 
-  console.log({ tempmin, tempmax, temp });
   const reports = await prisma.report.findMany({
     where: {
       userId: user.id,
@@ -114,12 +122,12 @@ export async function getOutfitByWeather(user: User, weather: WeatherResponse) {
       }
     }
   });
-  const lowerCount = new Map<string, number>();
-  const upperCount = new Map<string, number>();
+  const lowerCount = new Map<LowerType, number>();
+  const upperCount = new Map<UpperType, number>();
 
-  reports.forEach((report) => {
-    const lower = report.lower;
-    const upper = report.upper;
+  reports.forEach(report => {
+    const lower = report.lower as LowerType;
+    const upper = report.upper as UpperType;
 
     if (lowerCount.has(lower)) {
       lowerCount.set(lower, lowerCount.get(lower)! + 1);
@@ -132,7 +140,7 @@ export async function getOutfitByWeather(user: User, weather: WeatherResponse) {
     } else {
       upperCount.set(upper, 1);
     }
-  })
+  });
 
   const lower = [...lowerCount.entries()].sort((a, b) => b[1] - a[1])[0][0];
   const upper = [...upperCount.entries()].sort((a, b) => b[1] - a[1])[0][0];

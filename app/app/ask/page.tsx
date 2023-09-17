@@ -2,6 +2,7 @@ import React from 'react';
 import { Header, RightText, Title } from '@components/headers';
 import { authOptions } from '../../api/auth/[...nextauth]/route';
 import {
+  Clothes,
   emojiByWeather,
   getBuenosAiresWeather,
   getOutfitByWeather,
@@ -22,8 +23,8 @@ export default async function MisRespuestas() {
           {emojiByWeather(clima.weather[0].icon)}
         </RightText>
       </Header>
-      <p>Arriba {outfit.lower}</p>
-      <p>Abajo {outfit.upper}</p>
+      <p>{Clothes.Upper[outfit.upper].displayName}</p>
+      <p>{Clothes.Lower[outfit.lower].displayName}</p>
     </div>
   );
 }
