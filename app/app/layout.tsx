@@ -1,6 +1,8 @@
 import '../globals.css';
 import type { Metadata } from 'next';
 import Sidebar from './sidebar';
+import Infobar from './infobar';
+import React from 'react';
 
 export const metadata: Metadata = {
   title: '¿Que me pongo?, by Eze Gatica',
@@ -16,6 +18,7 @@ export default function RootLayout({
     <>
       <Sidebar />
       <main className="xl:pl-72 lg:pr-96 text-white">{children}</main>
+      <Infobar />
     </>
   );
 }

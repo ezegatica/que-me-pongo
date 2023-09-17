@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, RightText, Title } from '@components/headers';
+import { Content, Header, RightText, Title } from '@components/headers';
 import { authOptions } from '../../api/auth/[...nextauth]/route';
 import {
   Clothes,
@@ -23,8 +23,10 @@ export default async function MisRespuestas() {
           {emojiByWeather(clima.weather[0].icon)}
         </RightText>
       </Header>
-      <p>{Clothes.Upper[outfit.upper].displayName}</p>
-      <p>{Clothes.Lower[outfit.lower].displayName}</p>
+      <Content>
+        <p>{Clothes.Upper[outfit.upper].displayName}</p>
+        <p>{Clothes.Lower[outfit.lower].displayName}</p>
+      </Content>
     </div>
   );
 }

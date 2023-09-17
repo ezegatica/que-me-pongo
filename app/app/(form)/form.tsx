@@ -13,7 +13,6 @@ export default function WeatherForm({ clima }: { clima: WeatherResponse }) {
   return (
     <form
       ref={formRef}
-      className="pl-12 pl-12 pt-8 pb-8"
       action={async e => {
         await Submit(e, session, clima);
         Toast.fire({ title: 'Outfit registrado con éxito', icon: 'success' });
