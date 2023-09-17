@@ -15,6 +15,8 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
+import { proxy } from '../utils';
+import Image from 'next/image';
 
 export default function Sidebar() {
   const router = useRouter();
@@ -23,11 +25,30 @@ export default function Sidebar() {
   const { data: session, status } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigation = [
-    { name: 'Formulario', href: '/app', icon: PencilSquareIcon, current: pathname === '/app' },
-    { name: 'Que ponerme', href: '/app/ask', icon: CloudIcon, current: pathname === '/app/ask' },
-    { name: 'Mis Respuestas', href: '/app/respuestas', icon: ClipboardDocumentIcon, current: pathname === '/app/respuestas' },
-    { name: 'Configuración', href: '/app/settings', icon: Cog6ToothIcon, current: pathname === '/app/settings' },
-
+    {
+      name: 'Formulario',
+      href: '/app',
+      icon: PencilSquareIcon,
+      current: pathname === '/app'
+    },
+    {
+      name: 'Que ponerme',
+      href: '/app/ask',
+      icon: CloudIcon,
+      current: pathname === '/app/ask'
+    },
+    {
+      name: 'Mis Respuestas',
+      href: '/app/respuestas',
+      icon: ClipboardDocumentIcon,
+      current: pathname === '/app/respuestas'
+    },
+    {
+      name: 'Configuración',
+      href: '/app/settings',
+      icon: Cog6ToothIcon,
+      current: pathname === '/app/settings'
+    }
   ];
 
   function classNames(...classes: string[]) {
@@ -257,9 +278,12 @@ const UserSlot = ({
     return (
       <>
         {session.user.image ? (
-          <img
+          <Image
+            width={64}
+            height={64}
+            quality={75}
             className="h-8 w-8 rounded-full bg-gray-800"
-            src={session.user.image}
+            src={proxy(session.user.image)}
             alt=""
           />
         ) : (

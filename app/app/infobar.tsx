@@ -1,6 +1,7 @@
 import React from 'react';
-import {  getUser } from '../utils';
+import {  getUser, proxy } from '../utils';
 import { authOptions } from '../api/auth/[...nextauth]/route';
+import Image from 'next/image';
 
 export default async function Infobar() {
   const {user} = await getUser(authOptions);
@@ -9,7 +10,7 @@ export default async function Infobar() {
       user: {
         name: user.name,
         imageUrl:
-          user.image || ''
+        proxy(user.image || '') 
       },
       projectName: 'ios-app',
       commit: '2d89f0c8',
@@ -33,8 +34,11 @@ export default async function Infobar() {
         {activityItems.map(item => (
           <li key={item.commit} className="px-4 py-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-x-3">
-              <img
+              <Image
                 src={item.user.imageUrl}
+                width={32}
+                height={32}
+                quality={50}
                 alt=""
                 className="h-6 w-6 flex-none rounded-full bg-gray-800"
               />

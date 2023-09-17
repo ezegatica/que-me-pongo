@@ -70,6 +70,11 @@ export function emojiByWeather(icon: string) {
   return '🌎';
 }
 
+export const proxy = (url: string) => {
+  const proxyUrl = 'i.ezegatica.com/proxy';
+  return `https://${proxyUrl}?url=${url}`;
+}
+
 export const getUser = async (authOptions: NextAuthOptions) => {
   const session = await getServerSession(authOptions);
   const user = await prisma.user.findUnique({
