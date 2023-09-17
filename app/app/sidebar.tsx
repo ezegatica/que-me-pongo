@@ -7,7 +7,8 @@ import {
   XMarkIcon,
   UserCircleIcon,
   PencilSquareIcon,
-  ClipboardDocumentIcon
+  ClipboardDocumentIcon,
+  CloudIcon
 } from '@heroicons/react/24/outline';
 import { Transition, Dialog } from '@headlessui/react';
 import { signIn, signOut, useSession } from 'next-auth/react';
@@ -23,8 +24,10 @@ export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigation = [
     { name: 'Formulario', href: '/app', icon: PencilSquareIcon, current: pathname === '/app' },
+    { name: 'Que ponerme', href: '/app/ask', icon: CloudIcon, current: pathname === '/app/ask' },
     { name: 'Mis Respuestas', href: '/app/respuestas', icon: ClipboardDocumentIcon, current: pathname === '/app/respuestas' },
-    { name: 'Configuración', href: '/app/settings', icon: Cog6ToothIcon, current: pathname === '/app/settings' }
+    { name: 'Configuración', href: '/app/settings', icon: Cog6ToothIcon, current: pathname === '/app/settings' },
+
   ];
 
   function classNames(...classes: string[]) {

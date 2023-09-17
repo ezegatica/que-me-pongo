@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <>
       <Sidebar />
-      <main className="xl:pl-72 lg:pr-96">{children}</main>
+      <main className="xl:pl-72 lg:pr-96 text-white">{children}</main>
     </>
   );
 }
