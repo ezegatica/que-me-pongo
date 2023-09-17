@@ -1,34 +1,19 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# [¿Que me pongo?](https://qmp.ezegatica.com)
+## Una aplicación para ayudarte a elegir que ponerte en base al clima y a tus preferencias.
 
-## Getting Started
+### Descripción
+¿Cansado de no saber si hace o mucho calor o mucho frío? ¡No busques más!
 
-First, run the development server:
+Esta aplicación te permite registrar que prendas te pones dada la temperatura actual, para que la proxima vez que haga una temperatura similar, puedas ver que te pusiste la última vez.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Cada persona es diferente, si soles ser mas fríolento o (whatever sea la palabra para lo contrario a fríolento) el algoritmo se va a ir ajustando a tus preferencias.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Funcionamiento
+La api que encontré para el clima [openweathermap.org](https://openweathermap.org/) devuelve 4 valores, de los cuales yo utilizo 3. Uno de ellos es la temperatura general, que es la que se muestra en la pantalla principal. Esta vendría a ser como la temperatura promedio en toda la ciudad. 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Los otros dos son la temperatura mínima y máxima en las distinas partes de la ciudad, que se utilizan para ajustar el algoritmo de busqueda. Lo que hago es que busca en las respuestas del usuario las que están dentro del rango de temperatura, y luego con estas respuestas, cuenta cuantas veces se repite cada prenda, y muestra las más repetidas para prendas de arriba y de abajo.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Planes a futuro
+- [ ] Agregar soporte para diferentes ciudades (por ahora solo funciona para la Ciudad de Buenos Aires)
+- [ ] Agregar la posibilidad de marcar un rango de horario, para que en base a las minimas y maximas de ese rango te recomiende llevar ropa extra.
+  - **Ejemplo**: Salís a la 1pm y volves a las 10pm, y en ese rango de horario la temperatura va a bajar de 20° a 10°, entonces te recomienda llevar un buzo para la vuelta, aunque vos salgas en remera.
