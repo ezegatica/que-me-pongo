@@ -2,7 +2,7 @@ import React from 'react';
 import { getBuenosAiresWeather } from '../../querys';
 import { emojiByWeather, round } from '../../utils';
 import WeatherForm from './form';
-import { Header, RightText, Title } from '../components';
+import { Header, RightText, Title } from '@components/headers';
 
 export default async function FormPage() {
   const clima = await getBuenosAiresWeather();

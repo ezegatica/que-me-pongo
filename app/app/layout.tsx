@@ -1,6 +1,6 @@
 import '../globals.css';
 import type { Metadata } from 'next';
-import Sidebar from '../sidebar';
+import Sidebar from './sidebar';
 
 export const metadata: Metadata = {
   title: '¿Que me pongo?, by Eze Gatica',

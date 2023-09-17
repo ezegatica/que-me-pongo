@@ -1,17 +1,25 @@
-"use client"
-import React from 'react';
+'use client';
+import React, { useRef } from 'react';
 import { Clothes, WeatherResponse } from '../../utils';
 import { Submit } from './actions';
 import { useSession } from 'next-auth/react';
+import FormButton from '@components/form-button';
+import { Toast } from '@components/toast';
 
-export default function WeatherForm({clima} :{clima: WeatherResponse}) { 
-    const { data: session } = useSession();
+export default function WeatherForm({ clima }: { clima: WeatherResponse }) {
+  const { data: session } = useSession();
+  const formRef = useRef<HTMLFormElement>(null);
 
   return (
-    <form className="pl-12 pl-12 pt-8 pb-8" action={async (e)=> {
-      await Submit(e, session, clima)
-      alert("hola!")
-      }}>
+    <form
+      ref={formRef}
+      className="pl-12 pl-12 pt-8 pb-8"
+      action={async e => {
+        await Submit(e, session, clima);
+        Toast.fire({ title: 'Outfit registrado con éxito', icon: 'success' });
+        formRef.current?.reset();
+      }}
+    >
       <div className="space-y-5">
         <div className="border-b border-white/10 pb-6">
           <h2 className="text-base font-semibold leading-7 text-white">
@@ -120,18 +128,12 @@ export default function WeatherForm({clima} :{clima: WeatherResponse}) {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button
-          type="button"
-          className="text-sm font-semibold leading-6 text-white"
-        >
+        <FormButton variant="secondary" type="reset">
           Reiniciar
-        </button>
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-        >
+        </FormButton>
+        <FormButton variant="primary" type="submit">
           Guardar
-        </button>
+        </FormButton>
       </div>
     </form>
   );
