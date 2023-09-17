@@ -34,12 +34,12 @@ export function Content({
 }) {
   if (loading) {
     return (
-      <div className="pl-12 pl-12 pt-8 pb-8">
+      <div className="px-12 py-8">
         <p className="animate-pulse bg-gray-800 px-24 py-2"></p>
       </div>
     );
   }
-  return <div className="pl-12 pl-12 pt-8 pb-8">{children}</div>;
+  return <div className="px-12 py-8">{children}</div>;
 }
 
 export function RightText({
