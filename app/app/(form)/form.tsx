@@ -1,12 +1,12 @@
 'use client';
 import React, { useRef } from 'react';
-import { Clothes, WeatherResponse } from '../../utils';
+import { Clothes } from '../../utils';
 import { Submit } from './actions';
 import { useSession } from 'next-auth/react';
 import FormButton from '@components/form-button';
 import { Toast } from '@components/toast';
 
-export default function WeatherForm({ clima }: { clima: WeatherResponse }) {
+export default function WeatherForm() {
   const { data: session } = useSession();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -14,7 +14,7 @@ export default function WeatherForm({ clima }: { clima: WeatherResponse }) {
     <form
       ref={formRef}
       action={async e => {
-        await Submit(e, session, clima);
+        await Submit(e, session);
         Toast.fire({ title: 'Outfit registrado con éxito', icon: 'success' });
         formRef.current?.reset();
       }}

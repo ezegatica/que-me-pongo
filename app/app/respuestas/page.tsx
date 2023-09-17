@@ -18,7 +18,7 @@ export default async function MisRespuestas() {
       </Header>
       <Content>
         {respuestas.map(respuesta => (
-          <div className="text-white">
+          <div className="text-white" key={respuesta.id}>
             <p>
               {respuesta.day} // {respuesta.date.toString()}
             </p>

@@ -1,9 +1,9 @@
 'use server';
 import { Session } from 'next-auth';
 import { prisma } from '../../db';
-import { Clothes, WeatherResponse } from '../../utils';
+import { Clothes, getBuenosAiresWeather } from '../../utils';
 
-export async function Submit(formData: FormData, session: Session | null, clima: WeatherResponse) {
+export async function Submit(formData: FormData, session: Session | null) {
   if (!session?.user?.email) {
     throw new Error('No user logged in');
   }
@@ -22,6 +22,8 @@ export async function Submit(formData: FormData, session: Session | null, clima:
   if (!user) {
     throw new Error("User doesn't exist in database");
   }
+
+  const clima = await getBuenosAiresWeather();
 
   const now = Date.now();
   const day = Math.floor(now / 1000 / 60 / 60 / 24); // Dada una timestamp, agarrar el numero de día

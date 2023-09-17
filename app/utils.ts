@@ -23,15 +23,16 @@ export const Clothes = {
     value: 'upper',
     shirt: {
       value: 'shirt',
-      displayName: 'Remerita'
+      displayName: 'Remerita',
+      emoji: '👕'
     },
-    hoodie: { value: 'hoodie', displayName: 'Remerita + Bucito' },
-    jacket: { value: 'jacket', displayName: 'Remerita + Bucito + Campera' }
+    hoodie: { value: 'hoodie', displayName: 'Remerita + Bucito', emoji: '🧥' },
+    jacket: { value: 'jacket', displayName: 'Remerita + Bucito + Campera', emoji: '🧥+' }
   },
   Lower: {
     value: 'lower',
-    shorts: { value: 'shorts', displayName: 'Shorts' },
-    pants: { value: 'pants', displayName: 'Pantalon Largo' }
+    shorts: { value: 'shorts', displayName: 'Shorts', emoji: '🩳' },
+    pants: { value: 'pants', displayName: 'Pantalon Largo', emoji: '👖' }
   }
 };
 
@@ -106,13 +107,13 @@ export async function getBuenosAiresWeather(): Promise<WeatherResponse> {
 
 export async function getOutfitByWeather(
   user: User,
-  weather: WeatherResponse
 ): Promise<{
   upper: UpperType;
   lower: LowerType;
 }> {
-  const tempmin = weather.main.temp_min;
-  const tempmax = weather.main.temp_max;
+  const clima = await getBuenosAiresWeather();
+  const tempmin = clima.main.temp_min;
+  const tempmax = clima.main.temp_max;
   // const temp = weather.main.temp;
 
   const reports = await prisma.report.findMany({
