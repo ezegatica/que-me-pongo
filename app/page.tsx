@@ -1,6 +1,5 @@
 import React from 'react';
-import { getBuenosAiresWeather } from './querys';
-import { Clothes, round } from './utils';
+import { Clothes, round, getBuenosAiresWeather } from './utils';
 import Link from 'next/link';
 
 export default async function Landing() {

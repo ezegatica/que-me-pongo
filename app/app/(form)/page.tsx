@@ -1,6 +1,5 @@
 import React from 'react';
-import { getBuenosAiresWeather } from '../../querys';
-import { emojiByWeather, round } from '../../utils';
+import { emojiByWeather, round, getBuenosAiresWeather } from '../../utils';
 import WeatherForm from './form';
 import { Header, RightText, Title } from '@components/headers';
 

@@ -30,50 +30,50 @@ export default function WeatherForm({ clima }: { clima: WeatherResponse }) {
               <div className="mt-6 space-y-6">
                 <div className="flex items-center gap-x-3">
                   <input
-                    id={Clothes.Upper.Shirt.value}
-                    value={Clothes.Upper.Shirt.value}
+                    id={Clothes.Upper.shirt.value}
+                    value={Clothes.Upper.shirt.value}
                     name={Clothes.Upper.value}
                     type="radio"
                     required
                     className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
                   />
                   <label
-                    htmlFor={Clothes.Upper.Shirt.value}
+                    htmlFor={Clothes.Upper.shirt.value}
                     className="block text-sm font-medium leading-6 text-white"
                   >
-                    {Clothes.Upper.Shirt.displayName}
+                    {Clothes.Upper.shirt.displayName}
                   </label>
                 </div>
                 <div className="flex items-center gap-x-3">
                   <input
-                    id={Clothes.Upper.Hoodie.value}
-                    value={Clothes.Upper.Hoodie.value}
+                    id={Clothes.Upper.hoodie.value}
+                    value={Clothes.Upper.hoodie.value}
                     name={Clothes.Upper.value}
                     type="radio"
                     required
                     className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
                   />
                   <label
-                    htmlFor={Clothes.Upper.Hoodie.value}
+                    htmlFor={Clothes.Upper.hoodie.value}
                     className="block text-sm font-medium leading-6 text-white"
                   >
-                    {Clothes.Upper.Hoodie.displayName}
+                    {Clothes.Upper.hoodie.displayName}
                   </label>
                 </div>
                 <div className="flex items-center gap-x-3">
                   <input
-                    id={Clothes.Upper.Jacket.value}
-                    value={Clothes.Upper.Jacket.value}
+                    id={Clothes.Upper.jacket.value}
+                    value={Clothes.Upper.jacket.value}
                     name={Clothes.Upper.value}
                     type="radio"
                     required
                     className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
                   />
                   <label
-                    htmlFor={Clothes.Upper.Jacket.value}
+                    htmlFor={Clothes.Upper.jacket.value}
                     className="block text-sm font-medium leading-6 text-white"
                   >
-                    {Clothes.Upper.Jacket.displayName}
+                    {Clothes.Upper.jacket.displayName}
                   </label>
                 </div>
               </div>
@@ -91,34 +91,34 @@ export default function WeatherForm({ clima }: { clima: WeatherResponse }) {
               <div className="mt-6 space-y-6">
                 <div className="flex items-center gap-x-3">
                   <input
-                    id={Clothes.Lower.Shorts.value}
-                    value={Clothes.Lower.Shorts.value}
+                    id={Clothes.Lower.shorts.value}
+                    value={Clothes.Lower.shorts.value}
                     name={Clothes.Lower.value}
                     type="radio"
                     required
                     className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
                   />
                   <label
-                    htmlFor={Clothes.Lower.Shorts.value}
+                    htmlFor={Clothes.Lower.shorts.value}
                     className="block text-sm font-medium leading-6 text-white"
                   >
-                    {Clothes.Lower.Shorts.displayName}
+                    {Clothes.Lower.shorts.displayName}
                   </label>
                 </div>
                 <div className="flex items-center gap-x-3">
                   <input
-                    id={Clothes.Lower.Pants.value}
-                    value={Clothes.Lower.Pants.value}
+                    id={Clothes.Lower.pants.value}
+                    value={Clothes.Lower.pants.value}
                     name={Clothes.Lower.value}
                     type="radio"
                     required
                     className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
                   />
                   <label
-                    htmlFor={Clothes.Lower.Pants.value}
+                    htmlFor={Clothes.Lower.pants.value}
                     className="block text-sm font-medium leading-6 text-white"
                   >
-                    {Clothes.Lower.Pants.displayName}
+                    {Clothes.Lower.pants.displayName}
                   </label>
                 </div>
               </div>
