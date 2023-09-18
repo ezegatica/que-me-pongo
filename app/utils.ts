@@ -23,16 +23,16 @@ export const Clothes = {
     value: 'upper',
     shirt: {
       value: 'shirt',
-      displayName: 'Remerita',
+      displayName: 'Remera',
       emoji: '👕'
     },
-    hoodie: { value: 'hoodie', displayName: 'Remerita + Bucito', emoji: '🧥' },
-    jacket: { value: 'jacket', displayName: 'Remerita + Bucito + Campera', emoji: '🧥+' }
+    hoodie: { value: 'hoodie', displayName: 'Bucito', emoji: '🧥' },
+    jacket: { value: 'jacket', displayName: 'Campera', emoji: '🧥+' }
   },
   Lower: {
     value: 'lower',
     shorts: { value: 'shorts', displayName: 'Shorts', emoji: '🩳' },
-    pants: { value: 'pants', displayName: 'Pantalon Largo', emoji: '👖' }
+    pants: { value: 'pants', displayName: 'Pantalones Largos', emoji: '👖' }
   }
 };
 

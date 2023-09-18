@@ -1,6 +1,8 @@
 import React from 'react';
 import { emojiByWeather, getBuenosAiresWeather, round } from '../utils';
 
+export const revalidate = 1800;
+
 export default async function Infobar() {
   const clima = await getBuenosAiresWeather();
   return (
