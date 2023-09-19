@@ -131,7 +131,7 @@ export async function getOutfitByWeather(
   lower: LowerType | null;
 }> {
   const clima = await getBuenosAiresWeather();
-  console.log({clima, js: JSON.stringify(clima)})
+
   const tempmin = clima.main.temp_min;
   const tempmax = clima.main.temp_max;
   // const temp = weather.main.temp;

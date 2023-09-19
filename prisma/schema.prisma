@@ -33,6 +33,29 @@ model Report {
   date   DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: NoAction)
+
+  rawReportId Int       @unique
+  rawReport   RawReport @relation(fields: [rawReportId], references: [id], onDelete: NoAction)
+}
+
+model RawReport {
+  id           Int    @id @default(autoincrement())
+  temp         Float
+  temp_min     Float
+  temp_max     Float
+  pressure     Int
+  humidity     Int
+  wind_speed   Int
+  wind_deg     Int
+  city_id      Int
+  city         String
+  country      String
+  lon          Float
+  lat          Float
+  weather_code Int
+  weather_icon String
+
+  Report Report?
 }
 
 // Next-Auth (Dejar abajo)
