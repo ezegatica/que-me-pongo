@@ -56,8 +56,8 @@ export function emojiByWeather(icon: string) {
     '50d': '🌁',
     // Night
     '01n': '🌑',
-    '02n': '🌑 🌤️',
-    '03n': '🌑 ⛅',
+    '02n': '🌤️ 🌑',
+    '03n': '⛅ 🌑',
     '04n': '️️☁️',
     '09n': '🌦️',
     '10n': '🌧️☔',
@@ -95,12 +95,40 @@ export const getUser = async (authOptions: NextAuthOptions) => {
 };
 
 export async function getBuenosAiresWeather(): Promise<WeatherResponse> {
+  const url = new URL('https://api.openweathermap.org/data/2.5/weather');
+  url.searchParams.append('lat', '-34.6075682');
+  url.searchParams.append('lon', '-58.4370894');
+  url.searchParams.append('appid', config.weatherApi.key || 'undefined');
+  url.searchParams.append('units', 'metric');
+  url.searchParams.append('lang', 'es');
   const res = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=-34.6075682&lon=-58.4370894&appid=${config.weatherApi.key}&units=metric&lang=es`,
+    url.toString(),
     {
       next: {
         revalidate: 3600 * 0.5, // 1/2 Hora
         tags: ['weather']
+      }
+    }
+  );
+  const data = await res.json();
+  return data;
+}
+
+export async function getBuenosAiresForecast(): Promise<WeatherForecast> {
+  const url = new URL('https://api.openweathermap.org/data/2.5/forecast');
+  url.searchParams.append('lat', '-34.6075682');
+  url.searchParams.append('lon', '-58.4370894');
+  url.searchParams.append('appid', config.weatherApi.key || 'undefined');
+  url.searchParams.append('cnt', '3');
+  url.searchParams.append('mode', 'json')
+  url.searchParams.append('units', 'metric');
+  url.searchParams.append('lang', 'es');
+  const res = await fetch(
+    url.toString(),
+    {
+      next: {
+        revalidate: 3600 * 0.5, // 1/2 Hora
+        tags: ['forecast']
       }
     }
   );
@@ -174,6 +202,25 @@ export async function getOutfitByWeather(
   };
 }
 
+export function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
+}
+
+export function getDay(date: Date) {
+  return date.toLocaleDateString('es-AR', {
+    year: '2-digit',
+    month: '2-digit',
+    day: '2-digit',
+  });
+}
+
+export function getHour(date: Date) {
+  return date.toLocaleTimeString('es-AR', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
 export interface WeatherResponse {
   coord: {
     lon: number;
@@ -214,4 +261,57 @@ export interface WeatherResponse {
   id: number;
   name: string;
   cod: number;
+}
+
+interface WeatherForecast {
+  cod: string;
+  message: number;
+  cnt: number;
+  list: {
+    dt: number;
+    main: {
+      temp: number;
+      feels_like: number;
+      temp_min: number;
+      temp_max: number;
+      pressure: number;
+      sea_level: number;
+      grnd_level: number;
+      humidity: number;
+      temp_kf: number;
+    };
+    weather: {
+      id: number;
+      main: string;
+      description: string;
+      icon: string;
+    }[];
+    clouds: {
+      all: number;
+    };
+    wind: {
+      speed: number;
+      deg: number;
+      gust: number;
+    };
+    visibility: number;
+    pop: number;
+    sys: {
+      pod: string;
+    };
+    dt_txt: string;
+  }[];
+  city: {
+    id: number;
+    name: string;
+    coord: {
+      lat: number;
+      lon: number;
+    };
+    country: string;
+    population: number;
+    timezone: number;
+    sunrise: number;
+    sunset: number; 
+  };
 }

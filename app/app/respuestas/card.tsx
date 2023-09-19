@@ -1,19 +1,12 @@
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Report } from '@prisma/client';
 import React from 'react';
-import { Clothes, LowerType, UpperType } from '../../utils';
+import { Clothes, LowerType, UpperType, getDay, getHour } from '../../utils';
 
 export default function ReportCard({ report }: { report: Report }) {
-  const formattedDate = report.date.toLocaleDateString('es-AR', {
-    year: '2-digit',
-    month: '2-digit',
-    day: '2-digit',
-  });
+  const formattedDate = getDay(report.date);
 
-  const formattedHour = report.date.toLocaleTimeString('es-AR', {
-    hour: '2-digit',
-    minute: '2-digit'
-  })
+  const formattedHour = getHour(report.date);
 
   const upper = Clothes.Upper[report.upper as UpperType];
   const lower = Clothes.Lower[report.lower as LowerType];

@@ -15,7 +15,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { proxy } from '../utils';
+import { classNames, proxy } from '../utils';
 import Image from 'next/image';
 
 export default function Sidebar() {
@@ -50,10 +50,6 @@ export default function Sidebar() {
       current: pathname === '/app/settings'
     }
   ];
-
-  function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ');
-  }
 
   const handleClickUser = async () => {
     if (session?.user) {
