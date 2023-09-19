@@ -35,7 +35,7 @@ export default async function Infobar() {
       </header>
       <div className="flex-auto truncate font-regular text-white text-center">
         <h2 className="text-xl mb-2">Buenos Aires, AR</h2>
-        <h3 className="text-4xl">{round(clima.main.temp)}°C</h3>
+        <h3 className="text-4xl" title={`${clima.main.temp.toString()}°C`}>{round(clima.main.temp)}°C</h3>
         <h4 className="text-2xl" title={clima.weather[0].description}>
           {emojiByWeather(clima.weather[0].icon)}
         </h4>
@@ -48,7 +48,7 @@ export default async function Infobar() {
           {forecast.list.map((weather, i) => {
             const lastWeather =
               forecast.list[i - 1]?.main?.temp ?? clima.main.temp;
-            const change = round(weather.main.temp - lastWeather);
+            const change = round(weather.main.temp) - round(lastWeather);
             return (
               <div
                 key={weather.dt}
@@ -66,17 +66,18 @@ export default async function Infobar() {
                       : 'text-red-600',
                     'text-xs font-medium'
                   )}
+                  title={`${lastWeather.toString()}°C`}
                 >
                   {change === 0 ? (
-                    <ArrowRightIcon className="w-5 h-5 inline-block" />
+                    <ArrowRightIcon className="w-5 h-5 inline-block mr-1" />
                   ) : change > 0 ? (
                     <ArrowUpIcon className="w-5 h-5 inline-block" />
                   ) : (
                     <ArrowDownIcon className="w-5 h-5 inline-block" />
                   )}
-                  {change}°
+                  {change}{change !== 0 && '°'}
                 </dd>
-                <dd className="w-full flex-none text-3xl font-medium leading-10 tracking-tight">
+                <dd className="w-full flex-none text-3xl font-medium leading-10 tracking-tight" title={`${weather.main.temp.toString()}°C`}>
                   {round(weather.main.temp)}°
                 </dd>
                 <dd className="w-full text-xl font-medium leading-6" title={weather.weather[0].description}>

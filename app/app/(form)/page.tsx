@@ -1,10 +1,12 @@
+"use server";
+
 import React, { Suspense } from 'react';
 import WeatherForm from './form';
 import { Content, Header, RightText, Title } from '@components/headers';
 import { config, getUser, userAnswered } from '../../utils';
 import { authOptions } from '../../api/auth/[...nextauth]/route';
 
-export default function FormPage() {
+export default async function FormPage() {
   return (
     <div>
       <Header>

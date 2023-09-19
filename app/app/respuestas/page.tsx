@@ -1,3 +1,5 @@
+"use server";
+
 import React from 'react';
 import { Header, Content, Title, RightText } from '@components/headers';
 import { getUser } from '../../utils';

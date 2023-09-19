@@ -15,6 +15,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
+
 import { classNames, proxy } from '../utils';
 import Image from 'next/image';
 
@@ -58,6 +59,7 @@ export default function Sidebar() {
         callbackUrl: '/'
       });
       router.push('/');
+      router.refresh();
     } else {
       return signIn();
     }

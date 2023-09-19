@@ -1,3 +1,4 @@
+"use server";
 import React from 'react';
 import { Content, Header, Title } from '@components/headers';
 import { authOptions } from '../../api/auth/[...nextauth]/route';
