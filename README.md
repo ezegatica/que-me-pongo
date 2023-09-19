@@ -15,5 +15,12 @@ Los otros dos son la temperatura mínima y máxima en las distinas partes de la 
 
 ### Planes a futuro
 - [ ] Agregar soporte para diferentes ciudades (por ahora solo funciona para la Ciudad de Buenos Aires)
-- [ ] Agregar la posibilidad de marcar un rango de horario, para que en base a las minimas y maximas de ese rango te recomiende llevar ropa extra.
+- [ ] Agregar la posibilidad de marcar un rango de horario, para que en base a las minimas y maximas de ese rango te recomiende llevar ropa extra. (PLANEAR SALIDA)
   - **Ejemplo**: Salís a la 1pm y volves a las 10pm, y en ese rango de horario la temperatura va a bajar de 20° a 10°, entonces te recomienda llevar un buzo para la vuelta, aunque vos salgas en remera.
+  - Esta sería la pantalla default, y el Que ponerme quedaría a la derecha, mostrandose siempre.
+- [ ] Agregar la posibilidad de marcar un rango de días, y una ciudad, y bastante parecido a lo de planear salida, que te diga que llevar y que no a tu viaje.
+  - **Ejemplo**: Voy al Caribe del 1 al 15. La temperatura va a estar entre 18° y 30°, entonces te recomienda llevar remera y short, pero tambien un buzo para la noche.
+- [ ] Agregar pronostico del día en la infobar
+- [ ] Hacer landing page
+- [ ] Hacer un logo
+- [ ] Pasar la app a PWA
