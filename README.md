@@ -20,7 +20,7 @@ Los otros dos son la temperatura mínima y máxima en las distinas partes de la 
   - Esta sería la pantalla default, y el Que ponerme quedaría a la derecha, mostrandose siempre.
 - [ ] Agregar la posibilidad de marcar un rango de días, y una ciudad, y bastante parecido a lo de planear salida, que te diga que llevar y que no a tu viaje.
   - **Ejemplo**: Voy al Caribe del 1 al 15. La temperatura va a estar entre 18° y 30°, entonces te recomienda llevar remera y short, pero tambien un buzo para la noche.
-- [ ] Agregar pronostico del día en la infobar
+- [X] Agregar pronostico del día en la infobar
 - [ ] Hacer landing page
 - [ ] Hacer un logo
 - [ ] Pasar la app a PWA
