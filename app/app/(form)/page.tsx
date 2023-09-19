@@ -29,22 +29,25 @@ async function LimiterWrapper({
 }: {
   children: React.ReactNode;
 }): Promise<React.JSX.Element> {
-  const {user} = await getUser(authOptions);
+  const { user } = await getUser(authOptions);
   const report = await userAnswered(user);
   if (!report) {
-    return <>
-    {children}
-    </>
+    return <>{children}</>;
   }
 
-  const timeLeft = Math.floor((new Date().getTime() - report.date.getTime()) / 1000 / 60);
-  const timeLeftFormatted = `${config.form.cooldown - timeLeft} minutos`;
+  const timeLeft = Math.floor(
+    (new Date().getTime() - report.date.getTime()) / 1000 / 60
+  );
+  const minutesLeft = config.form.cooldown - timeLeft;
 
   return (
-    <div>
-      <h2 className="text-base font-semibold leading-7 text-white">
-        Ya respondiste el formulario recientemente. <br/>Podrás volver a responder en {timeLeftFormatted}
+    <div className="text-white text-base">
+      <h2 className="font-semibold leading-7">
+        Ya respondiste el formulario recientemente.
       </h2>
+      <h3 className="leading-8 font-regular">
+        Podrás volver a responder en <b>{minutesLeft}</b> minutos.
+      </h3>
     </div>
   );
 }

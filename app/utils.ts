@@ -115,6 +115,9 @@ export async function userAnswered(user: User) {
       date: {
         gte: new Date(Date.now() - 1000 * 60 * config.form.cooldown)
       }
+    },
+    select: {
+      date: true
     }
   });
 
@@ -124,46 +127,47 @@ export async function userAnswered(user: User) {
 export async function getOutfitByWeather(
   user: User,
 ): Promise<{
-  upper: UpperType;
-  lower: LowerType;
+  upper: UpperType | null;
+  lower: LowerType | null;
 }> {
   const clima = await getBuenosAiresWeather();
+  console.log({clima, js: JSON.stringify(clima)})
   const tempmin = clima.main.temp_min;
   const tempmax = clima.main.temp_max;
   // const temp = weather.main.temp;
 
-  const reports = await prisma.report.findMany({
+  const reports = await prisma.report.groupBy({
+    by: ['lower', 'upper'],
     where: {
       userId: user.id,
       temp: {
         gte: tempmin,
         lte: tempmax
       }
-    }
-  });
-  const lowerCount = new Map<LowerType, number>();
-  const upperCount = new Map<UpperType, number>();
-
-  reports.forEach(report => {
-    const lower = report.lower as LowerType;
-    const upper = report.upper as UpperType;
-
-    if (lowerCount.has(lower)) {
-      lowerCount.set(lower, lowerCount.get(lower)! + 1);
-    } else {
-      lowerCount.set(lower, 1);
-    }
-
-    if (upperCount.has(upper)) {
-      upperCount.set(upper, upperCount.get(upper)! + 1);
-    } else {
-      upperCount.set(upper, 1);
-    }
+    },
+    _count: {
+      lower: true,
+      upper: true
+    },
+    orderBy: {
+      _count: {
+        date: 'desc'
+      }
+    },
+    take: 1
   });
 
-  const lower = [...lowerCount.entries()].sort((a, b) => b[1] - a[1])[0][0];
-  const upper = [...upperCount.entries()].sort((a, b) => b[1] - a[1])[0][0];
-
+  if (!reports.length) {
+    // TODO: Reportes de la comunidad
+    return {
+      lower: null,
+      upper: null 
+    }
+  }
+  
+  const lower = reports[0].lower as LowerType;
+  const upper = reports[0].upper as UpperType;
+  
   return {
     lower,
     upper

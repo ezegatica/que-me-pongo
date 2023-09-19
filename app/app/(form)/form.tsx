@@ -16,10 +16,15 @@ export default function WeatherForm() {
     <form
       ref={formRef}
       action={async e => {
-        await Submit(e, session);
-        Toast.fire({ title: 'Outfit registrado con éxito', icon: 'success' });
-        formRef.current?.reset();
-        router.refresh();
+        try {
+          await Submit(e, session);
+          Toast.fire({ title: 'Outfit registrado con éxito', icon: 'success' });
+        } catch (error: any) {
+          Toast.fire({ title: error?.message || 'Error desconocido', icon: 'error' });
+        } finally {
+          formRef.current?.reset();
+          router.refresh();
+        }
       }}
     >
       <div className="space-y-5">
