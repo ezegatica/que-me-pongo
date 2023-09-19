@@ -32,10 +32,10 @@ model Report {
   userId String
   date   DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: NoAction)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   rawReportId Int       @unique
-  rawReport   RawReport @relation(fields: [rawReportId], references: [id], onDelete: NoAction)
+  rawReport   RawReport @relation(fields: [rawReportId], references: [id], onDelete: Cascade)
 }
 
 model RawReport {
