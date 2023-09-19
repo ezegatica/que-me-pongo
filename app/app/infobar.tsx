@@ -1,4 +1,10 @@
+import {
+  ArrowDownIcon,
+  ArrowRightIcon,
+  ArrowUpIcon
+} from '@heroicons/react/24/outline';
 import React from 'react';
+import RefetcherButton from '../(components)/refetcher-button';
 import {
   classNames,
   emojiByWeather,
@@ -7,17 +13,11 @@ import {
   getHour,
   round
 } from '../utils';
-import {
-  ArrowUpIcon,
-  ArrowDownIcon,
-  ArrowRightIcon
-} from '@heroicons/react/24/outline';
-import RefetcherButton from '../(components)/refetcher-button';
 
 export const revalidate = 1800;
 export const dynamic = 'force-static';
 
-export default async function Infobar() {
+export default async function Infobar(): JSX.Element {
   const [clima, forecast] = await Promise.all([
     getBuenosAiresWeather(),
     getBuenosAiresForecast()
@@ -35,7 +35,9 @@ export default async function Infobar() {
       </header>
       <div className="flex-auto truncate font-regular text-white text-center">
         <h2 className="text-xl mb-2">Buenos Aires, AR</h2>
-        <h3 className="text-4xl" title={`${clima.main.temp.toString()}°C`}>{round(clima.main.temp)}°C</h3>
+        <h3 className="text-4xl" title={`${clima.main.temp.toString()}°C`}>
+          {round(clima.main.temp)}°C
+        </h3>
         <h4 className="text-2xl" title={clima.weather[0].description}>
           {emojiByWeather(clima.weather[0].icon)}
         </h4>
@@ -75,12 +77,19 @@ export default async function Infobar() {
                   ) : (
                     <ArrowDownIcon className="w-5 h-5 inline-block" />
                   )}
-                  {change}{change !== 0 && '°'}
+                  {change}
+                  {change !== 0 && '°'}
                 </dd>
-                <dd className="w-full flex-none text-3xl font-medium leading-10 tracking-tight" title={`${weather.main.temp.toString()}°C`}>
+                <dd
+                  className="w-full flex-none text-3xl font-medium leading-10 tracking-tight"
+                  title={`${weather.main.temp.toString()}°C`}
+                >
                   {round(weather.main.temp)}°
                 </dd>
-                <dd className="w-full text-xl font-medium leading-6" title={weather.weather[0].description}>
+                <dd
+                  className="w-full text-xl font-medium leading-6"
+                  title={weather.weather[0].description}
+                >
                   {emojiByWeather(weather.weather[0].icon)}
                 </dd>
               </div>

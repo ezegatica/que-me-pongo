@@ -1,10 +1,10 @@
-"use client"
-import React from 'react';
+'use client';
 import { signIn } from 'next-auth/react';
+import React from 'react';
 
-export default function LoginForm() {
-  async function login() {
-    await signIn('google')
+export default function LoginForm(): JSX.Element {
+  async function login(): Promise<void> {
+    await signIn('google');
   }
   return (
     <form action={login}>

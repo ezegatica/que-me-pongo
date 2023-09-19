@@ -1,11 +1,11 @@
-"use server";
+'use server';
+import Link from 'next/link';
 import React from 'react';
-import { Content, Header, Title } from '@components/headers';
 import { authOptions } from '../../api/auth/[...nextauth]/route';
 import { Clothes, getOutfitByWeather, getUser } from '../../utils';
-import Link from 'next/link';
+import { Content, Header, Title } from '@components/headers';
 
-export default async function MisRespuestas() {
+export default async function MisRespuestas(): Promise<JSX.Element> {
   const { user } = await getUser(authOptions);
   const outfit = await getOutfitByWeather(user);
 
@@ -40,12 +40,12 @@ export default async function MisRespuestas() {
     const compliments = [
       'ademas de una buena sonrisa',
       'ademas de contento',
-      'ademas de feliz',
+      'ademas de feliz'
       // Proponé mas frases abriendo un PR!
-    ]
+    ];
 
     return compliments[Math.floor(Math.random() * compliments.length)];
-  }
+  };
 
   return (
     <div>
@@ -54,7 +54,8 @@ export default async function MisRespuestas() {
       </Header>
       <Content>
         <p className="mb-2">
-          El día de hoy, {user.name}, te recomiendo ponerte, {randomCompliment()}:
+          El día de hoy, {user.name}, te recomiendo ponerte,{' '}
+          {randomCompliment()}:
         </p>
         <p>😎</p>
         <p>

@@ -1,8 +1,8 @@
-import { NextAuthOptions, getServerSession } from 'next-auth';
-import { prisma } from './db';
 import { User } from '@prisma/client';
+import { NextAuthOptions, Session, getServerSession } from 'next-auth';
+import { prisma } from './db';
 
-export function round(temp: number) {
+export function round(temp: number): number {
   return Math.round(temp);
 }
 export const config = {
@@ -42,7 +42,7 @@ export const Clothes = {
 export type UpperType = 'shirt' | 'hoodie' | 'jacket';
 export type LowerType = 'shorts' | 'pants';
 
-export function emojiByWeather(icon: string) {
+export function emojiByWeather(icon: string): string {
   const emojisCode: Record<string, string> = {
     // Day
     '01d': '☀️',
@@ -74,12 +74,14 @@ export function emojiByWeather(icon: string) {
   return '🌎';
 }
 
-export const proxy = (url: string) => {
+export const proxy = (url: string): string => {
   const proxyUrl = 'i.ezegatica.com/proxy';
   return `https://${proxyUrl}?url=${url}`;
-}
+};
 
-export const getUser = async (authOptions: NextAuthOptions) => {
+export const getUser = async (
+  authOptions: NextAuthOptions
+): Promise<{ user: User; session: Session | null }> => {
   const session = await getServerSession(authOptions);
   const user = await prisma.user.findUnique({
     where: {
@@ -101,15 +103,12 @@ export async function getBuenosAiresWeather(): Promise<WeatherResponse> {
   url.searchParams.append('appid', config.weatherApi.key || 'undefined');
   url.searchParams.append('units', 'metric');
   url.searchParams.append('lang', 'es');
-  const res = await fetch(
-    url.toString(),
-    {
-      next: {
-        revalidate: 3600 * 0.5, // 1/2 Hora
-        tags: ['weather']
-      }
+  const res = await fetch(url.toString(), {
+    next: {
+      revalidate: 3600 * 0.5, // 1/2 Hora
+      tags: ['weather']
     }
-  );
+  });
   const data = await res.json();
   return data;
 }
@@ -120,23 +119,22 @@ export async function getBuenosAiresForecast(): Promise<WeatherForecast> {
   url.searchParams.append('lon', '-58.4370894');
   url.searchParams.append('appid', config.weatherApi.key || 'undefined');
   url.searchParams.append('cnt', '3');
-  url.searchParams.append('mode', 'json')
+  url.searchParams.append('mode', 'json');
   url.searchParams.append('units', 'metric');
   url.searchParams.append('lang', 'es');
-  const res = await fetch(
-    url.toString(),
-    {
-      next: {
-        revalidate: 3600 * 0.5, // 1/2 Hora
-        tags: ['forecast']
-      }
+  const res = await fetch(url.toString(), {
+    next: {
+      revalidate: 3600 * 0.5, // 1/2 Hora
+      tags: ['forecast']
     }
-  );
+  });
   const data = await res.json();
   return data;
 }
 
-export async function userAnswered(user: User) {
+export async function userAnswered(user: User): Promise<{
+  date: Date;
+} | null> {
   const lastReport = await prisma.report.findFirst({
     where: {
       userId: user.id,
@@ -152,9 +150,7 @@ export async function userAnswered(user: User) {
   return lastReport;
 }
 
-export async function getOutfitByWeather(
-  user: User,
-): Promise<{
+export async function getOutfitByWeather(user: User): Promise<{
   upper: UpperType | null;
   lower: LowerType | null;
 }> {
@@ -189,32 +185,32 @@ export async function getOutfitByWeather(
     // TODO: Reportes de la comunidad
     return {
       lower: null,
-      upper: null 
-    }
+      upper: null
+    };
   }
-  
+
   const lower = reports[0].lower as LowerType;
   const upper = reports[0].upper as UpperType;
-  
+
   return {
     lower,
     upper
   };
 }
 
-export function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
+export function classNames(...classes: string[]): string {
+  return classes.filter(Boolean).join(' ');
 }
 
-export function getDay(date: Date) {
+export function getDay(date: Date): string {
   return date.toLocaleDateString('es-AR', {
     year: '2-digit',
     month: '2-digit',
-    day: '2-digit',
+    day: '2-digit'
   });
 }
 
-export function getHour(date: Date) {
+export function getHour(date: Date): string {
   return date.toLocaleTimeString('es-AR', {
     hour: '2-digit',
     minute: '2-digit'
@@ -226,12 +222,12 @@ export interface WeatherResponse {
     lon: number;
     lat: number;
   };
-  weather: {
+  weather: Array<{
     id: number;
     main: string;
     description: string;
     icon: string;
-  }[];
+  }>;
   base: string;
   main: {
     temp: number;
@@ -267,7 +263,7 @@ interface WeatherForecast {
   cod: string;
   message: number;
   cnt: number;
-  list: {
+  list: Array<{
     dt: number;
     main: {
       temp: number;
@@ -280,12 +276,12 @@ interface WeatherForecast {
       humidity: number;
       temp_kf: number;
     };
-    weather: {
+    weather: Array<{
       id: number;
       main: string;
       description: string;
       icon: string;
-    }[];
+    }>;
     clouds: {
       all: number;
     };
@@ -300,7 +296,7 @@ interface WeatherForecast {
       pod: string;
     };
     dt_txt: string;
-  }[];
+  }>;
   city: {
     id: number;
     name: string;
@@ -312,6 +308,6 @@ interface WeatherForecast {
     population: number;
     timezone: number;
     sunrise: number;
-    sunset: number; 
+    sunset: number;
   };
 }

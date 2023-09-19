@@ -1,13 +1,13 @@
-"use server";
+'use server';
 
 import React from 'react';
-import { Header, Content, Title, RightText } from '@components/headers';
-import { getUser } from '../../utils';
-import { prisma } from '../../db';
 import { authOptions } from '../../api/auth/[...nextauth]/route';
+import { prisma } from '../../db';
+import { getUser } from '../../utils';
 import ReportCard from './card';
+import { Content, Header, RightText, Title } from '@components/headers';
 
-export default async function MisRespuestas() {
+export default async function MisRespuestas(): Promise<JSX.Element> {
   const { user } = await getUser(authOptions);
   const respuestas = await prisma.report.findMany({
     where: {
@@ -22,9 +22,7 @@ export default async function MisRespuestas() {
     <div>
       <Header>
         <Title>Mis respuestas</Title>
-        <RightText>
-          Mostrando ultimas 50 respuestas
-        </RightText>
+        <RightText>Mostrando ultimas 50 respuestas</RightText>
       </Header>
       <Content>
         <ul

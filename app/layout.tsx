@@ -1,7 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Noto_Sans } from 'next/font/google';
-import { Providers } from '@components/provider';
 
 const noto = Noto_Sans({ subsets: ['latin'], weight: ['400', '500'] });
 
@@ -15,12 +14,10 @@ export default function RootLayout({
   children
 }: {
   children: React.ReactNode;
-}) {
+}): JSX.Element {
   return (
     <html className={`h-full bg-gray-900 ${noto.className}`}>
-      <body className="h-full">
-        {children}
-      </body>
+      <body className="h-full">{children}</body>
     </html>
   );
 }

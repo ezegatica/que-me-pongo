@@ -1,13 +1,13 @@
-import Sidebar from './sidebar';
-import Infobar from './infobar';
 import React from 'react';
 import { Providers } from '../(components)/provider';
+import Infobar from './infobar';
+import Sidebar from './sidebar';
 
 export default function RootLayout({
   children
 }: {
   children: React.ReactNode;
-}) {
+}): JSX.Element {
   return (
     <Providers>
       <Sidebar />

@@ -1,10 +1,12 @@
+import Image from 'next/image';
+import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import React from 'react';
 import { authOptions } from '../../api/auth/[...nextauth]/route';
-import { redirect } from 'next/navigation';
+import { proxy } from '../../utils';
 import LoginForm from './form';
 
-export default async function LoginPage() {
+export default async function LoginPage(): Promise<JSX.Element> {
   const session = await getServerSession(authOptions);
   if (session) {
     redirect('/app');
@@ -14,9 +16,13 @@ export default async function LoginPage() {
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img
+          <Image
             className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+            width={128}
+            height={128}
+            src={proxy(
+              'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
+            )}
             alt="Your Company"
           />
           <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-white">

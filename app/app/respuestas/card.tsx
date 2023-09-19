@@ -3,7 +3,11 @@ import { Report } from '@prisma/client';
 import React from 'react';
 import { Clothes, LowerType, UpperType, getDay, getHour } from '../../utils';
 
-export default function ReportCard({ report }: { report: Report }) {
+export default function ReportCard({
+  report
+}: {
+  report: Report;
+}): JSX.Element {
   const formattedDate = getDay(report.date);
 
   const formattedHour = getHour(report.date);
@@ -21,9 +25,7 @@ export default function ReportCard({ report }: { report: Report }) {
               {report.temp}°C
             </span>
           </div>
-          <p className="mt-1 truncate text-sm ">
-            {formattedHour}
-          </p>
+          <p className="mt-1 truncate text-sm ">{formattedHour}</p>
           <p className="mt-1 text-sm">
             {upper.displayName} con unos {lower.displayName}
           </p>
