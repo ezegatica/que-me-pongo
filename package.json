@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run generate && next build && yarn migrate:deploy",
     "start": "next start",
     "lint": "next lint",
     "lint:all": "npm run lint:eslint && npm run lint:prettier",
