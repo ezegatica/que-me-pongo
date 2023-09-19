@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   ArrowPathIcon,
   CloudArrowUpIcon,
@@ -6,8 +5,9 @@ import {
   LockClosedIcon,
   RocketLaunchIcon
 } from '@heroicons/react/24/outline';
-import { proxy } from '../utils';
 import Link from 'next/link';
+import React from 'react';
+import { proxy } from '../utils';
 import packagejson from '@/package.json';
 
 export const dynamic = 'force-static';
@@ -39,7 +39,7 @@ const features = [
   }
 ];
 
-export default function LandingPage() {
+export default function LandingPage(): JSX.Element {
   return (
     <div className="bg-white">
       <header className="absolute inset-x-0 top-0 z-50">
