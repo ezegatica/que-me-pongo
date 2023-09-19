@@ -1,13 +1,13 @@
 'use client';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import React, { useRef } from 'react';
 import { Clothes } from '../../utils';
 import { Submit } from './actions';
-import { useSession } from 'next-auth/react';
 import FormButton from '@components/form-button';
 import { Toast } from '@components/toast';
-import { useRouter } from 'next/navigation';
 
-export default function WeatherForm() {
+export default function WeatherForm(): JSX.Element {
   const { data: session } = useSession();
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
@@ -20,7 +20,10 @@ export default function WeatherForm() {
           await Submit(e, session);
           Toast.fire({ title: 'Outfit registrado con éxito', icon: 'success' });
         } catch (error: any) {
-          Toast.fire({ title: error?.message || 'Error desconocido', icon: 'error' });
+          Toast.fire({
+            title: error?.message || 'Error desconocido',
+            icon: 'error'
+          });
         } finally {
           formRef.current?.reset();
           router.refresh();

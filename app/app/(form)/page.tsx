@@ -1,12 +1,10 @@
-"use server";
-
 import React, { Suspense } from 'react';
+import { authOptions } from '../../api/auth/[...nextauth]/route';
+import { config, getUser, userAnswered } from '../../utils';
 import WeatherForm from './form';
 import { Content, Header, RightText, Title } from '@components/headers';
-import { config, getUser, userAnswered } from '../../utils';
-import { authOptions } from '../../api/auth/[...nextauth]/route';
 
-export default async function FormPage() {
+export default function FormPage(): JSX.Element {
   return (
     <div>
       <Header>

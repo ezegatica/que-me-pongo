@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:all": "npm run lint:eslint && npm run lint:prettier",
+    "lint:eslint": "eslint \"{app,prisma}/**/*.ts\" --fix",
+    "lint:prettier": "prettier --write \"**/*.{ts,tsx}\"",
     "generate": "prisma generate",
     "migrate:add": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy"

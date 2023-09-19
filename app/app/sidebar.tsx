@@ -1,25 +1,25 @@
 'use client';
-import React, { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
 import {
   Bars3Icon,
+  ClipboardDocumentIcon,
+  CloudIcon,
   Cog6ToothIcon,
   MagnifyingGlassIcon,
-  XMarkIcon,
-  UserCircleIcon,
   PencilSquareIcon,
-  ClipboardDocumentIcon,
-  CloudIcon
+  UserCircleIcon,
+  XMarkIcon
 } from '@heroicons/react/24/outline';
-import { Transition, Dialog } from '@headlessui/react';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { Session } from 'next-auth';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { Session } from 'next-auth';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import React, { Fragment, useState } from 'react';
 
 import { classNames, proxy } from '../utils';
-import Image from 'next/image';
 
-export default function Sidebar() {
+export default function Sidebar(): JSX.Element {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -122,9 +122,13 @@ export default function Sidebar() {
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 ring-1 ring-white/10">
                   <div className="flex h-16 shrink-0 items-center">
-                    <img
+                    <Image
                       className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                      width={32}
+                      height={32}
+                      src={proxy(
+                        'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500'
+                      )}
                       alt="Your Company"
                     />
                   </div>
@@ -175,9 +179,13 @@ export default function Sidebar() {
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-black/10 px-6 ring-1 ring-white/5">
           <div className="flex h-16 shrink-0 items-center">
-            <img
+            <Image
               className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+              width={32}
+              height={32}
+              src={proxy(
+                'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500'
+              )}
               alt="Your Company"
             />
           </div>

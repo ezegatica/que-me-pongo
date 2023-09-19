@@ -3,7 +3,10 @@ import { Session } from 'next-auth';
 import { prisma } from '../../db';
 import { Clothes, getBuenosAiresWeather, userAnswered } from '../../utils';
 
-export async function Submit(formData: FormData, session: Session | null) {
+export async function Submit(
+  formData: FormData,
+  session: Session | null
+): Promise<void> {
   if (!session?.user?.email) {
     throw new Error('El usuario no inició sesión');
   }
@@ -20,7 +23,7 @@ export async function Submit(formData: FormData, session: Session | null) {
   });
 
   if (!user) {
-    throw new Error("El usuario no existe en la base de datos");
+    throw new Error('El usuario no existe en la base de datos');
   }
 
   const userAlreadyReportedToday = await userAnswered(user);
@@ -28,14 +31,13 @@ export async function Submit(formData: FormData, session: Session | null) {
     throw new Error('El usuario ya respondió hoy');
   }
 
-
   const clima = await getBuenosAiresWeather();
 
   const now = Date.now();
   const day = Math.floor(now / 1000 / 60 / 60 / 24); // Dada una timestamp, agarrar el numero de día
   const date = new Date(now);
 
-  const newReport = await prisma.$transaction(async (tx) => {
+  await prisma.$transaction(async tx => {
     const rawReport = await tx.rawReport.create({
       data: {
         city: clima.name,
@@ -51,11 +53,11 @@ export async function Submit(formData: FormData, session: Session | null) {
         wind_deg: clima.wind.deg,
         wind_speed: clima.wind.speed,
         weather_code: clima.weather[0].id,
-        weather_icon: clima.weather[0].icon,
+        weather_icon: clima.weather[0].icon
       }
     });
 
-    const report = await tx.report.create({
+    await tx.report.create({
       data: {
         day,
         date,
@@ -66,9 +68,5 @@ export async function Submit(formData: FormData, session: Session | null) {
         rawReportId: rawReport.id
       }
     });
-
-    return report;
-  })
-
-  return newReport;
+  });
 }

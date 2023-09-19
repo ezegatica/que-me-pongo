@@ -1,7 +1,7 @@
 import React from 'react';
-import { Header, Title, Content } from '../(components)/headers';
+import { Content, Header, Title } from '../(components)/headers';
 
-export default function Loading() {
+export default function Loading(): JSX.Element {
   return (
     <>
       <Header>

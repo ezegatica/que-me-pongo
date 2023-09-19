@@ -8,7 +8,7 @@ export const Toast = MySwal.mixin({
   position: 'top-end',
   showConfirmButton: false,
   timer: 3000,
-  timerProgressBar: true,
+  timerProgressBar: true
 });
 
 export const Popup = withReactContent(SweetAlert);

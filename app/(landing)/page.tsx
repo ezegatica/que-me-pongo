@@ -1,13 +1,13 @@
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
 
 export const dynamic = 'force-static';
 
-export default async function Landing() {
+export default function Landing(): JSX.Element {
   return (
     <div className="text-white text-center">
       <h1 className="text-6xl mb-2">que me pongo</h1>
-      <p className='mb-2'>ponele que asi funcionan las apps</p>
+      <p className="mb-2">ponele que asi funcionan las apps</p>
 
       <Link href="/app">
         <button

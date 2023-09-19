@@ -10,7 +10,7 @@ export default function FormButton({
   children: React.ReactNode;
   variant: 'primary' | 'secondary';
   type: 'submit' | 'reset' | 'button';
-}) {
+}): JSX.Element {
   const { pending } = useFormStatus();
   const classByVariant = () => {
     switch (variant) {
