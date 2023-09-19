@@ -1,4 +1,4 @@
-# [¿Que me pongo?](https://qmp.ezegatica.com)
+# [¿Qué me pongo?](https://qmp.ezegatica.com)
 ## Una aplicación para ayudarte a elegir que ponerte en base al clima y a tus preferencias.
 
 ### Descripción

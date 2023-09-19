@@ -16,6 +16,7 @@ export default async function Infobar() {
         </button>
       </header>
       <div className="flex-auto truncate font-regular text-white text-center">
+        <h2 className='text-xl mb-2'>Buenos Aires, AR</h2>
         <h3 className="text-4xl">{round(clima.main.temp)}°C</h3>
         <h4 className="text-2xl" title={clima.weather[0].description}>
           {emojiByWeather(clima.weather[0].icon)}

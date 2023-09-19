@@ -6,7 +6,7 @@ import { Providers } from '@components/provider';
 const noto = Noto_Sans({ subsets: ['latin'], weight: ['400', '500'] });
 
 export const metadata: Metadata = {
-  title: '¿Que me pongo?, by Eze Gatica',
+  title: '¿Qué me pongo?, by Eze Gatica',
   description:
     '¿Cansado de no saber si hace o mucho calor o mucho frío? ¡No busques más!. Basado en tus respuestas anteriores, te diremos que ropa ponerte.'
 };

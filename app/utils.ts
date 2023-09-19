@@ -15,6 +15,9 @@ export const config = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || ''
     },
     secret: process.env.secret as string
+  },
+  form: {
+    cooldown: 30 // minutos
   }
 };
 
@@ -103,6 +106,19 @@ export async function getBuenosAiresWeather(): Promise<WeatherResponse> {
   );
   const data = await res.json();
   return data;
+}
+
+export async function userAnswered(user: User) {
+  const lastReport = await prisma.report.findFirst({
+    where: {
+      userId: user.id,
+      date: {
+        gte: new Date(Date.now() - 1000 * 60 * config.form.cooldown)
+      }
+    }
+  });
+
+  return lastReport;
 }
 
 export async function getOutfitByWeather(

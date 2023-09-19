@@ -12,9 +12,10 @@ export default async function MisRespuestas() {
   return (
     <div>
       <Header>
-        <Title>Que te pondrías basado en tus respuestas, {user.name}</Title>
+        <Title>¿Qué me pongo?</Title>
       </Header>
       <Content>
+        <p className='mb-2'>El día de hoy, {user.name}, te recomiendo ponerte:</p>
         <p>😎</p>
         <p>{upper.emoji} {upper.displayName}</p>
         <p>{lower.emoji} {lower.displayName}</p>

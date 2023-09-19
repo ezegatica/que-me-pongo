@@ -5,9 +5,11 @@ import { Submit } from './actions';
 import { useSession } from 'next-auth/react';
 import FormButton from '@components/form-button';
 import { Toast } from '@components/toast';
+import { useRouter } from 'next/navigation';
 
 export default function WeatherForm() {
   const { data: session } = useSession();
+  const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
 
   return (
@@ -17,6 +19,7 @@ export default function WeatherForm() {
         await Submit(e, session);
         Toast.fire({ title: 'Outfit registrado con éxito', icon: 'success' });
         formRef.current?.reset();
+        router.refresh();
       }}
     >
       <div className="space-y-5">
