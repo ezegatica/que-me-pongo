@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { authOptions } from '../../api/auth/[...nextauth]/route';
+import { authOptions } from '../../auth';
 import { config, getUser, userAnswered } from '../../utils';
 import WeatherForm from './form';
 import { Content, Header, RightText, Title } from '@components/headers';

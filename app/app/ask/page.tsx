@@ -1,7 +1,7 @@
 'use server';
 import Link from 'next/link';
 import React from 'react';
-import { authOptions } from '../../api/auth/[...nextauth]/route';
+import { authOptions } from '../../auth';
 import { Clothes, getOutfitByWeather, getUser } from '../../utils';
 import { Content, Header, Title } from '@components/headers';
 

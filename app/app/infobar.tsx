@@ -17,7 +17,7 @@ import {
 export const revalidate = 1800;
 export const dynamic = 'force-static';
 
-export default async function Infobar(): JSX.Element {
+export default async function Infobar(): Promise<JSX.Element> {
   const [clima, forecast] = await Promise.all([
     getBuenosAiresWeather(),
     getBuenosAiresForecast()

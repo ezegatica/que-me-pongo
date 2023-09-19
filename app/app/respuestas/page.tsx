@@ -1,7 +1,7 @@
 'use server';
 
 import React from 'react';
-import { authOptions } from '../../api/auth/[...nextauth]/route';
+import { authOptions } from '../../auth';
 import { prisma } from '../../db';
 import { getUser } from '../../utils';
 import ReportCard from './card';
