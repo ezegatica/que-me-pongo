@@ -126,9 +126,7 @@ export default function Sidebar(): JSX.Element {
                       className="h-8 w-auto"
                       width={32}
                       height={32}
-                      src={proxy(
-                        'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500'
-                      )}
+                      src="/qmp.png"
                       alt="Your Company"
                     />
                   </div>
@@ -183,9 +181,7 @@ export default function Sidebar(): JSX.Element {
               className="h-8 w-auto"
               width={32}
               height={32}
-              src={proxy(
-                'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500'
-              )}
+              src="/qmp.png"
               alt="Your Company"
             />
           </div>

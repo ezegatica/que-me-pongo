@@ -8,7 +8,6 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { proxy } from '../utils';
 import packagejson from '@/package.json';
 
 export const dynamic = 'force-static';
@@ -55,9 +54,7 @@ export default function LandingPage(): JSX.Element {
                 width={64}
                 height={64}
                 className="h-8 w-auto"
-                src={proxy(
-                  'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
-                )}
+                src="/qmp.png"
                 alt="QMP Logo"
               />
             </Link>

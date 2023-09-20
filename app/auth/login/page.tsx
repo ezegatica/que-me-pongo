@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import React from 'react';
 import { authOptions } from '../../auth';
-import { proxy } from '../../utils';
 import LoginForm from './form';
 
 export default async function LoginPage(): Promise<JSX.Element> {
@@ -17,12 +16,10 @@ export default async function LoginPage(): Promise<JSX.Element> {
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <Image
-            className="mx-auto h-10 w-auto"
-            width={128}
-            height={128}
-            src={proxy(
-              'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
-            )}
+            className="mx-auto h-24 w-auto"
+            width={256}
+            height={256}
+            src="/qmp.png"
             alt="Your Company"
           />
           <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-white">
