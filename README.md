@@ -21,6 +21,6 @@ Los otros dos son la temperatura mínima y máxima en las distinas partes de la 
 - [ ] Agregar la posibilidad de marcar un rango de días, y una ciudad, y bastante parecido a lo de planear salida, que te diga que llevar y que no a tu viaje.
   - **Ejemplo**: Voy al Caribe del 1 al 15. La temperatura va a estar entre 18° y 30°, entonces te recomienda llevar remera y short, pero tambien un buzo para la noche.
 - [X] Agregar pronostico del día en la infobar
-- [ ] Hacer landing page
+- [X] Hacer landing page
 - [ ] Hacer un logo
 - [ ] Pasar la app a PWA
