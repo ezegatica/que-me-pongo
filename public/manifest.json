@@ -5,7 +5,7 @@
     "scope": "/",
     "start_url": "./app",
     "name": "\u00bfQu\u00e9 me pongo?",
-    "short_name": "QMP",
+    "short_name": "Qu\u00e9 me pongo",
     "description": "Una aplicaci\u00f3n para ayudarte a elegir que ponerte en base al clima y a tus preferencias pasadas. \u00a1No m\u00e1s perder tiempo!",
     "icons": [
         {
