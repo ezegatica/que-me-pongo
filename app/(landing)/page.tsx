@@ -1,10 +1,11 @@
 import {
-  ArrowPathIcon,
-  CloudArrowUpIcon,
-  FingerPrintIcon,
-  LockClosedIcon,
-  RocketLaunchIcon
+  DevicePhoneMobileIcon,
+  MoonIcon,
+  PaperAirplaneIcon,
+  RocketLaunchIcon,
+  ShoppingBagIcon
 } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { proxy } from '../utils';
@@ -14,28 +15,28 @@ export const dynamic = 'force-static';
 
 const features = [
   {
-    name: 'Push to deploy',
+    name: '¡Desde donde quieras!',
     description:
-      'Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.',
-    icon: CloudArrowUpIcon
+      'Te fuiste de vacaciones y queres registrar tus prendas? No hay problema, podes cambiar la ciudad en la que estas y seguir registrando con la temperatura de donde estes!.',
+    icon: PaperAirplaneIcon
   },
   {
-    name: 'SSL certificates',
+    name: '¿Salis por todo el día?',
     description:
-      'Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.',
-    icon: LockClosedIcon
+      'Si vas a salir por unas cuantas horas, podes marcar el rango horario y recibir la recomendación tomando en cuenta los minimos y maximos de tu salida.',
+    icon: MoonIcon
   },
   {
-    name: 'Simple queues',
+    name: '¿Te vas de viaje?',
     description:
-      'Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.',
-    icon: ArrowPathIcon
+      'Si vas a viajar a otra ciudad, vas a poder pronosticar el clima de los proximos días y ver que te conviene llevar. Así te evitas sorpresas al llegar a tu destino.',
+    icon: ShoppingBagIcon
   },
   {
-    name: 'Advanced security',
+    name: '¡Llevala a donde quieras!',
     description:
-      'Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.',
-    icon: FingerPrintIcon
+      'Instalando la aplicación para móviles, cargá tus prendas desde donde estes y recibí recomendaciones en base a la temperatura actual desde donde sea que estés.',
+    icon: DevicePhoneMobileIcon
   }
 ];
 
@@ -50,7 +51,9 @@ export default function LandingPage(): JSX.Element {
           <div className="flex lg:flex-1">
             <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">¿Qué me pongo?</span>
-              <img
+              <Image
+                width={64}
+                height={64}
                 className="h-8 w-auto"
                 src={proxy(
                   'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
@@ -59,7 +62,7 @@ export default function LandingPage(): JSX.Element {
               />
             </Link>
           </div>
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          <div className="lg:flex lg:flex-1 lg:justify-end">
             <Link
               href="/auth/login"
               className="text-sm font-semibold leading-6 text-gray-900"
@@ -95,14 +98,13 @@ export default function LandingPage(): JSX.Element {
               ¿Qué me pongo?
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-              lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-              fugiat aliqua.
+              Una aplicación para ayudarte a elegir que ponerte en base al clima
+              y a tus preferencias pasadas. ¡No más perder tiempo!
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link
                 href="/app"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="rounded-lg bg-indigo-600 px-4 py-3 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Entrar a la app
               </Link>
@@ -126,17 +128,27 @@ export default function LandingPage(): JSX.Element {
       <div className="bg-white py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
-            <h2 className="text-base font-semibold leading-7 text-indigo-600">
-              Deploy faster
+            <h2
+              className="text-base font-semibold leading-7 text-indigo-600"
+              id="features"
+            >
+              Salí con la ropa adecuada
             </h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Everything you need to deploy your app
+              ¿Cansado de no saber si hace o mucho calor o mucho frío?
             </p>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Quis tellus eget adipiscing convallis sit sit eget aliquet quis.
-              Suspendisse eget egestas a elementum pulvinar et feugiat blandit
-              at. In mi viverra elit nunc.
-            </p>
+            <div className="text-lg leading-8 text-gray-600">
+              <p className="mt-6 ">
+                Esta aplicación te permite registrar que prendas te pones dada
+                la temperatura que hace actualmente, para que la proxima vez que
+                haga una temperatura similar, puedas ver que te pusiste las
+                últimas veces.
+              </p>
+              <p>
+                Cada persona es diferente, si soles ser mas fríolento o caluroso
+                el algoritmo se va a ir ajustando a tus preferencias.
+              </p>
+            </div>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
             <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
