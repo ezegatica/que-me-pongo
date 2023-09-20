@@ -1,0 +1,32 @@
+{
+    "theme_color": "#eee7d8",
+    "background_color": "#0F1623",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "./app",
+    "name": "\u00bfQu\u00e9 me pongo?",
+    "short_name": "QMP",
+    "description": "Una aplicaci\u00f3n para ayudarte a elegir que ponerte en base al clima y a tus preferencias pasadas. \u00a1No m\u00e1s perder tiempo!",
+    "icons": [
+        {
+            "src": "/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

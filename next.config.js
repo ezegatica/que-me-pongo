@@ -1,3 +1,9 @@
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
@@ -5,7 +11,7 @@ const nextConfig = {
   },
   images: {
     domains: ['i.ezegatica.com']
-  }
+  },
 };
 
-module.exports = nextConfig;
+module.exports = withPWA(nextConfig);
