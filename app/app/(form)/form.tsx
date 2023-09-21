@@ -1,6 +1,4 @@
 'use client';
-import { InformationCircleIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useRef } from 'react';
@@ -33,23 +31,6 @@ export default function WeatherForm(): JSX.Element {
         }
       }}
     >
-      <Link href="/app/pronostico" className="block lg:hidden">
-        <div className="rounded-md bg-blue-100 p-4">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <InformationCircleIcon
-                className="h-5 w-5 text-blue-400"
-                aria-hidden="true"
-              />
-            </div>
-            <div className="ml-3 flex-1 md:flex md:justify-between">
-              <p className="text-sm text-blue-700">
-                Es recomendado ver el pronostico antes de responder.
-              </p>
-            </div>
-          </div>
-        </div>
-      </Link>
       <div className="space-y-5">
         <div className="border-b border-white/10 pb-6">
           <h2 className="text-base font-semibold leading-7 text-white">
