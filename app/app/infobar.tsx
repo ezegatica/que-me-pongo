@@ -5,6 +5,7 @@ import {
 } from '@heroicons/react/24/outline';
 import React from 'react';
 import RefetcherButton from '../(components)/refetcher-button';
+import WeatherAlerts from '../(components)/weather-alerts';
 import {
   classNames,
   emojiByWeather,
@@ -33,6 +34,7 @@ export default async function Infobar(): Promise<JSX.Element> {
           Actualizar
         </RefetcherButton>
       </header>
+      <WeatherAlerts clima={clima} pronostico={forecast} />
       <div className="flex-auto truncate font-regular text-white text-center">
         <h2 className="text-xl mb-2">Buenos Aires, AR</h2>
         <h3 className="text-4xl" title={`${clima.main.temp.toString()}°C`}>
