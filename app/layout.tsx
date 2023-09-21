@@ -5,8 +5,6 @@ import { Noto_Sans } from 'next/font/google';
 const noto = Noto_Sans({ subsets: ['latin'], weight: ['400', '500'] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://qmp.ezegatica.com/'),
-  applicationName: '¿Qué me pongo?',
   title: '¿Qué me pongo?, by Eze Gatica',
   description:
     'Una aplicación para ayudarte a elegir que ponerte en base al clima y a tus preferencias pasadas. ¡No más perder tiempo!',
