@@ -19,6 +19,8 @@ export default function WeatherForm(): JSX.Element {
         try {
           await Submit(e, session);
           Toast.fire({ title: 'Outfit registrado con éxito', icon: 'success' });
+          router.push('/app/ask');
+          router.refresh();
         } catch (error: any) {
           Toast.fire({
             title: error?.message || 'Error desconocido',
@@ -26,7 +28,6 @@ export default function WeatherForm(): JSX.Element {
           });
         } finally {
           formRef.current?.reset();
-          router.refresh();
         }
       }}
     >
