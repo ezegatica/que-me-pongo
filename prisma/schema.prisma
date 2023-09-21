@@ -17,6 +17,8 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  cityLat       Float     @default(-34.6075682)
+  cityLon       Float     @default(-58.4370894)
   accounts      Account[]
   sessions      Session[]
 

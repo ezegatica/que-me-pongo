@@ -6,12 +6,14 @@ import {
 import React from 'react';
 import RefetcherButton from '../(components)/refetcher-button';
 import WeatherAlerts from '../(components)/weather-alerts';
+import { authOptions } from '../auth';
 import {
   classNames,
   emojiByWeather,
-  getBuenosAiresForecast,
-  getBuenosAiresWeather,
   getHour,
+  getUser,
+  getUserCityForecast,
+  getUserCityWeather,
   round
 } from '../utils';
 
@@ -19,9 +21,10 @@ export const revalidate = 1800;
 export const dynamic = 'force-static';
 
 export default async function Infobar(): Promise<JSX.Element> {
+  const { user } = await getUser(authOptions);
   const [clima, forecast] = await Promise.all([
-    getBuenosAiresWeather(),
-    getBuenosAiresForecast()
+    getUserCityWeather(user),
+    getUserCityForecast(user)
   ]);
 
   return (

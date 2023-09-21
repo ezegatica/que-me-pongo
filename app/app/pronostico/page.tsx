@@ -8,10 +8,10 @@ import { authOptions } from '../../auth';
 import {
   classNames,
   emojiByWeather,
-  getBuenosAiresForecast,
-  getBuenosAiresWeather,
   getHour,
   getUser,
+  getUserCityForecast,
+  getUserCityWeather,
   round
 } from '../../utils';
 import { Content, Header, Title } from '@components/headers';
@@ -19,9 +19,8 @@ import { Content, Header, Title } from '@components/headers';
 export default async function Pronostico(): Promise<JSX.Element> {
   const { user } = await getUser(authOptions);
   const [clima, forecast] = await Promise.all([
-    getBuenosAiresWeather(),
-    getBuenosAiresForecast(),
-    Promise.resolve(user) // Para que no joda el linter
+    getUserCityWeather(user),
+    getUserCityForecast(user)
   ]);
   return (
     <div>

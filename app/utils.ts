@@ -96,10 +96,10 @@ export const getUser = async (
   return { user, session };
 };
 
-export async function getBuenosAiresWeather(): Promise<WeatherResponse> {
+export async function getUserCityWeather(user: User): Promise<WeatherResponse> {
   const url = new URL('https://api.openweathermap.org/data/2.5/weather');
-  url.searchParams.append('lat', '-34.6075682');
-  url.searchParams.append('lon', '-58.4370894');
+  url.searchParams.append('lat', user.cityLat.toString());
+  url.searchParams.append('lon', user.cityLon.toString());
   url.searchParams.append('appid', config.weatherApi.key || 'undefined');
   url.searchParams.append('units', 'metric');
   url.searchParams.append('lang', 'es');
@@ -113,13 +113,15 @@ export async function getBuenosAiresWeather(): Promise<WeatherResponse> {
   return data;
 }
 
-export async function getBuenosAiresForecast(): Promise<ForecastResponse> {
+export async function getUserCityForecast(
+  user: User
+): Promise<ForecastResponse> {
   // const url = new URL('https://api.openweathermap.org/data/2.5/forecast');
   const url = new URL(
     'https://pro.openweathermap.org/data/2.5/forecast/hourly'
   );
-  url.searchParams.append('lat', '-34.6075682');
-  url.searchParams.append('lon', '-58.4370894');
+  url.searchParams.append('lat', user.cityLat.toString());
+  url.searchParams.append('lon', user.cityLon.toString());
   url.searchParams.append('appid', config.weatherApi.key || 'undefined');
   url.searchParams.append('cnt', '6');
   url.searchParams.append('mode', 'json');
@@ -157,7 +159,7 @@ export async function getOutfitByWeather(user: User): Promise<{
   upper: UpperType | null;
   lower: LowerType | null;
 }> {
-  const clima = await getBuenosAiresWeather();
+  const clima = await getUserCityWeather(user);
 
   const tempmin = clima.main.temp_min;
   const tempmax = clima.main.temp_max;
