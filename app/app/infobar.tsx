@@ -1,7 +1,7 @@
 import {
-  ArrowDownIcon,
   ArrowRightIcon,
-  ArrowUpIcon
+  ArrowTrendingDownIcon,
+  ArrowTrendingUpIcon
 } from '@heroicons/react/24/outline';
 import React from 'react';
 import RefetcherButton from '../(components)/refetcher-button';
@@ -25,7 +25,7 @@ export default async function Infobar(): Promise<JSX.Element> {
   ]);
 
   return (
-    <aside className="bg-black/10 lg:fixed lg:bottom-0 lg:right-0 lg:top-16 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-white/5">
+    <aside className="bg-black/10 lg:fixed lg:bottom-0 lg:right-0 lg:top-16 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-white/5 hidden lg:block">
       <header className="flex items-center justify-between border-b border-white/5 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
         <h2 className="text-base font-semibold leading-7 text-white">
           Clima actual
@@ -48,7 +48,7 @@ export default async function Infobar(): Promise<JSX.Element> {
         <h3 className="text-base font-semibold leading-6 text-white mb-2 mt-3">
           Proximas 6hs
         </h3>
-        <dl className="mx-auto grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-3 gap-3 text-center">
+        <dl className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 text-center">
           {forecast.list.map((weather, i) => {
             const lastWeather =
               forecast.list[i - 1]?.main?.temp ?? clima.main.temp;
@@ -75,9 +75,9 @@ export default async function Infobar(): Promise<JSX.Element> {
                   {change === 0 ? (
                     <ArrowRightIcon className="w-5 h-5 inline-block mr-1" />
                   ) : change > 0 ? (
-                    <ArrowUpIcon className="w-5 h-5 inline-block" />
+                    <ArrowTrendingUpIcon className="w-5 h-5 inline-block" />
                   ) : (
-                    <ArrowDownIcon className="w-5 h-5 inline-block" />
+                    <ArrowTrendingDownIcon className="w-5 h-5 inline-block" />
                   )}
                   {change}
                   {change !== 0 && '°'}

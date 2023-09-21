@@ -2,6 +2,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import {
   Bars3Icon,
+  BeakerIcon,
   ClipboardDocumentIcon,
   CloudIcon,
   Cog6ToothIcon,
@@ -34,8 +35,15 @@ export default function Sidebar(): JSX.Element {
     {
       name: 'Que ponerme',
       href: '/app/ask',
-      icon: CloudIcon,
+      icon: BeakerIcon,
       current: pathname === '/app/ask'
+    },
+    {
+      phoneOnly: true,
+      name: 'Pronostico',
+      href: '/app/pronostico',
+      icon: CloudIcon,
+      current: pathname === '/app/pronostico'
     },
     {
       name: 'Mis Respuestas',
@@ -127,7 +135,12 @@ export default function Sidebar(): JSX.Element {
                       <li>
                         <ul role="list" className="-mx-2 space-y-1">
                           {navigation.map(item => (
-                            <li key={item.name}>
+                            <li
+                              key={item.name}
+                              className={classNames(
+                                item.phoneOnly ? 'block lg:hidden' : ''
+                              )}
+                            >
                               <Link
                                 href={item.href}
                                 className={classNames(
@@ -183,7 +196,12 @@ export default function Sidebar(): JSX.Element {
               <li>
                 <ul role="list" className="-mx-2 space-y-1">
                   {navigation.map(item => (
-                    <li key={item.name}>
+                    <li
+                      key={item.name}
+                      className={classNames(
+                        item.phoneOnly ? 'block lg:hidden' : ''
+                      )}
+                    >
                       <Link
                         href={item.href}
                         className={classNames(
@@ -271,7 +289,7 @@ const UserSlot = ({
 
   if (session?.user) {
     return (
-      <>
+      <Link href="/app/settings">
         {session.user.image ? (
           <Image
             width={64}
@@ -286,7 +304,7 @@ const UserSlot = ({
         )}
         <span className="sr-only">Tu perfil</span>
         <span aria-hidden="true">{session.user.name}</span>
-      </>
+      </Link>
     );
   } else {
     <>

@@ -13,5 +13,6 @@ const nextConfig = {
     domains: ['i.ezegatica.com']
   },
 };
-
+// const isProduction = process.env.NODE_ENV === 'production';
 module.exports = withPWA(nextConfig);
+// module.exports = isProduction ? withPWA(nextConfig) : nextConfig; // Solo exporta PWA al estar en producción.
