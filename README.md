@@ -23,4 +23,4 @@ Los otros dos son la temperatura mínima y máxima en las distinas partes de la 
 - [X] Agregar pronostico del día en la infobar
 - [X] Hacer landing page
 - [X] Hacer un logo
-- [ ] Pasar la app a PWA
+- [X] Pasar la app a PWA
