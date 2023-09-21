@@ -114,11 +114,14 @@ export async function getBuenosAiresWeather(): Promise<WeatherResponse> {
 }
 
 export async function getBuenosAiresForecast(): Promise<ForecastResponse> {
-  const url = new URL('https://api.openweathermap.org/data/2.5/forecast');
+  // const url = new URL('https://api.openweathermap.org/data/2.5/forecast');
+  const url = new URL(
+    'https://pro.openweathermap.org/data/2.5/forecast/hourly'
+  );
   url.searchParams.append('lat', '-34.6075682');
   url.searchParams.append('lon', '-58.4370894');
   url.searchParams.append('appid', config.weatherApi.key || 'undefined');
-  url.searchParams.append('cnt', '3');
+  url.searchParams.append('cnt', '6');
   url.searchParams.append('mode', 'json');
   url.searchParams.append('units', 'metric');
   url.searchParams.append('lang', 'es');
