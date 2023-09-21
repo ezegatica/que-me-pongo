@@ -12,15 +12,14 @@ import {
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Session } from 'next-auth';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import React, { Fragment, useState } from 'react';
 
 import { classNames, proxy } from '../utils';
 
 export default function Sidebar(): JSX.Element {
-  const router = useRouter();
   const pathname = usePathname();
 
   const { data: session, status } = useSession();
@@ -53,14 +52,7 @@ export default function Sidebar(): JSX.Element {
   ];
 
   const handleClickUser = async () => {
-    if (session?.user) {
-      await signOut({
-        redirect: false,
-        callbackUrl: '/'
-      });
-      router.push('/');
-      router.refresh();
-    } else {
+    if (!session?.user) {
       return signIn();
     }
   };
@@ -144,6 +136,7 @@ export default function Sidebar(): JSX.Element {
                                     : 'text-gray-400 hover:text-white hover:bg-gray-800',
                                   'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                                 )}
+                                onClick={() => setSidebarOpen(false)}
                               >
                                 <item.icon
                                   className="h-6 w-6 shrink-0"
