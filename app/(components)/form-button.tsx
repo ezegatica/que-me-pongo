@@ -5,11 +5,13 @@ import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 export default function FormButton({
   children,
   variant,
-  type
+  type = 'button',
+  disabled = false
 }: {
   children: React.ReactNode;
   variant: 'primary' | 'secondary';
-  type: 'submit' | 'reset' | 'button';
+  type?: 'submit' | 'reset' | 'button';
+  disabled?: boolean;
 }): JSX.Element {
   const { pending } = useFormStatus();
   const classByVariant = () => {
@@ -20,8 +22,13 @@ export default function FormButton({
         return 'rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20 disabled:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500';
     }
   };
+
   return (
-    <button type={type} disabled={pending} className={classByVariant()}>
+    <button
+      type={type}
+      disabled={disabled || pending}
+      className={classByVariant()}
+    >
       {children}
     </button>
   );

@@ -113,7 +113,7 @@ export async function getBuenosAiresWeather(): Promise<WeatherResponse> {
   return data;
 }
 
-export async function getBuenosAiresForecast(): Promise<WeatherForecast> {
+export async function getBuenosAiresForecast(): Promise<ForecastResponse> {
   const url = new URL('https://api.openweathermap.org/data/2.5/forecast');
   url.searchParams.append('lat', '-34.6075682');
   url.searchParams.append('lon', '-58.4370894');
@@ -259,7 +259,7 @@ export interface WeatherResponse {
   cod: number;
 }
 
-interface WeatherForecast {
+export interface ForecastResponse {
   cod: string;
   message: number;
   cnt: number;

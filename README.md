@@ -22,5 +22,5 @@ Los otros dos son la temperatura mínima y máxima en las distinas partes de la 
   - **Ejemplo**: Voy al Caribe del 1 al 15. La temperatura va a estar entre 18° y 30°, entonces te recomienda llevar remera y short, pero tambien un buzo para la noche.
 - [X] Agregar pronostico del día en la infobar
 - [X] Hacer landing page
-- [ ] Hacer un logo
-- [ ] Pasar la app a PWA
+- [X] Hacer un logo
+- [X] Pasar la app a PWA

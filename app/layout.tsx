@@ -7,7 +7,36 @@ const noto = Noto_Sans({ subsets: ['latin'], weight: ['400', '500'] });
 export const metadata: Metadata = {
   title: '¿Qué me pongo?, by Eze Gatica',
   description:
-    '¿Cansado de no saber si hace o mucho calor o mucho frío? ¡No busques más!. Basado en tus respuestas anteriores, te diremos que ropa ponerte.'
+    'Una aplicación para ayudarte a elegir que ponerte en base al clima y a tus preferencias pasadas. ¡No más perder tiempo!',
+  viewport:
+    'minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover',
+  manifest: '/manifest.json',
+  themeColor: '#eee7d8',
+  twitter: {
+    card: 'summary',
+    creator: '@ezegaticaa',
+    description:
+      'Una aplicación para ayudarte a elegir que ponerte en base al clima y a tus preferencias pasadas. ¡No más perder tiempo!',
+    site: 'https://qmp.ezegatica.com',
+    title: '¿Qué me pongo?',
+    images: 'https://qmp.ezegatica.com/icon-192x192.png'
+  },
+  openGraph: {
+    description:
+      'Una aplicación para ayudarte a elegir que ponerte en base al clima y a tus preferencias pasadas. ¡No más perder tiempo!',
+    images: [
+      {
+        url: 'https://qmp.ezegatica.com/icon-192x192.png'
+      }
+    ],
+    siteName: '¿Qué me pongo?',
+    title: '¿Qué me pongo?',
+    type: 'website',
+    url: 'https://qmp.ezegatica.com'
+  },
+  icons: {
+    apple: '/icon-192x192.png'
+  }
 };
 
 export default function RootLayout({
