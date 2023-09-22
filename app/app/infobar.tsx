@@ -39,7 +39,9 @@ export default async function Infobar(): Promise<JSX.Element> {
       </header>
       <WeatherAlerts clima={clima} pronostico={forecast} />
       <div className="flex-auto truncate font-regular text-white text-center">
-        <h2 className="text-xl mb-2">Buenos Aires, AR</h2>
+        <h2 className="text-xl mb-2">
+          {user.cityName}, {user.cityCountry}
+        </h2>
         <h3 className="text-4xl" title={`${clima.main.temp.toString()}°C`}>
           {round(clima.main.temp)}°C
         </h3>

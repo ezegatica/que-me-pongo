@@ -7,7 +7,8 @@ export function round(temp: number): number {
 }
 export const config = {
   weatherApi: {
-    key: process.env.WEATHER_API_KEY
+    key: process.env.WEATHER_API_KEY,
+    revalidate: 3600 * 0.5 // 1/2 Hora
   },
   auth: {
     google: {
@@ -105,7 +106,7 @@ export async function getUserCityWeather(user: User): Promise<WeatherResponse> {
   url.searchParams.append('lang', 'es');
   const res = await fetch(url.toString(), {
     next: {
-      revalidate: 3600 * 0.5, // 1/2 Hora
+      revalidate: config.weatherApi.revalidate,
       tags: ['weather']
     }
   });
@@ -129,12 +130,31 @@ export async function getUserCityForecast(
   url.searchParams.append('lang', 'es');
   const res = await fetch(url.toString(), {
     next: {
-      revalidate: 3600 * 0.5, // 1/2 Hora
+      revalidate: config.weatherApi.revalidate,
       tags: ['forecast']
     }
   });
   const data = await res.json();
   return data;
+}
+
+export async function searchCity(query: string): Promise<CityResponse[]> {
+  const url = new URL('http://api.openweathermap.org/geo/1.0/direct');
+  url.searchParams.append('q', query);
+  url.searchParams.append('limit', '5');
+  url.searchParams.append('appid', config.weatherApi.key || 'undefined');
+  const res = await fetch(url.toString(), {
+    next: {
+      revalidate: config.weatherApi.revalidate,
+      tags: ['search']
+    }
+  });
+  const data = await res.json();
+  return data;
+}
+
+export function formattedStringByCity(city: CityResponse): string {
+  return `${city.name}, ${city.country}`;
 }
 
 export async function userAnswered(user: User): Promise<{
@@ -315,4 +335,12 @@ export interface ForecastResponse {
     sunrise: number;
     sunset: number;
   };
+}
+
+export interface CityResponse {
+  name: string;
+  lat: number;
+  lon: number;
+  country: string;
+  state?: string;
 }

@@ -19,6 +19,8 @@ model User {
   image         String?
   cityLat       Float     @default(-34.6075682)
   cityLon       Float     @default(-58.4370894)
+  cityName      String    @default("Buenos Aires")
+  cityCountry   String    @default("AR")
   accounts      Account[]
   sessions      Session[]
 

@@ -222,12 +222,12 @@ export default function Sidebar(): JSX.Element {
                 </ul>
               </li>
               <li className="-mx-6 mt-auto">
-                <button
+                <Link
                   className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800 w-full"
-                  onClick={handleClickUser}
+                  href="/app/settings"
                 >
                   <UserSlot session={session} status={status} />
-                </button>
+                </Link>
               </li>
             </ul>
           </nav>
@@ -289,7 +289,7 @@ const UserSlot = ({
 
   if (session?.user) {
     return (
-      <Link href="/app/settings">
+      <>
         {session.user.image ? (
           <Image
             width={64}
@@ -304,7 +304,7 @@ const UserSlot = ({
         )}
         <span className="sr-only">Tu perfil</span>
         <span aria-hidden="true">{session.user.name}</span>
-      </Link>
+      </>
     );
   } else {
     <>

@@ -33,7 +33,9 @@ export default async function Pronostico(): Promise<JSX.Element> {
             <h3 className="text-base font-semibold leading-6 text-white mb-2 mt-3 text-left">
               Clima actual
             </h3>
-            <h2 className="text-xl mb-2">Buenos Aires, AR</h2>
+            <h2 className="text-xl mb-2">
+              {user.cityName}, {user.cityCountry}
+            </h2>
             <h3 className="text-4xl" title={`${clima.main.temp.toString()}°C`}>
               {round(clima.main.temp)}°C
             </h3>
