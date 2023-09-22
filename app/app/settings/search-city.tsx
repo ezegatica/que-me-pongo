@@ -49,10 +49,15 @@ export default function CitySearcher({
   }, [debouncedInputValue]);
 
   useEffect(() => {
-    if (selectedCity) {
+    const isSameCityAsStart =
+      selectedCity &&
+      selectedCityStartValue.lon !== selectedCity.lon &&
+      selectedCityStartValue.lat !== selectedCity.lat;
+    if (isSameCityAsStart) {
       onCitySelected(selectedCity);
     }
-  }, [onCitySelected, selectedCity]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCity]);
 
   return (
     <Combobox as="div" value={selectedCity} onChange={setSelectedCity}>
@@ -60,6 +65,7 @@ export default function CitySearcher({
         <Combobox.Input
           className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
           onChange={handleInputChange}
+          id="citySearch"
           displayValue={(city: CityResponse) =>
             city ? `${city.name}, ${city.country}` : ''
           }
@@ -72,7 +78,7 @@ export default function CitySearcher({
         </Combobox.Button>
 
         {cities.length > 0 && (
-          <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white/5 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {cities.map(city => (
               <Combobox.Option
                 key={`${city.lat}-${city.lon}-${city.name}-${city.country}`}
@@ -83,7 +89,7 @@ export default function CitySearcher({
                 disabled={city === selectedCity}
                 className={({ active }) =>
                   classNames(
-                    'relative cursor-default select-none py-2 pl-3 pr-9',
+                    'relative cursor-pointer select-none py-2 pl-3 pr-9',
                     active ? 'bg-indigo-600 text-gray-200' : 'text-white'
                   )
                 }

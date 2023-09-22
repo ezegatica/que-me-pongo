@@ -6,7 +6,7 @@ import { signOut } from 'next-auth/react';
 import React from 'react';
 import { Toast } from '../../(components)/toast';
 import { CityResponse, proxy } from '../../utils';
-// import { updateUserCity } from './actions';
+import { updateUserCity } from './actions';
 import CitySearcher from './search-city';
 
 export default function SettingsForm({ user }: { user: User }): JSX.Element {
@@ -21,15 +21,14 @@ export default function SettingsForm({ user }: { user: User }): JSX.Element {
   }
 
   async function updateUserCityHandler(city: CityResponse) {
-    // await updateUserCity(city);
+    await updateUserCity(city);
     await Promise.resolve();
     Toast.fire({
       title: '¡Ubicación actualizada!',
       icon: 'success',
       text: `Ahora te encuentras en: ${city.name}`
     });
-    // router.push('/settings');
-    // router.refresh();
+    router.refresh();
   }
 
   return (
@@ -62,15 +61,15 @@ export default function SettingsForm({ user }: { user: User }): JSX.Element {
 
             <div className="col-span-full">
               <label
-                htmlFor="email"
+                htmlFor="name"
                 className="block text-sm font-medium leading-6 text-white"
               >
                 Nombre completo
               </label>
               <div className="mt-2">
                 <input
-                  id="email"
-                  name="email"
+                  id="name"
+                  name="name"
                   value={user.name || ''}
                   readOnly
                   disabled
