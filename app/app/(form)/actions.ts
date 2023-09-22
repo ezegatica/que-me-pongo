@@ -1,7 +1,7 @@
 'use server';
 import { Session } from 'next-auth';
 import { prisma } from '../../db';
-import { Clothes, getBuenosAiresWeather, userAnswered } from '../../utils';
+import { Clothes, getUserCityWeather, userAnswered } from '../../utils';
 
 export async function Submit(
   formData: FormData,
@@ -31,7 +31,7 @@ export async function Submit(
     throw new Error('El usuario ya respondió hoy');
   }
 
-  const clima = await getBuenosAiresWeather();
+  const clima = await getUserCityWeather(user);
 
   const now = Date.now();
   const day = Math.floor(now / 1000 / 60 / 60 / 24); // Dada una timestamp, agarrar el numero de día

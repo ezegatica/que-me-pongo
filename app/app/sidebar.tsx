@@ -6,7 +6,6 @@ import {
   ClipboardDocumentIcon,
   CloudIcon,
   Cog6ToothIcon,
-  MagnifyingGlassIcon,
   PencilSquareIcon,
   UserCircleIcon,
   XMarkIcon
@@ -222,12 +221,12 @@ export default function Sidebar(): JSX.Element {
                 </ul>
               </li>
               <li className="-mx-6 mt-auto">
-                <button
+                <Link
                   className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800 w-full"
-                  onClick={handleClickUser}
+                  href="/app/settings"
                 >
                   <UserSlot session={session} status={status} />
-                </button>
+                </Link>
               </li>
             </ul>
           </nav>
@@ -243,27 +242,6 @@ export default function Sidebar(): JSX.Element {
             <span className="sr-only">Open sidebar</span>
             <Bars3Icon className="h-5 w-5" aria-hidden="true" />
           </button>
-
-          <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-            <form className="flex flex-1" action="#" method="GET">
-              <label htmlFor="search-field" className="sr-only">
-                ¿Donde estás ahora?
-              </label>
-              <div className="relative w-full">
-                <MagnifyingGlassIcon
-                  className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-500"
-                  aria-hidden="true"
-                />
-                <input
-                  id="search-field"
-                  className="block h-full w-full border-0 bg-transparent py-0 pl-8 pr-0 text-white focus:ring-0 sm:text-sm"
-                  placeholder=" ¿Donde estás ahora?"
-                  type="text"
-                  name="city"
-                />
-              </div>
-            </form>
-          </div>
         </div>
       </div>
     </div>
@@ -289,7 +267,7 @@ const UserSlot = ({
 
   if (session?.user) {
     return (
-      <Link href="/app/settings">
+      <>
         {session.user.image ? (
           <Image
             width={64}
@@ -304,7 +282,7 @@ const UserSlot = ({
         )}
         <span className="sr-only">Tu perfil</span>
         <span aria-hidden="true">{session.user.name}</span>
-      </Link>
+      </>
     );
   } else {
     <>

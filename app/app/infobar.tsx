@@ -6,12 +6,14 @@ import {
 import React from 'react';
 import RefetcherButton from '../(components)/refetcher-button';
 import WeatherAlerts from '../(components)/weather-alerts';
+import { authOptions } from '../auth';
 import {
   classNames,
   emojiByWeather,
-  getBuenosAiresForecast,
-  getBuenosAiresWeather,
   getHour,
+  getUser,
+  getUserCityForecast,
+  getUserCityWeather,
   round
 } from '../utils';
 
@@ -19,9 +21,10 @@ export const revalidate = 1800;
 export const dynamic = 'force-static';
 
 export default async function Infobar(): Promise<JSX.Element> {
+  const { user } = await getUser(authOptions);
   const [clima, forecast] = await Promise.all([
-    getBuenosAiresWeather(),
-    getBuenosAiresForecast()
+    getUserCityWeather(user),
+    getUserCityForecast(user)
   ]);
 
   return (
@@ -36,7 +39,9 @@ export default async function Infobar(): Promise<JSX.Element> {
       </header>
       <WeatherAlerts clima={clima} pronostico={forecast} />
       <div className="flex-auto truncate font-regular text-white text-center">
-        <h2 className="text-xl mb-2">Buenos Aires, AR</h2>
+        <h2 className="text-xl mb-2">
+          {user.cityName}, {user.cityCountry}
+        </h2>
         <h3 className="text-4xl" title={`${clima.main.temp.toString()}°C`}>
           {round(clima.main.temp)}°C
         </h3>

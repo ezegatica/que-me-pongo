@@ -7,7 +7,8 @@ export function round(temp: number): number {
 }
 export const config = {
   weatherApi: {
-    key: process.env.WEATHER_API_KEY
+    key: process.env.WEATHER_API_KEY,
+    revalidate: 3600 * 0.5 // 1/2 Hora
   },
   auth: {
     google: {
@@ -96,16 +97,16 @@ export const getUser = async (
   return { user, session };
 };
 
-export async function getBuenosAiresWeather(): Promise<WeatherResponse> {
+export async function getUserCityWeather(user: User): Promise<WeatherResponse> {
   const url = new URL('https://api.openweathermap.org/data/2.5/weather');
-  url.searchParams.append('lat', '-34.6075682');
-  url.searchParams.append('lon', '-58.4370894');
+  url.searchParams.append('lat', user.cityLat.toString());
+  url.searchParams.append('lon', user.cityLon.toString());
   url.searchParams.append('appid', config.weatherApi.key || 'undefined');
   url.searchParams.append('units', 'metric');
   url.searchParams.append('lang', 'es');
   const res = await fetch(url.toString(), {
     next: {
-      revalidate: 3600 * 0.5, // 1/2 Hora
+      revalidate: config.weatherApi.revalidate,
       tags: ['weather']
     }
   });
@@ -113,13 +114,15 @@ export async function getBuenosAiresWeather(): Promise<WeatherResponse> {
   return data;
 }
 
-export async function getBuenosAiresForecast(): Promise<ForecastResponse> {
+export async function getUserCityForecast(
+  user: User
+): Promise<ForecastResponse> {
   // const url = new URL('https://api.openweathermap.org/data/2.5/forecast');
   const url = new URL(
     'https://pro.openweathermap.org/data/2.5/forecast/hourly'
   );
-  url.searchParams.append('lat', '-34.6075682');
-  url.searchParams.append('lon', '-58.4370894');
+  url.searchParams.append('lat', user.cityLat.toString());
+  url.searchParams.append('lon', user.cityLon.toString());
   url.searchParams.append('appid', config.weatherApi.key || 'undefined');
   url.searchParams.append('cnt', '6');
   url.searchParams.append('mode', 'json');
@@ -127,12 +130,31 @@ export async function getBuenosAiresForecast(): Promise<ForecastResponse> {
   url.searchParams.append('lang', 'es');
   const res = await fetch(url.toString(), {
     next: {
-      revalidate: 3600 * 0.5, // 1/2 Hora
+      revalidate: config.weatherApi.revalidate,
       tags: ['forecast']
     }
   });
   const data = await res.json();
   return data;
+}
+
+export async function searchCity(query: string): Promise<CityResponse[]> {
+  const url = new URL('http://api.openweathermap.org/geo/1.0/direct');
+  url.searchParams.append('q', query);
+  url.searchParams.append('limit', '5');
+  url.searchParams.append('appid', config.weatherApi.key || 'undefined');
+  const res = await fetch(url.toString(), {
+    next: {
+      revalidate: config.weatherApi.revalidate,
+      tags: ['search']
+    }
+  });
+  const data = await res.json();
+  return data;
+}
+
+export function formattedStringByCity(city: CityResponse): string {
+  return `${city.name}, ${city.country}`;
 }
 
 export async function userAnswered(user: User): Promise<{
@@ -157,7 +179,7 @@ export async function getOutfitByWeather(user: User): Promise<{
   upper: UpperType | null;
   lower: LowerType | null;
 }> {
-  const clima = await getBuenosAiresWeather();
+  const clima = await getUserCityWeather(user);
 
   const tempmin = clima.main.temp_min;
   const tempmax = clima.main.temp_max;
@@ -313,4 +335,12 @@ export interface ForecastResponse {
     sunrise: number;
     sunset: number;
   };
+}
+
+export interface CityResponse {
+  name: string;
+  lat: number;
+  lon: number;
+  country: string;
+  state?: string;
 }
