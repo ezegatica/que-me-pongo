@@ -26,7 +26,8 @@ export default function SettingsForm({ user }: { user: User }): JSX.Element {
     Toast.fire({
       title: '¡Ubicación actualizada!',
       icon: 'success',
-      text: `Ahora te encuentras en: ${city.name}`
+      text: `Ahora te encuentras en: ${city.name}, ${city.country}`,
+      timer: 5000
     });
     router.refresh();
   }
