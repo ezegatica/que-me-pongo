@@ -2,12 +2,12 @@
 import Link from 'next/link';
 import React from 'react';
 import { authOptions } from '../../auth';
-import { Clothes, getOutfitByWeather, getUser } from '../../utils';
+import { Clothes, getOutfitByActualWeather, getUser } from '../../utils';
 import { Content, Header, Title } from '@components/headers';
 
 export default async function MisRespuestas(): Promise<JSX.Element> {
   const { user } = await getUser(authOptions);
-  const outfit = await getOutfitByWeather(user);
+  const outfit = await getOutfitByActualWeather(user);
 
   if (!outfit.lower || !outfit.upper) {
     return (

@@ -2,9 +2,7 @@ import { User } from '@prisma/client';
 import { NextAuthOptions, Session, getServerSession } from 'next-auth';
 import { prisma } from './db';
 
-export function round(temp: number): number {
-  return Math.round(temp);
-}
+// Constantes
 export const config = {
   weatherApi: {
     key: process.env.WEATHER_API_KEY,
@@ -40,45 +38,7 @@ export const Clothes = {
   }
 };
 
-export type UpperType = 'shirt' | 'hoodie' | 'jacket';
-export type LowerType = 'shorts' | 'pants';
-
-export function emojiByWeather(icon: string): string {
-  const emojisCode: Record<string, string> = {
-    // Day
-    '01d': '☀️',
-    '02d': '🌤️',
-    '03d': '⛅',
-    '04d': '☁️',
-    '09d': '🌦️',
-    '10d': '🌧️☔',
-    '11d': '⛈️',
-    '13d': '🌨️❄️',
-    '50d': '🌁',
-    // Night
-    '01n': '🌑',
-    '02n': '🌤️ 🌑',
-    '03n': '⛅ 🌑',
-    '04n': '️️☁️',
-    '09n': '🌦️',
-    '10n': '🌧️☔',
-    '11n': '⛈️',
-    '13n': '🌨️❄️',
-    '50n': '🌁'
-  };
-  const emoji = emojisCode[icon];
-
-  if (emoji) {
-    return emoji;
-  }
-
-  return '🌎';
-}
-
-export const proxy = (url: string): string => {
-  const proxyUrl = 'i.ezegatica.com/proxy';
-  return `https://${proxyUrl}?url=${url}`;
-};
+// Querys
 
 export const getUser = async (
   authOptions: NextAuthOptions
@@ -115,7 +75,8 @@ export async function getUserCityWeather(user: User): Promise<WeatherResponse> {
 }
 
 export async function getUserCityForecast(
-  user: User
+  user: User,
+  count: number = 6
 ): Promise<ForecastResponse> {
   // const url = new URL('https://api.openweathermap.org/data/2.5/forecast');
   const url = new URL(
@@ -124,7 +85,7 @@ export async function getUserCityForecast(
   url.searchParams.append('lat', user.cityLat.toString());
   url.searchParams.append('lon', user.cityLon.toString());
   url.searchParams.append('appid', config.weatherApi.key || 'undefined');
-  url.searchParams.append('cnt', '6');
+  url.searchParams.append('cnt', count.toString());
   url.searchParams.append('mode', 'json');
   url.searchParams.append('units', 'metric');
   url.searchParams.append('lang', 'es');
@@ -175,23 +136,58 @@ export async function userAnswered(user: User): Promise<{
   return lastReport;
 }
 
-export async function getOutfitByWeather(user: User): Promise<{
-  upper: UpperType | null;
-  lower: LowerType | null;
-}> {
+export async function getOutfitByActualWeather(user: User): Promise<Outfit> {
   const clima = await getUserCityWeather(user);
 
   const tempmin = clima.main.temp_min;
   const tempmax = clima.main.temp_max;
   // const temp = weather.main.temp;
 
+  const outfit = await getOutfitByWeatherRange(user, tempmin, tempmax);
+
+  return outfit;
+}
+
+export async function getOutfitByFutureWeather(
+  user: User,
+  hoursOut: number
+): Promise<Outfit> {
+  const clima = await getUserCityForecast(user, hoursOut);
+  const { min, max } = clima.list.reduce(
+    (acc, curr) => {
+      if (curr.main.temp_min < acc.min) {
+        acc.min = curr.main.temp_min;
+      }
+      if (curr.main.temp_max > acc.max) {
+        acc.max = curr.main.temp_max;
+      }
+      return acc;
+    },
+    {
+      min: clima.list[0].main.temp_min,
+      max: clima.list[0].main.temp_max
+    }
+  );
+
+  // grab the min and max temp from the forecast
+
+  const outfit = await getOutfitByWeatherRange(user, min, max);
+
+  return outfit;
+}
+
+export async function getOutfitByWeatherRange(
+  user: User,
+  min: number,
+  max: number
+): Promise<Outfit> {
   const reports = await prisma.report.groupBy({
     by: ['lower', 'upper'],
     where: {
       userId: user.id,
       temp: {
-        gte: tempmin,
-        lte: tempmax
+        gte: min,
+        lte: max
       }
     },
     _count: {
@@ -223,6 +219,8 @@ export async function getOutfitByWeather(user: User): Promise<{
   };
 }
 
+// Helper functions
+
 export function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(' ');
 }
@@ -242,6 +240,48 @@ export function getHour(date: Date): string {
   });
 }
 
+export function round(temp: number): number {
+  return Math.round(temp);
+}
+
+export function emojiByWeather(icon: string): string {
+  const emojisCode: Record<string, string> = {
+    // Day
+    '01d': '☀️',
+    '02d': '🌤️',
+    '03d': '⛅',
+    '04d': '☁️',
+    '09d': '🌦️',
+    '10d': '🌧️☔',
+    '11d': '⛈️',
+    '13d': '🌨️❄️',
+    '50d': '🌁',
+    // Night
+    '01n': '🌑',
+    '02n': '🌤️ 🌑',
+    '03n': '⛅ 🌑',
+    '04n': '️️☁️',
+    '09n': '🌦️',
+    '10n': '🌧️☔',
+    '11n': '⛈️',
+    '13n': '🌨️❄️',
+    '50n': '🌁'
+  };
+  const emoji = emojisCode[icon];
+
+  if (emoji) {
+    return emoji;
+  }
+
+  return '🌎';
+}
+
+export const proxy = (url: string): string => {
+  const proxyUrl = 'i.ezegatica.com/proxy';
+  return `https://${proxyUrl}?url=${url}`;
+};
+
+// Tipados
 export interface WeatherResponse {
   coord: {
     lon: number;
@@ -344,3 +384,16 @@ export interface CityResponse {
   country: string;
   state?: string;
 }
+
+export type UpperType = 'shirt' | 'hoodie' | 'jacket';
+export type LowerType = 'shorts' | 'pants';
+
+export type Outfit =
+  | {
+      upper: UpperType;
+      lower: LowerType;
+    }
+  | {
+      upper: null;
+      lower: null;
+    };
