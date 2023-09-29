@@ -3,6 +3,8 @@ import { Providers } from '../(components)/provider';
 import Infobar from './infobar';
 import Sidebar from './sidebar';
 
+export const revalidate = 3600 * (1 / 2); // 30 minutos
+
 export default function RootLayout({
   children
 }: {

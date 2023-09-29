@@ -1,4 +1,5 @@
 import { User } from '@prisma/client';
+import { revalidateTag } from 'next/cache';
 import { NextAuthOptions, Session, getServerSession } from 'next-auth';
 import { prisma } from './db';
 
@@ -57,7 +58,10 @@ export const getUser = async (
   return { user, session };
 };
 
-export async function getUserCityWeather(user: User): Promise<WeatherResponse> {
+export async function getUserCityWeather(
+  user: User,
+  noRefetch: boolean = false
+): Promise<WeatherResponse> {
   const url = new URL('https://api.openweathermap.org/data/2.5/weather');
   url.searchParams.append('lat', user.cityLat.toString());
   url.searchParams.append('lon', user.cityLon.toString());
@@ -67,16 +71,28 @@ export async function getUserCityWeather(user: User): Promise<WeatherResponse> {
   const res = await fetch(url.toString(), {
     next: {
       revalidate: config.weatherApi.revalidate,
-      tags: ['weather']
+      tags: [`weather:${user.cityName}-${user.cityCountry}`]
     }
   });
-  const data = await res.json();
+  const data = (await res.json()) as WeatherResponse;
+  // Si la data fue fetcheada hace mas de N minutos, refetchear.
+  if (
+    Date.now() - data.dt * 1000 > config.weatherApi.revalidate * 1000 &&
+    !noRefetch
+  ) {
+    revalidateTag(`weather:${user.cityName}-${user.cityCountry}`);
+    console.info(
+      `> Revalidando: 'weather:${user.cityName}-${user.cityCountry}' `
+    );
+    return getUserCityWeather(user, true);
+  }
   return data;
 }
 
 export async function getUserCityForecast(
   user: User,
-  count: number = 6
+  count: number = 6,
+  noRefetch: boolean = false
 ): Promise<ForecastResponse> {
   // const url = new URL('https://api.openweathermap.org/data/2.5/forecast');
   const url = new URL(
@@ -92,10 +108,28 @@ export async function getUserCityForecast(
   const res = await fetch(url.toString(), {
     next: {
       revalidate: config.weatherApi.revalidate,
-      tags: ['forecast']
+      tags: [
+        `forecast:${user.cityName}-${user.cityCountry}-${count.toString()}`
+      ]
     }
   });
-  const data = await res.json();
+  const data = (await res.json()) as ForecastResponse;
+
+  // Si la data fue fetcheada hace mas de N minutos, refetchear.
+  if (
+    Date.now() - data.list[0].dt * 1000 > config.weatherApi.revalidate &&
+    !noRefetch
+  ) {
+    revalidateTag(
+      `forecast:${user.cityName}-${user.cityCountry}-${count.toString()}`
+    );
+    console.info(
+      `> Revalidando: 'forecast:${user.cityName}-${
+        user.cityCountry
+      }-${count.toString()}' `
+    );
+    return getUserCityForecast(user, count, true);
+  }
   return data;
 }
 

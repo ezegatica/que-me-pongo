@@ -17,7 +17,6 @@ import {
   round
 } from '../utils';
 
-export const revalidate = 1800;
 export const dynamic = 'force-dynamic';
 
 export default async function Infobar(): Promise<JSX.Element> {

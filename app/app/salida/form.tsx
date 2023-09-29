@@ -56,7 +56,6 @@ export default function SalidaForm(): JSX.Element {
           max="12"
           step="1"
           required
-          defaultValue="1"
           onChange={onChange}
           value={formData.cantidadHoras}
           className="text-2xl text-center text-black bg-white border-2 border-black rounded-lg w-2/3 h-16 mt-10 mb-10 mx-auto block focus:outline-none focus:border-black focus:ring-2 focus:ring-black focus:ring-opacity-50"
