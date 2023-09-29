@@ -16,8 +16,9 @@ export const config = {
     },
     secret: process.env.secret as string
   },
-  form: {
-    cooldown: 30 // minutos
+  rateLimits: {
+    formAnswer: 30, // Minutos
+    maxHoursOut: 12 // Horas a futuro
   }
 };
 
@@ -159,7 +160,7 @@ export async function userAnswered(user: User): Promise<{
     where: {
       userId: user.id,
       date: {
-        gte: new Date(Date.now() - 1000 * 60 * config.form.cooldown)
+        gte: new Date(Date.now() - 1000 * 60 * config.rateLimits.formAnswer)
       }
     },
     select: {
@@ -184,36 +185,69 @@ export async function getOutfitByActualWeather(user: User): Promise<Outfit> {
 
 export async function getOutfitByFutureWeather(
   user: User,
-  hoursOut: number
-): Promise<Outfit> {
+  hoursOutRaw: number
+): Promise<FutureResponse> {
+  const hoursOut =
+    hoursOutRaw > config.rateLimits.maxHoursOut
+      ? config.rateLimits.maxHoursOut
+      : hoursOutRaw; // Si se escapa del limite, setear el maximo
+
   const clima = await getUserCityForecast(user, hoursOut);
-  const { min, max } = clima.list.reduce(
-    (acc, curr) => {
-      if (curr.main.temp_min < acc.min) {
-        acc.min = curr.main.temp_min;
-      }
-      if (curr.main.temp_max > acc.max) {
-        acc.max = curr.main.temp_max;
+  clima.list.map(c => {
+    return {
+      temp_min: c.main.temp_min,
+      temp_max: c.main.temp_max
+    };
+  });
+  // The idea here is to store, from the weather forecast list, the item with the lowest temp. But from this particular hour, store the min and max
+  const { lowestSegmentMin, lowestSegmentMax } = clima.list.reduce(
+    (acc, segment) => {
+      const segmentMin = segment.main.temp_min;
+      const segmentMax = segment.main.temp_max;
+      if (segmentMin < acc.lowestSegmentMin) {
+        acc.lowestSegmentMin = segmentMin;
+        acc.lowestSegmentMax = segmentMax;
       }
       return acc;
     },
-    {
-      min: clima.list[0].main.temp_min,
-      max: clima.list[0].main.temp_max
-    }
+    { lowestSegmentMin: Infinity, lowestSegmentMax: Infinity }
+  );
+
+  const { highestSegmentMin, highestSegmentMax } = clima.list.reduce(
+    (acc, segment) => {
+      const segmentMin = segment.main.temp_min;
+      const segmentMax = segment.main.temp_max;
+      if (segmentMin > acc.highestSegmentMin) {
+        acc.highestSegmentMin = segmentMin;
+        acc.highestSegmentMax = segmentMax;
+      }
+      return acc;
+    },
+    { highestSegmentMin: -Infinity, highestSegmentMax: -Infinity }
   );
 
   // grab the min and max temp from the forecast
 
-  const outfit = await getOutfitByWeatherRange(user, min, max);
+  const outfitForLowestSegment = await getOutfitByWeatherRange(
+    user,
+    lowestSegmentMin,
+    lowestSegmentMax
+  );
 
-  return outfit;
+  const outfitForHighestSegment = await getOutfitByWeatherRange(
+    user,
+    highestSegmentMin,
+    highestSegmentMax
+  );
+
+  return { lowest: outfitForLowestSegment, highest: outfitForHighestSegment };
 }
 
 export async function getOutfitByWeatherRange(
   user: User,
   min: number,
-  max: number
+  max: number,
+  retryCount: number = 0
 ): Promise<Outfit> {
   const reports = await prisma.report.groupBy({
     by: ['lower', 'upper'],
@@ -236,8 +270,13 @@ export async function getOutfitByWeatherRange(
     take: 1
   });
 
+  if (!reports.length && retryCount <= 3) {
+    // Ampliar la brecha de busqueda
+    return getOutfitByWeatherRange(user, min - 0.5, max + 0.5, retryCount + 1);
+  }
+
   if (!reports.length) {
-    // TODO: Reportes de la comunidad
+    // No se encontraron resultados, y no le quedan mas reintentos
     return {
       lower: null,
       upper: null
@@ -417,6 +456,11 @@ export interface CityResponse {
   lon: number;
   country: string;
   state?: string;
+}
+
+export interface FutureResponse {
+  highest: Outfit;
+  lowest: Outfit;
 }
 
 export type UpperType = 'shirt' | 'hoodie' | 'jacket';

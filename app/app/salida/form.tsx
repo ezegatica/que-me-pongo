@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { Toast } from '../../(components)/toast';
-import { getHour } from '../../utils';
+import { config, getHour } from '../../utils';
 import { getRangeWeather } from './actions';
 
 const defaultFormData = {
@@ -23,11 +23,14 @@ export default function SalidaForm(): JSX.Element {
       icon: 'info'
     });
     const outfit = await getRangeWeather(parseInt(formData.cantidadHoras, 10));
-    Toast.fire({
-      title: 'outfit encontrado!',
-      text: `Arriba: ${outfit.upper}, Abajo: ${outfit.lower}`,
-      icon: 'success'
-    });
+
+    if (outfit.highest === outfit.lowest) {
+      // Significa que no hay cambios de temperatura o que va a usar lo mismo durante toda la salida
+    } else {
+      // Significa que hay un cambio de temperatura que justifica un outfit. 2 opciones:
+      /// - Decir Sali con {outfit.highest} pero considera que podes llegar a necesitar {outfit.lowest}
+      /// - Decir Sali con {outfit.lowest} pero considera que podes llegar a necesitar {outfit.highest}
+    }
   };
 
   return (
@@ -53,7 +56,7 @@ export default function SalidaForm(): JSX.Element {
           name="cantidadHoras"
           id="cantidadHoras"
           min="1"
-          max="12"
+          max={config.rateLimits.maxHoursOut}
           step="1"
           required
           onChange={onChange}
