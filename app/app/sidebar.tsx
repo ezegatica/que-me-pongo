@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import {
   Bars3Icon,
   BeakerIcon,
+  CalendarIcon,
   ClipboardDocumentIcon,
   CloudIcon,
   Cog6ToothIcon,
@@ -16,7 +17,6 @@ import { usePathname } from 'next/navigation';
 import { Session } from 'next-auth';
 import { signIn, useSession } from 'next-auth/react';
 import React, { Fragment, useState } from 'react';
-
 import { classNames, proxy } from '../utils';
 
 export default function Sidebar(): JSX.Element {
@@ -36,6 +36,12 @@ export default function Sidebar(): JSX.Element {
       href: '/app/ask',
       icon: BeakerIcon,
       current: pathname === '/app/ask'
+    },
+    {
+      name: 'Planificar salida',
+      href: '/app/salida',
+      icon: CalendarIcon,
+      current: pathname === '/app/salida'
     },
     {
       phoneOnly: true,

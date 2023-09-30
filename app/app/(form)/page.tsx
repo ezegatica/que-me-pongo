@@ -11,7 +11,7 @@ export default function FormPage(): JSX.Element {
       <Header>
         <Title>Registro de atuendo</Title>
         <RightText>
-          Puedes responder una vez cada {config.form.cooldown} minutos
+          Puedes responder una vez cada {config.rateLimits.formAnswer} minutos
         </RightText>
       </Header>
       <Content>
@@ -39,7 +39,7 @@ async function LimiterWrapper({
   const timeLeft = Math.floor(
     (new Date().getTime() - report.date.getTime()) / 1000 / 60
   );
-  const minutesLeft = config.form.cooldown - timeLeft;
+  const minutesLeft = config.rateLimits.formAnswer - timeLeft;
 
   return (
     <div className="text-white text-base">

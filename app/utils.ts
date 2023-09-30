@@ -1,10 +1,9 @@
 import { User } from '@prisma/client';
+import { revalidateTag } from 'next/cache';
 import { NextAuthOptions, Session, getServerSession } from 'next-auth';
 import { prisma } from './db';
 
-export function round(temp: number): number {
-  return Math.round(temp);
-}
+// Constantes
 export const config = {
   weatherApi: {
     key: process.env.WEATHER_API_KEY,
@@ -17,8 +16,9 @@ export const config = {
     },
     secret: process.env.secret as string
   },
-  form: {
-    cooldown: 30 // minutos
+  rateLimits: {
+    formAnswer: 30, // Minutos
+    maxHoursOut: 12 // Horas a futuro
   }
 };
 
@@ -40,8 +40,290 @@ export const Clothes = {
   }
 };
 
-export type UpperType = 'shirt' | 'hoodie' | 'jacket';
-export type LowerType = 'shorts' | 'pants';
+export function getLower(clothe: LowerType): ClotheDetails {
+  return Clothes.Lower[clothe];
+}
+
+export function getUpper(clothe: UpperType): ClotheDetails {
+  return Clothes.Upper[clothe];
+}
+
+// Querys
+
+export const getUser = async (
+  authOptions: NextAuthOptions
+): Promise<{ user: User; session: Session | null }> => {
+  const session = await getServerSession(authOptions);
+  const user = await prisma.user.findUnique({
+    where: {
+      email: session?.user?.email as string
+    }
+  });
+
+  if (!user) {
+    throw new Error("User doesn't exist in database");
+  }
+
+  return { user, session };
+};
+
+export async function getUserCityWeather(
+  user: User,
+  noRefetch: boolean = false
+): Promise<WeatherResponse> {
+  const url = new URL('https://api.openweathermap.org/data/2.5/weather');
+  url.searchParams.append('lat', user.cityLat.toString());
+  url.searchParams.append('lon', user.cityLon.toString());
+  url.searchParams.append('appid', config.weatherApi.key || 'undefined');
+  url.searchParams.append('units', 'metric');
+  url.searchParams.append('lang', 'es');
+  const res = await fetch(url.toString(), {
+    next: {
+      revalidate: config.weatherApi.revalidate,
+      tags: [`weather:${user.cityName}-${user.cityCountry}`]
+    }
+  });
+  const data = (await res.json()) as WeatherResponse;
+  // Si la data fue fetcheada hace mas de N minutos, refetchear.
+  if (
+    Date.now() - data.dt * 1000 > config.weatherApi.revalidate * 1000 &&
+    !noRefetch
+  ) {
+    revalidateTag(`weather:${user.cityName}-${user.cityCountry}`);
+    console.info(
+      `> Revalidando: 'weather:${user.cityName}-${user.cityCountry}' `
+    );
+    return getUserCityWeather(user, true);
+  }
+  return data;
+}
+
+export async function getUserCityForecast(
+  user: User,
+  count: number = 6,
+  noRefetch: boolean = false
+): Promise<ForecastResponse> {
+  // const url = new URL('https://api.openweathermap.org/data/2.5/forecast');
+  const url = new URL(
+    'https://pro.openweathermap.org/data/2.5/forecast/hourly'
+  );
+  url.searchParams.append('lat', user.cityLat.toString());
+  url.searchParams.append('lon', user.cityLon.toString());
+  url.searchParams.append('appid', config.weatherApi.key || 'undefined');
+  url.searchParams.append('cnt', count.toString());
+  url.searchParams.append('mode', 'json');
+  url.searchParams.append('units', 'metric');
+  url.searchParams.append('lang', 'es');
+  const res = await fetch(url.toString(), {
+    next: {
+      revalidate: config.weatherApi.revalidate,
+      tags: [
+        `forecast:${user.cityName}-${user.cityCountry}-${count.toString()}`
+      ]
+    }
+  });
+  const data = (await res.json()) as ForecastResponse;
+
+  // Si la data fue fetcheada hace mas de N minutos, refetchear.
+  if (
+    Date.now() - data.list[0].dt * 1000 > config.weatherApi.revalidate &&
+    !noRefetch
+  ) {
+    revalidateTag(
+      `forecast:${user.cityName}-${user.cityCountry}-${count.toString()}`
+    );
+    console.info(
+      `> Revalidando: 'forecast:${user.cityName}-${
+        user.cityCountry
+      }-${count.toString()}' `
+    );
+    return getUserCityForecast(user, count, true);
+  }
+  return data;
+}
+
+export async function searchCity(query: string): Promise<CityResponse[]> {
+  const url = new URL('http://api.openweathermap.org/geo/1.0/direct');
+  url.searchParams.append('q', query);
+  url.searchParams.append('limit', '5');
+  url.searchParams.append('appid', config.weatherApi.key || 'undefined');
+  const res = await fetch(url.toString(), {
+    next: {
+      revalidate: config.weatherApi.revalidate,
+      tags: ['search']
+    }
+  });
+  const data = await res.json();
+  return data;
+}
+
+export function formattedStringByCity(city: CityResponse): string {
+  return `${city.name}, ${city.country}`;
+}
+
+export async function userAnswered(user: User): Promise<{
+  date: Date;
+} | null> {
+  const lastReport = await prisma.report.findFirst({
+    where: {
+      userId: user.id,
+      date: {
+        gte: new Date(Date.now() - 1000 * 60 * config.rateLimits.formAnswer)
+      }
+    },
+    select: {
+      date: true
+    }
+  });
+
+  return lastReport;
+}
+
+export async function getOutfitByActualWeather(user: User): Promise<Outfit> {
+  const clima = await getUserCityWeather(user);
+
+  const tempmin = clima.main.temp_min;
+  const tempmax = clima.main.temp_max;
+  // const temp = weather.main.temp;
+
+  const outfit = await getOutfitByWeatherRange(user, tempmin, tempmax);
+
+  return outfit;
+}
+
+export async function getOutfitByFutureWeather(
+  user: User,
+  hoursOutRaw: number
+): Promise<FutureResponse> {
+  const hoursOut =
+    hoursOutRaw > config.rateLimits.maxHoursOut
+      ? config.rateLimits.maxHoursOut
+      : hoursOutRaw; // Si se escapa del limite, setear el maximo
+
+  const clima = await getUserCityForecast(user, hoursOut);
+  clima.list.map(c => {
+    return {
+      temp_min: c.main.temp_min,
+      temp_max: c.main.temp_max
+    };
+  });
+  // The idea here is to store, from the weather forecast list, the item with the lowest temp. But from this particular hour, store the min and max
+  const { lowestSegmentMin, lowestSegmentMax } = clima.list.reduce(
+    (acc, segment) => {
+      const segmentMin = segment.main.temp_min;
+      const segmentMax = segment.main.temp_max;
+      if (segmentMin < acc.lowestSegmentMin) {
+        acc.lowestSegmentMin = segmentMin;
+        acc.lowestSegmentMax = segmentMax;
+      }
+      return acc;
+    },
+    { lowestSegmentMin: Infinity, lowestSegmentMax: Infinity }
+  );
+
+  const { highestSegmentMin, highestSegmentMax } = clima.list.reduce(
+    (acc, segment) => {
+      const segmentMin = segment.main.temp_min;
+      const segmentMax = segment.main.temp_max;
+      if (segmentMin > acc.highestSegmentMin) {
+        acc.highestSegmentMin = segmentMin;
+        acc.highestSegmentMax = segmentMax;
+      }
+      return acc;
+    },
+    { highestSegmentMin: -Infinity, highestSegmentMax: -Infinity }
+  );
+
+  // grab the min and max temp from the forecast
+
+  const outfitForLowestSegment = await getOutfitByWeatherRange(
+    user,
+    lowestSegmentMin,
+    lowestSegmentMax
+  );
+
+  const outfitForHighestSegment = await getOutfitByWeatherRange(
+    user,
+    highestSegmentMin,
+    highestSegmentMax
+  );
+
+  return { lowest: outfitForLowestSegment, highest: outfitForHighestSegment };
+}
+
+export async function getOutfitByWeatherRange(
+  user: User,
+  min: number,
+  max: number,
+  retryCount: number = 0
+): Promise<Outfit> {
+  const reports = await prisma.report.groupBy({
+    by: ['lower', 'upper'],
+    where: {
+      userId: user.id,
+      temp: {
+        gte: min,
+        lte: max
+      }
+    },
+    _count: {
+      lower: true,
+      upper: true
+    },
+    orderBy: {
+      _count: {
+        date: 'desc'
+      }
+    },
+    take: 1
+  });
+
+  if (!reports.length && retryCount <= 3) {
+    // Ampliar la brecha de busqueda
+    return getOutfitByWeatherRange(user, min - 0.5, max + 0.5, retryCount + 1);
+  }
+
+  if (!reports.length) {
+    // No se encontraron resultados, y no le quedan mas reintentos
+    return {
+      lower: null,
+      upper: null
+    };
+  }
+
+  const lower = reports[0].lower as LowerType;
+  const upper = reports[0].upper as UpperType;
+
+  return {
+    lower,
+    upper
+  };
+}
+
+// Helper functions
+
+export function classNames(...classes: string[]): string {
+  return classes.filter(Boolean).join(' ');
+}
+
+export function getDay(date: Date): string {
+  return date.toLocaleDateString('es-AR', {
+    year: '2-digit',
+    month: '2-digit',
+    day: '2-digit'
+  });
+}
+
+export function getHour(date: Date): string {
+  return date.toLocaleTimeString('es-AR', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+export function round(temp: number): number {
+  return Math.round(temp);
+}
 
 export function emojiByWeather(icon: string): string {
   const emojisCode: Record<string, string> = {
@@ -80,168 +362,7 @@ export const proxy = (url: string): string => {
   return `https://${proxyUrl}?url=${url}`;
 };
 
-export const getUser = async (
-  authOptions: NextAuthOptions
-): Promise<{ user: User; session: Session | null }> => {
-  const session = await getServerSession(authOptions);
-  const user = await prisma.user.findUnique({
-    where: {
-      email: session?.user?.email as string
-    }
-  });
-
-  if (!user) {
-    throw new Error("User doesn't exist in database");
-  }
-
-  return { user, session };
-};
-
-export async function getUserCityWeather(user: User): Promise<WeatherResponse> {
-  const url = new URL('https://api.openweathermap.org/data/2.5/weather');
-  url.searchParams.append('lat', user.cityLat.toString());
-  url.searchParams.append('lon', user.cityLon.toString());
-  url.searchParams.append('appid', config.weatherApi.key || 'undefined');
-  url.searchParams.append('units', 'metric');
-  url.searchParams.append('lang', 'es');
-  const res = await fetch(url.toString(), {
-    next: {
-      revalidate: config.weatherApi.revalidate,
-      tags: ['weather']
-    }
-  });
-  const data = await res.json();
-  return data;
-}
-
-export async function getUserCityForecast(
-  user: User
-): Promise<ForecastResponse> {
-  // const url = new URL('https://api.openweathermap.org/data/2.5/forecast');
-  const url = new URL(
-    'https://pro.openweathermap.org/data/2.5/forecast/hourly'
-  );
-  url.searchParams.append('lat', user.cityLat.toString());
-  url.searchParams.append('lon', user.cityLon.toString());
-  url.searchParams.append('appid', config.weatherApi.key || 'undefined');
-  url.searchParams.append('cnt', '6');
-  url.searchParams.append('mode', 'json');
-  url.searchParams.append('units', 'metric');
-  url.searchParams.append('lang', 'es');
-  const res = await fetch(url.toString(), {
-    next: {
-      revalidate: config.weatherApi.revalidate,
-      tags: ['forecast']
-    }
-  });
-  const data = await res.json();
-  return data;
-}
-
-export async function searchCity(query: string): Promise<CityResponse[]> {
-  const url = new URL('http://api.openweathermap.org/geo/1.0/direct');
-  url.searchParams.append('q', query);
-  url.searchParams.append('limit', '5');
-  url.searchParams.append('appid', config.weatherApi.key || 'undefined');
-  const res = await fetch(url.toString(), {
-    next: {
-      revalidate: config.weatherApi.revalidate,
-      tags: ['search']
-    }
-  });
-  const data = await res.json();
-  return data;
-}
-
-export function formattedStringByCity(city: CityResponse): string {
-  return `${city.name}, ${city.country}`;
-}
-
-export async function userAnswered(user: User): Promise<{
-  date: Date;
-} | null> {
-  const lastReport = await prisma.report.findFirst({
-    where: {
-      userId: user.id,
-      date: {
-        gte: new Date(Date.now() - 1000 * 60 * config.form.cooldown)
-      }
-    },
-    select: {
-      date: true
-    }
-  });
-
-  return lastReport;
-}
-
-export async function getOutfitByWeather(user: User): Promise<{
-  upper: UpperType | null;
-  lower: LowerType | null;
-}> {
-  const clima = await getUserCityWeather(user);
-
-  const tempmin = clima.main.temp_min;
-  const tempmax = clima.main.temp_max;
-  // const temp = weather.main.temp;
-
-  const reports = await prisma.report.groupBy({
-    by: ['lower', 'upper'],
-    where: {
-      userId: user.id,
-      temp: {
-        gte: tempmin,
-        lte: tempmax
-      }
-    },
-    _count: {
-      lower: true,
-      upper: true
-    },
-    orderBy: {
-      _count: {
-        date: 'desc'
-      }
-    },
-    take: 1
-  });
-
-  if (!reports.length) {
-    // TODO: Reportes de la comunidad
-    return {
-      lower: null,
-      upper: null
-    };
-  }
-
-  const lower = reports[0].lower as LowerType;
-  const upper = reports[0].upper as UpperType;
-
-  return {
-    lower,
-    upper
-  };
-}
-
-export function classNames(...classes: string[]): string {
-  return classes.filter(Boolean).join(' ');
-}
-
-export function getDay(date: Date): string {
-  return date.toLocaleDateString('es-AR', {
-    year: '2-digit',
-    month: '2-digit',
-    day: '2-digit'
-  });
-}
-
-export function getHour(date: Date): string {
-  return date.toLocaleTimeString('es-AR', {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-}
-
+// Tipados
 export interface WeatherResponse {
   coord: {
     lon: number;
@@ -343,4 +464,28 @@ export interface CityResponse {
   lon: number;
   country: string;
   state?: string;
+}
+
+export interface FutureResponse {
+  highest: Outfit;
+  lowest: Outfit;
+}
+
+export type UpperType = 'shirt' | 'hoodie' | 'jacket';
+export type LowerType = 'shorts' | 'pants';
+
+export type Outfit =
+  | {
+      upper: UpperType;
+      lower: LowerType;
+    }
+  | {
+      upper: null;
+      lower: null;
+    };
+
+export interface ClotheDetails {
+  value: string;
+  displayName: string;
+  emoji: string;
 }
