@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { Popup, Toast } from '../../(components)/toast';
+import { Popup } from '../../(components)/toast';
 import { config, getHour, getLower, getUpper } from '../../utils';
 import { getRangeWeather } from './actions';
 
@@ -17,11 +17,7 @@ export default function SalidaForm(): JSX.Element {
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    Toast.fire({
-      title: 'El usuario se va de joda!',
-      text: `Sale a las ${formData.horaSalida} por unas ${formData.cantidadHoras} horas`,
-      icon: 'info'
-    });
+
     const outfit = await getRangeWeather(parseInt(formData.cantidadHoras, 10));
     // const horaVuelta es la suma entre formData.horaSalida (es un string de la hora, ej: 09:10) y formData.cantidadHoras (es un numero que tiene la cantidad de tiempo que va a estar afuera)
     const horaVuelta = new Date(
