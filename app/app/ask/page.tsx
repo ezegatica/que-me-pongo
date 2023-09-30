@@ -2,7 +2,12 @@
 import Link from 'next/link';
 import React from 'react';
 import { authOptions } from '../../auth';
-import { Clothes, getOutfitByActualWeather, getUser } from '../../utils';
+import {
+  getLower,
+  getOutfitByActualWeather,
+  getUpper,
+  getUser
+} from '../../utils';
 import { Content, Header, Title } from '@components/headers';
 
 export default async function MisRespuestas(): Promise<JSX.Element> {
@@ -33,8 +38,8 @@ export default async function MisRespuestas(): Promise<JSX.Element> {
     );
   }
 
-  const upper = Clothes.Upper[outfit.upper];
-  const lower = Clothes.Lower[outfit.lower];
+  const upper = getUpper(outfit.upper);
+  const lower = getLower(outfit.lower);
 
   const randomCompliment = () => {
     const compliments = [

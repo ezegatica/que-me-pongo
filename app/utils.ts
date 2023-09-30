@@ -40,6 +40,14 @@ export const Clothes = {
   }
 };
 
+export function getLower(clothe: LowerType): ClotheDetails {
+  return Clothes.Lower[clothe];
+}
+
+export function getUpper(clothe: UpperType): ClotheDetails {
+  return Clothes.Upper[clothe];
+}
+
 // Querys
 
 export const getUser = async (
@@ -475,3 +483,9 @@ export type Outfit =
       upper: null;
       lower: null;
     };
+
+export interface ClotheDetails {
+  value: string;
+  displayName: string;
+  emoji: string;
+}
