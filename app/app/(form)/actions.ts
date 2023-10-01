@@ -61,6 +61,7 @@ export async function Submit(
       data: {
         day,
         date,
+        dateTz: clima.timezone,
         userId: user?.id,
         lower: lowerSelected,
         upper: upperSelected,
