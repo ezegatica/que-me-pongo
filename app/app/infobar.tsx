@@ -62,8 +62,10 @@ export default async function Infobar(): Promise<JSX.Element> {
                 key={weather.dt}
                 className="rounded-lg flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-black/20 px-1 py-6 sm:px-6 xl:px-8 text-white"
               >
-                <dt className="text-sm font-medium leading-6  ">
-                  {getHour(new Date(weather.dt * 1000))}
+                <dt className="text-sm font-medium leading-6">
+                  {getHour(
+                    new Date(weather.dt * 1000 + forecast.city.timezone * 1000)
+                  )}
                 </dt>
                 <dd
                   className={classNames(
