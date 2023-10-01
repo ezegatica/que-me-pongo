@@ -35,6 +35,7 @@ model Report {
   temp   Float
   userId String
   date   DateTime @default(now())
+  dateTz Int @default(-10800) // Timezone shift from UTC expressed in seconds. Default is Buenos Aires (GMT-3) 3 * 60 * 60 -> 3 hours in seconds
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

@@ -8,9 +8,13 @@ export default function ReportCard({
 }: {
   report: Report;
 }): JSX.Element {
-  const formattedDate = getDay(report.date);
+  const formattedDate = getDay(
+    new Date(report.date.getTime() + report.dateTz * 1000)
+  );
 
-  const formattedHour = getHour(report.date);
+  const formattedHour = getHour(
+    new Date(report.date.getTime() + report.dateTz * 1000)
+  );
 
   const upper = Clothes.Upper[report.upper as UpperType];
   const lower = Clothes.Lower[report.lower as LowerType];

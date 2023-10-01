@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Report" ADD COLUMN     "dateTz" INTEGER NOT NULL DEFAULT 10800;
