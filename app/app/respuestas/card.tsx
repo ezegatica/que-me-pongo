@@ -1,7 +1,7 @@
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Report } from '@prisma/client';
 import React from 'react';
 import { Clothes, LowerType, UpperType, getDay, getHour } from '../../utils';
+import ActionButtons from './action-buttons';
 
 export default function ReportCard({
   report
@@ -36,26 +36,7 @@ export default function ReportCard({
         </div>
       </div>
       <div>
-        <div className="-mt-px flex divide-x divide-gray-200">
-          <div className="flex w-0 flex-1">
-            <a
-              href={`mailto:${''}`}
-              className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold "
-            >
-              <PencilSquareIcon className="h-5 w-5 " aria-hidden="true" />
-              {/* Editar */}
-            </a>
-          </div>
-          <div className="-ml-px flex w-0 flex-1">
-            <a
-              href={`tel:${''}`}
-              className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold "
-            >
-              <TrashIcon className="h-5 w-5 " aria-hidden="true" />
-              {/* Eliminar */}
-            </a>
-          </div>
-        </div>
+        <ActionButtons report={report} />
       </div>
     </li>
   );
