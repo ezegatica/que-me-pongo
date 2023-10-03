@@ -20,9 +20,16 @@ export async function deleteReport(reportId: number): Promise<void> {
     throw new Error('No tienes permisos para realizar esta acción');
   }
 
-  await prisma.report.delete({
-    where: {
-      id: reportId
-    }
-  });
+  await prisma.$transaction([
+    prisma.report.delete({
+      where: {
+        id: reportId
+      }
+    }),
+    prisma.rawReport.delete({
+      where: {
+        id: report.rawReportId
+      }
+    })
+  ]);
 }
