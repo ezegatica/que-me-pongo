@@ -21,14 +21,14 @@ export const metadata: Metadata = {
       'Una aplicación para ayudarte a elegir que ponerte en base al clima y a tus preferencias pasadas. ¡No más perder tiempo!',
     site: 'https://qmp.ezegatica.com',
     title: '¿Qué me pongo?',
-    images: 'https://qmp.ezegatica.com/icon-192x192.png'
+    images: 'https://qmp.ezegatica.com/api/og'
   },
   openGraph: {
     description:
       'Una aplicación para ayudarte a elegir que ponerte en base al clima y a tus preferencias pasadas. ¡No más perder tiempo!',
     images: [
       {
-        url: 'https://qmp.preview.ezegatica.com/api/og',
+        url: 'https://qmp.ezegatica.com/api/og',
         width: 1200,
         height: 630,
         alt: 'Imagen de portada'
