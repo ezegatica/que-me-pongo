@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import FormButton from '../../(components)/form-button';
 import { Popup } from '../../(components)/toast';
 import { config, getHour, getLower, getUpper } from '../../utils';
 import { getRangeWeather } from './actions';
@@ -15,9 +16,7 @@ export default function SalidaForm(): JSX.Element {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const submit = async () => {
     const outfit = await getRangeWeather(parseInt(formData.cantidadHoras, 10));
     // const horaVuelta es la suma entre formData.horaSalida (es un string de la hora, ej: 09:10) y formData.cantidadHoras (es un numero que tiene la cantidad de tiempo que va a estar afuera)
     const horaVuelta = new Date(
@@ -94,8 +93,13 @@ export default function SalidaForm(): JSX.Element {
   };
 
   return (
-    <div>
-      <form onSubmit={submit} onReset={() => setFormData(defaultFormData)}>
+    <div className="space-y-5">
+      <form
+        action={async () => {
+          await submit();
+        }}
+        onReset={() => setFormData(defaultFormData)}
+      >
         <label htmlFor="horaSalida">A que hora salis?</label>
         <input
           type="time"
@@ -124,19 +128,13 @@ export default function SalidaForm(): JSX.Element {
           value={formData.cantidadHoras}
           className="text-2xl text-center text-black bg-white border-2 border-black rounded-lg w-2/3 h-16 mt-10 mb-10 mx-auto block focus:outline-none focus:border-black focus:ring-2 focus:ring-black focus:ring-opacity-50"
         />
-        <div className="mt-2">
-          <button
-            type="reset"
-            className="bg-red-700 px-3 py-2 mx-2 rounded text-white"
-          >
-            Reset
-          </button>
-          <button
-            type="submit"
-            className="bg-white px-3 mx-2 py-2 rounded text-black"
-          >
+        <div className="mt-2 sm:mt-2 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+          <FormButton type="reset" variant="secondary">
+            Reiniciar
+          </FormButton>
+          <FormButton type="submit" variant="primary">
             Predecir
-          </button>
+          </FormButton>
         </div>
       </form>
     </div>

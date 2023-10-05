@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import React from 'react';
+import FormButton from '../../(components)/form-button';
 import { Toast } from '../../(components)/toast';
 import { CityResponse, proxy } from '../../utils';
 import { updateUserCity } from './actions';
@@ -144,15 +145,11 @@ export default function SettingsForm({ user }: { user: User }): JSX.Element {
         </form>
       </div>
 
-      <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-4 sm:px-6 md:grid-cols-3 lg:px-8">
-        <form className="flex items-start md:col-span-2">
-          <button
-            type="button"
-            onClick={logout}
-            className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-400"
-          >
+      <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-2 sm:px-6 md:grid-cols-4 xl:grid-cols-8 lg:px-8">
+        <form className="flex items-start md:col-span-2" onSubmit={logout}>
+          <FormButton variant="danger" type="submit">
             Cerrar sesión en este dispositivo
-          </button>
+          </FormButton>
         </form>
       </div>
     </div>
