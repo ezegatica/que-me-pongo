@@ -5,8 +5,8 @@ import { ImageResponse } from 'next/server';
 export const runtime = 'edge';
 
 export async function GET(): Promise<ImageResponse> {
-  const image = await fetch(new URL('./icon.png', import.meta.url)).then(res =>
-    res.arrayBuffer()
+  const imageData = await fetch(new URL('./icon.png', import.meta.url)).then(
+    res => res.arrayBuffer()
   );
 
   return new ImageResponse(
@@ -36,7 +36,7 @@ export async function GET(): Promise<ImageResponse> {
           <img
             alt="QMP"
             height={256}
-            src={image}
+            src={imageData}
             style={{ margin: '0 30px' }}
             width={256}
           />
