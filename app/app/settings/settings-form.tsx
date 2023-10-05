@@ -146,7 +146,12 @@ export default function SettingsForm({ user }: { user: User }): JSX.Element {
       </div>
 
       <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-2 sm:px-6 md:grid-cols-4 xl:grid-cols-8 lg:px-8">
-        <form className="flex items-start md:col-span-2" onSubmit={logout}>
+        <form
+          className="flex items-start md:col-span-2"
+          action={async () => {
+            await logout();
+          }}
+        >
           <FormButton variant="danger" type="submit">
             Cerrar sesión en este dispositivo
           </FormButton>
