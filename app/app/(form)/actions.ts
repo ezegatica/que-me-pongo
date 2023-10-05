@@ -1,17 +1,17 @@
 'use server';
 import { Session } from 'next-auth';
 import { prisma } from '../../db';
-import { Clothes, getUserCityWeather, userAnswered } from '../../utils';
+import { Outfit, getUserCityWeather, userAnswered } from '../../utils';
 
 export async function Submit(
-  formData: FormData,
+  formData: Outfit,
   session: Session | null
 ): Promise<void> {
   if (!session?.user?.email) {
     throw new Error('El usuario no inició sesión');
   }
-  const lowerSelected = formData.get(Clothes.Lower.value)?.toString();
-  const upperSelected = formData.get(Clothes.Upper.value)?.toString();
+  const lowerSelected = formData.lower;
+  const upperSelected = formData.upper;
 
   if (!lowerSelected || !upperSelected) {
     throw new Error('Faltan prendas en el formulario');
@@ -69,5 +69,54 @@ export async function Submit(
         rawReportId: rawReport.id
       }
     });
+  });
+}
+
+export async function Edit(
+  formData: Outfit,
+  reportId: number,
+  session: Session | null
+): Promise<void> {
+  if (!session?.user?.email) {
+    throw new Error('El usuario no inició sesión');
+  }
+  const lowerSelected = formData.lower;
+  const upperSelected = formData.upper;
+
+  if (!lowerSelected || !upperSelected) {
+    throw new Error('Faltan prendas en el formulario');
+  }
+  const user = await prisma.user.findUnique({
+    where: {
+      email: session?.user?.email
+    }
+  });
+
+  if (!user) {
+    throw new Error('El usuario no existe en la base de datos');
+  }
+
+  const report = await prisma.report.findUnique({
+    where: {
+      id: reportId
+    }
+  });
+
+  if (!report) {
+    throw new Error('El reporte no existe en la base de datos');
+  }
+
+  if (report.userId !== user.id) {
+    throw new Error('Solo puedes editar reportes tuyos');
+  }
+
+  await prisma.report.update({
+    where: {
+      id: reportId
+    },
+    data: {
+      lower: lowerSelected,
+      upper: upperSelected
+    }
   });
 }

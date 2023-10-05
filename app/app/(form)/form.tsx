@@ -1,27 +1,56 @@
 'use client';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
+import { Report } from '@prisma/client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import React, { useRef } from 'react';
-import { Clothes } from '../../utils';
-import { Submit } from './actions';
+import React, { useRef, useState } from 'react';
+import { Clothes, Outfit } from '../../utils';
+import { Edit, Submit } from './actions';
 import FormButton from '@components/form-button';
 import { Toast } from '@components/toast';
 
-export default function WeatherForm(): JSX.Element {
+export default function WeatherForm({
+  report = undefined,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onSubmit = () => {}
+}: {
+  report?: Report;
+  onSubmit?: () => void;
+}): JSX.Element {
+  const [formData, setFormData] = useState<Outfit>({
+    lower: report?.lower,
+    upper: report?.upper
+  } as Outfit);
   const { data: session } = useSession();
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   return (
     <form
       ref={formRef}
-      action={async e => {
+      action={async () => {
         try {
-          await Submit(e, session);
-          Toast.fire({ title: 'Outfit registrado con éxito', icon: 'success' });
-          router.push('/app/ask');
+          if (!report) {
+            await Submit(formData, session);
+            Toast.fire({
+              title: 'Outfit registrado con éxito',
+              icon: 'success'
+            });
+            router.push('/app/ask');
+          } else {
+            await Edit(formData, report.id, session);
+            Toast.fire({
+              title: 'Respuesta editada con éxito',
+              icon: 'success'
+            });
+            onSubmit();
+          }
           router.refresh();
         } catch (error: any) {
           Toast.fire({
@@ -29,27 +58,32 @@ export default function WeatherForm(): JSX.Element {
             icon: 'error'
           });
         } finally {
-          formRef.current?.reset();
+          setFormData({
+            lower: null,
+            upper: null
+          });
         }
       }}
     >
-      <Link href="/app/pronostico" className="block lg:hidden">
-        <div className="rounded-md bg-blue-100 p-4">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <InformationCircleIcon
-                className="h-5 w-5 text-blue-400"
-                aria-hidden="true"
-              />
-            </div>
-            <div className="ml-3 flex-1 md:flex md:justify-between">
-              <p className="text-sm text-blue-700">
-                Es recomendado ver el pronostico antes de responder.
-              </p>
+      {!report && (
+        <Link href="/app/pronostico" className="block lg:hidden">
+          <div className="rounded-md bg-blue-100 p-4">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <InformationCircleIcon
+                  className="h-5 w-5 text-blue-400"
+                  aria-hidden="true"
+                />
+              </div>
+              <div className="ml-3 flex-1 md:flex md:justify-between">
+                <p className="text-sm text-blue-700">
+                  Es recomendado ver el pronostico antes de responder.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+      )}
       <div className="space-y-5">
         <div className="border-b border-white/10 pb-6">
           <h2 className="text-base font-semibold leading-7 text-white">
@@ -63,6 +97,10 @@ export default function WeatherForm(): JSX.Element {
                     id={Clothes.Upper.shirt.value}
                     value={Clothes.Upper.shirt.value}
                     name={Clothes.Upper.value}
+                    defaultChecked={
+                      formData.upper === Clothes.Upper.shirt.value
+                    }
+                    onChange={handleInputChange}
                     type="radio"
                     required
                     className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
@@ -82,6 +120,10 @@ export default function WeatherForm(): JSX.Element {
                     type="radio"
                     required
                     className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
+                    onChange={handleInputChange}
+                    defaultChecked={
+                      formData.upper === Clothes.Upper.hoodie.value
+                    }
                   />
                   <label
                     htmlFor={Clothes.Upper.hoodie.value}
@@ -97,6 +139,10 @@ export default function WeatherForm(): JSX.Element {
                     name={Clothes.Upper.value}
                     type="radio"
                     required
+                    onChange={handleInputChange}
+                    defaultChecked={
+                      formData.upper === Clothes.Upper.jacket.value
+                    }
                     className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
                   />
                   <label
@@ -124,6 +170,10 @@ export default function WeatherForm(): JSX.Element {
                     id={Clothes.Lower.shorts.value}
                     value={Clothes.Lower.shorts.value}
                     name={Clothes.Lower.value}
+                    onChange={handleInputChange}
+                    defaultChecked={
+                      formData.lower === Clothes.Lower.shorts.value
+                    }
                     type="radio"
                     required
                     className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
@@ -141,6 +191,10 @@ export default function WeatherForm(): JSX.Element {
                     value={Clothes.Lower.pants.value}
                     name={Clothes.Lower.value}
                     type="radio"
+                    onChange={handleInputChange}
+                    defaultChecked={
+                      formData.lower === Clothes.Lower.pants.value
+                    }
                     required
                     className="h-4 w-4 border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
                   />
@@ -157,7 +211,7 @@ export default function WeatherForm(): JSX.Element {
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-end gap-x-6">
+      <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
         <FormButton variant="secondary" type="reset">
           Reiniciar
         </FormButton>

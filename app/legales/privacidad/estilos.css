@@ -1,0 +1,28 @@
+/* Necesario para el @layer: */
+@tailwind base;
+
+@layer base {
+  .privacy-page ul,
+  .privacy-page ol {
+    list-style: revert;
+    margin: revert;
+    padding: revert;
+  }
+}
+
+.privacy-page h1,
+.privacy-page h2,
+.privacy-page h3,
+.privacy-page h4,
+.privacy-page h5,
+.privacy-page h6 {
+  font-size: revert;
+  font-weight: revert;
+  margin: revert;
+  padding: revert;
+}
+
+.privacy-page a {
+  color: revert;
+  text-decoration: revert;
+}
