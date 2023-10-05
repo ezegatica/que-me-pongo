@@ -36,7 +36,7 @@ export async function GET(): Promise<ImageResponse> {
           <img
             alt="QMP"
             height={256}
-            src={imageData}
+            src={imageData as unknown as string}
             style={{ margin: '0 30px' }}
             width={256}
           />
