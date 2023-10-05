@@ -27,6 +27,7 @@ const features = [
   },
   {
     name: '¿Te vas de viaje?',
+    comingSoon: true,
     description:
       'Si vas a viajar a otra ciudad, vas a poder pronosticar el clima de los proximos días y ver que te conviene llevar. Así te evitas sorpresas al llegar a tu destino.',
     icon: ShoppingBagIcon
@@ -159,6 +160,11 @@ export default function LandingPage(): JSX.Element {
                       />
                     </div>
                     {feature.name}
+                    {feature?.comingSoon && (
+                      <span className="ml-2 inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                        ¡Pronto!
+                      </span>
+                    )}
                   </dt>
                   <dd className="mt-2 text-base leading-7 text-gray-600">
                     {feature.description}
