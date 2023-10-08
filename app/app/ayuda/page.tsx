@@ -1,11 +1,4 @@
-import {
-  AcademicCapIcon,
-  BanknotesIcon,
-  CheckBadgeIcon,
-  ClockIcon,
-  ReceiptRefundIcon,
-  UsersIcon
-} from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import React from 'react';
 import { classNames } from '../../utils';
 import { Content, Header, Title } from '@components/headers';
@@ -14,44 +7,38 @@ const actions = [
   {
     title: 'Request time off',
     href: '#',
-    icon: ClockIcon,
-    iconForeground: 'text-teal-700',
-    iconBackground: 'bg-teal-50'
+    description:
+      'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
   },
   {
     title: 'Benefits',
     href: '#',
-    icon: CheckBadgeIcon,
-    iconForeground: 'text-purple-700',
-    iconBackground: 'bg-purple-50'
+    description:
+      'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
   },
   {
     title: 'Schedule a one-on-one',
     href: '#',
-    icon: UsersIcon,
-    iconForeground: 'text-sky-700',
-    iconBackground: 'bg-sky-50'
+    description:
+      '  Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
   },
   {
     title: 'Payroll',
     href: '#',
-    icon: BanknotesIcon,
-    iconForeground: 'text-yellow-700',
-    iconBackground: 'bg-yellow-50'
+    description:
+      'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
   },
   {
     title: 'Submit an expense',
     href: '#',
-    icon: ReceiptRefundIcon,
-    iconForeground: 'text-rose-700',
-    iconBackground: 'bg-rose-50'
+    description:
+      'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
   },
   {
     title: 'Training',
     href: '#',
-    icon: AcademicCapIcon,
-    iconForeground: 'text-indigo-700',
-    iconBackground: 'bg-indigo-50'
+    description:
+      'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
   }
 ];
 
@@ -62,49 +49,34 @@ export default function MisRespuestas(): JSX.Element {
         <Title>Ayuda - Preguntas frecuentes</Title>
       </Header>
       <Content>
-        <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
+        <div className="divide-y divide-gray-200 overflow-hidden rounded-lg shadow sm:grid sm:grid-cols-1 sm:gap-px sm:divide-y-0 sm:gap-y-2">
           {actions.map((action, actionIdx) => (
             <div
               key={action.title}
               className={classNames(
                 actionIdx === 0
-                  ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none'
+                  ? 'rounded-t-lg sm:rounded-tl-lg rounded-tr-lg'
                   : '',
-                actionIdx === 1 ? 'sm:rounded-tr-lg' : '',
-                actionIdx === actions.length - 2 ? 'sm:rounded-bl-lg' : '',
                 actionIdx === actions.length - 1
-                  ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
+                  ? 'rounded-b-lg sm:rounded-bl-lg rounded-br-lg'
                   : '',
-                'group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
+                'group relative bg-black/20 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 w-full sm:w-3/4 md:w-10/12'
               )}
             >
-              <div>
-                <span
-                  className={classNames(
-                    action.iconBackground,
-                    action.iconForeground,
-                    'inline-flex rounded-lg p-3 ring-4 ring-white'
-                  )}
-                >
-                  <action.icon className="h-6 w-6" aria-hidden="true" />
-                </span>
-              </div>
               <div className="mt-8">
-                <h3 className="text-base font-semibold leading-6 text-gray-900">
-                  <a href={action.href} className="focus:outline-none">
+                <h3 className="text-base font-semibold leading-6 text-white">
+                  <Link href={action.href} className="focus:outline-none">
                     {/* Extend touch target to entire panel */}
                     <span className="absolute inset-0" aria-hidden="true" />
                     {action.title}
-                  </a>
+                  </Link>
                 </h3>
                 <p className="mt-2 text-sm text-gray-500">
-                  Doloribus dolores nostrum quia qui natus officia quod et
-                  dolorem. Sit repellendus qui ut at blanditiis et quo et
-                  molestiae.
+                  {action.description}
                 </p>
               </div>
               <span
-                className="pointer-events-none absolute right-6 top-6 text-gray-300 group-hover:text-gray-400"
+                className="pointer-events-none absolute right-6 top-6 text-gray-300 group-hover:text-gray-600"
                 aria-hidden="true"
               >
                 <svg
