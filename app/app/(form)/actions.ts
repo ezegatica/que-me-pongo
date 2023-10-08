@@ -1,29 +1,19 @@
 'use server';
-import { Session } from 'next-auth';
+import { authOptions } from '../../auth';
 import { prisma } from '../../db';
-import { Outfit, getUserCityWeather, userAnswered } from '../../utils';
+import { Outfit, getUser, getUserCityWeather, userAnswered } from '../../utils';
 
-export async function Submit(
-  formData: Outfit,
-  session: Session | null
-): Promise<void> {
-  if (!session?.user?.email) {
-    throw new Error('El usuario no inició sesión');
+export async function Submit(formData: Outfit): Promise<void> {
+  const { user } = await getUser(authOptions);
+  if (!user) {
+    throw new Error('El usuario no existe en la base de datos');
   }
+
   const lowerSelected = formData.lower;
   const upperSelected = formData.upper;
 
   if (!lowerSelected || !upperSelected) {
     throw new Error('Faltan prendas en el formulario');
-  }
-  const user = await prisma.user.findUnique({
-    where: {
-      email: session?.user?.email
-    }
-  });
-
-  if (!user) {
-    throw new Error('El usuario no existe en la base de datos');
   }
 
   const userAlreadyReportedToday = await userAnswered(user);
@@ -72,28 +62,16 @@ export async function Submit(
   });
 }
 
-export async function Edit(
-  formData: Outfit,
-  reportId: number,
-  session: Session | null
-): Promise<void> {
-  if (!session?.user?.email) {
-    throw new Error('El usuario no inició sesión');
+export async function Edit(formData: Outfit, reportId: number): Promise<void> {
+  const { user } = await getUser(authOptions);
+  if (!user) {
+    throw new Error('El usuario no existe en la base de datos');
   }
   const lowerSelected = formData.lower;
   const upperSelected = formData.upper;
 
   if (!lowerSelected || !upperSelected) {
     throw new Error('Faltan prendas en el formulario');
-  }
-  const user = await prisma.user.findUnique({
-    where: {
-      email: session?.user?.email
-    }
-  });
-
-  if (!user) {
-    throw new Error('El usuario no existe en la base de datos');
   }
 
   const report = await prisma.report.findUnique({

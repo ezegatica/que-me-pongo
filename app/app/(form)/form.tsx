@@ -3,8 +3,7 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import { Report } from '@prisma/client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Clothes, Outfit } from '../../utils';
 import { Edit, Submit } from './actions';
 import FormButton from '@components/form-button';
@@ -18,11 +17,20 @@ export default function WeatherForm({
   report?: Report;
   onSubmit?: () => void;
 }): JSX.Element {
-  const [formData, setFormData] = useState<Outfit>({
-    lower: report?.lower,
-    upper: report?.upper
-  } as Outfit);
-  const { data: session } = useSession();
+  const defaultFormData = useMemo(
+    () =>
+      (report
+        ? {
+            lower: report.lower.toString(),
+            upper: report.upper.toString()
+          }
+        : {
+            lower: null,
+            upper: null
+          }) as Outfit,
+    [report]
+  );
+  const [formData, setFormData] = useState<Outfit>(defaultFormData);
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -37,18 +45,28 @@ export default function WeatherForm({
       action={async () => {
         try {
           if (!report) {
-            await Submit(formData, session);
+            await Submit(formData);
             Toast.fire({
               title: 'Outfit registrado con éxito',
               icon: 'success'
             });
             router.push('/app/ask');
           } else {
-            await Edit(formData, report.id, session);
-            Toast.fire({
-              title: 'Respuesta editada con éxito',
-              icon: 'success'
-            });
+            if (
+              report.lower === formData.lower &&
+              report.upper === formData.upper
+            ) {
+              Toast.fire({
+                title: 'No hay cambios. Cerrando edición.',
+                icon: 'info'
+              });
+            } else {
+              await Edit(formData, report.id);
+              Toast.fire({
+                title: 'Respuesta editada con éxito',
+                icon: 'success'
+              });
+            }
             onSubmit();
           }
           router.refresh();
@@ -64,6 +82,7 @@ export default function WeatherForm({
           });
         }
       }}
+      onReset={() => setFormData(defaultFormData)}
     >
       {!report && (
         <Link href="/app/pronostico" className="block lg:hidden">

@@ -46,8 +46,8 @@ export default function ActionButtons({
           router.refresh();
         }
       } else if (result.isDenied) {
-        // LANZAR EDITAR
         Popup.close();
+        setShowEdit(true);
       }
     });
   };
