@@ -5,40 +5,41 @@ import { Content, Header, Title } from '@components/headers';
 
 const actions = [
   {
-    title: 'Request time off',
-    href: '#',
+    title: '¿Como registro una prenda?',
+    href: '/app',
     description:
-      'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
+      'Para registrar la ropa que te pusiste, debes ir al formulario de registro de prendas.',
+    action: 'Puedes hacerlo yendo a Menu > Registro'
   },
   {
-    title: 'Benefits',
-    href: '#',
+    title: 'Registré las prendas equivocadas',
+    href: '/app/respuestas',
     description:
-      'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
+      '¿Saliste y te diste cuenta que hacía mas frío o más calor? No pasa nada, podes cambiar o hasta eliminar la respuesta que habias declarado.',
+    action:
+      'Puedes hacerlo yendo a Menu > Mis Respuestas y toca en el boton de "Editar"'
   },
   {
-    title: 'Schedule a one-on-one',
-    href: '#',
+    title: 'Quiero cambiar la ciudad en la que estoy',
+    href: '/app/settings#ubicacion',
     description:
-      '  Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
+      '¿Te fuiste de viaje a otra ciudad y queres seguir usando la aplicación? ¿Estás en otro lado de tu habitual? No pasa nada, podes cambiar tu ubicacion para recibir el pronostico de donde sea que estés!',
+    action:
+      'Puedes hacerlo yendo a Menu > Configuración y bajando hasta "Ubicación"'
   },
   {
-    title: 'Payroll',
-    href: '#',
+    title:
+      'Voy a salir por algunas horas, ¿Como hago para saber que ropa llevar?',
+    href: '/app/salida',
     description:
-      'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
+      'Si tenes planeado salir por algunas horas, puede ser que la temperatura cambie y debas llevar algo más. Puedes usar la funcionalidad de "Planificar salida" para recibir recomendaciones dado un rango de horas.',
+    action: 'Puedes hacerlo yendo a Menu > Planificar salida'
   },
   {
-    title: 'Submit an expense',
-    href: '#',
+    title: 'Tengo problemas al encontrar mi ciudad',
+    href: '/app/settings#ubicacion',
     description:
-      'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
-  },
-  {
-    title: 'Training',
-    href: '#',
-    description:
-      'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
+      'En caso de que no encuentres tu ciudad en la pestaña de Ubicación, puedes elegir una ciudad mas cercana para recibir el pronostico y las recomendaciones lo mas acertado posible.'
   }
 ];
 
@@ -49,30 +50,32 @@ export default function MisRespuestas(): JSX.Element {
         <Title>Ayuda - Preguntas frecuentes</Title>
       </Header>
       <Content>
-        <div className="divide-y divide-gray-200 overflow-hidden rounded-lg shadow sm:grid sm:grid-cols-1 sm:gap-px sm:divide-y-0 sm:gap-y-2">
-          {actions.map((action, actionIdx) => (
+        <div className="overflow-hidden rounded-lg shadow grid grid-cols-1 gap-px divide-y-0 gap-y-2">
+          {actions.map((item, itemIdx) => (
             <div
-              key={action.title}
+              key={item.title}
               className={classNames(
-                actionIdx === 0
-                  ? 'rounded-t-lg sm:rounded-tl-lg rounded-tr-lg'
+                itemIdx === 0 ? 'rounded-t-lg rounded-tl-lg rounded-tr-lg' : '',
+                itemIdx === actions.length - 1
+                  ? 'rounded-b-lg rounded-bl-lg rounded-br-lg'
                   : '',
-                actionIdx === actions.length - 1
-                  ? 'rounded-b-lg sm:rounded-bl-lg rounded-br-lg'
-                  : '',
-                'group relative bg-black/20 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 w-full sm:w-3/4 md:w-10/12'
+                'group relative bg-black/20 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 w-full'
               )}
             >
               <div className="mt-8">
                 <h3 className="text-base font-semibold leading-6 text-white">
-                  <Link href={action.href} className="focus:outline-none">
-                    {/* Extend touch target to entire panel */}
+                  <Link
+                    href={item.href}
+                    className="focus:outline-none"
+                    scroll={false}
+                  >
                     <span className="absolute inset-0" aria-hidden="true" />
-                    {action.title}
+                    {item.title}
                   </Link>
                 </h3>
-                <p className="mt-2 text-sm text-gray-500">
-                  {action.description}
+                <p className="mt-2 text-sm text-gray-400">{item.description}</p>
+                <p className="mt-0.5 text-sm font-bold text-gray-400">
+                  {item.action}
                 </p>
               </div>
               <span
