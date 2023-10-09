@@ -7,7 +7,8 @@ import { prisma } from './db';
 export const config = {
   weatherApi: {
     key: process.env.WEATHER_API_KEY,
-    revalidate: 3600 * 0.5 // 1/2 Hora
+    revalidate: 3600 * 0.5, // 1/2 Hora
+    revalidateSearch: 3600 * 24 * 7 // 7 días
   },
   auth: {
     google: {
@@ -149,7 +150,7 @@ export async function searchCity(query: string): Promise<CityResponse[]> {
   url.searchParams.append('appid', config.weatherApi.key || 'undefined');
   const res = await fetch(url.toString(), {
     next: {
-      revalidate: config.weatherApi.revalidate,
+      revalidate: config.weatherApi.revalidateSearch,
       tags: ['search']
     }
   });
@@ -157,8 +158,27 @@ export async function searchCity(query: string): Promise<CityResponse[]> {
   return data;
 }
 
+export async function reverseSearchCity(
+  lat: number,
+  lon: number
+): Promise<CityResponse[]> {
+  const url = new URL('http://api.openweathermap.org/geo/1.0/reverse');
+  url.searchParams.append('lat', lat.toString());
+  url.searchParams.append('lon', lon.toString());
+  url.searchParams.append('limit', '5');
+  url.searchParams.append('appid', config.weatherApi.key || 'undefined');
+  const res = await fetch(url.toString(), {
+    next: {
+      revalidate: config.weatherApi.revalidateSearch,
+      tags: ['reversesearch']
+    }
+  });
+  const data = await res.json();
+  return data;
+}
+
 export function formattedStringByCity(city: CityResponse): string {
-  return `${city.name}, ${city.country}`;
+  return `${city.name}, ${city.state ? `${city.state}, ` : ''}${city.country}`;
 }
 
 export async function userAnswered(user: User): Promise<{

@@ -1,9 +1,10 @@
 'use client';
 import { Combobox } from '@headlessui/react';
 import { CheckIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import { MapPinIcon } from '@heroicons/react/24/outline';
 import React, { startTransition, useEffect, useState } from 'react';
 import { CityResponse, classNames, formattedStringByCity } from '../../utils';
-import { searchCityApi } from './actions';
+import { reverseSearchCityApi, searchCityApi } from './actions';
 
 export default function CitySearcher({
   onCitySelected,
@@ -12,6 +13,7 @@ export default function CitySearcher({
   onCitySelected: (city: CityResponse) => void;
   selectedCityStartValue: CityResponse;
 }): JSX.Element {
+  const comboboxInputRef = React.useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>(
     formattedStringByCity(selectedCityStartValue)
   );
@@ -59,19 +61,43 @@ export default function CitySearcher({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCity]);
 
+  const handleUseActualLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      async position => {
+        const { latitude, longitude } = position.coords;
+        const city = await reverseSearchCityApi(latitude, longitude);
+        setInputValue(formattedStringByCity(city));
+        comboboxInputRef.current?.focus();
+        setSelectedCity(city);
+        onCitySelected(city);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  };
+
   return (
     <Combobox as="div" value={selectedCity} onChange={setSelectedCity}>
       <div className="relative mt-2">
         <Combobox.Input
           className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+          ref={comboboxInputRef}
           onChange={handleInputChange}
           id="citySearch"
           displayValue={(city: CityResponse) =>
-            city ? `${city.name}, ${city.country}` : ''
+            city ? formattedStringByCity(city) : ''
           }
         />
-        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+        <Combobox.Button className="absolute inset-y-0 right-10 flex items-center rounded-r-md px-2 focus:outline-none">
           <MagnifyingGlassIcon
+            className="h-5 w-5 text-gray-400"
+            aria-hidden="true"
+          />
+        </Combobox.Button>
+        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+          <MapPinIcon
+            onClick={handleUseActualLocation}
             className="h-5 w-5 text-gray-400"
             aria-hidden="true"
           />
@@ -102,7 +128,7 @@ export default function CitySearcher({
                         selected ? 'font-semibold' : ''
                       )}
                     >
-                      {city.name}, {city.country}
+                      {formattedStringByCity(city)}
                     </span>
 
                     {selected && (
