@@ -8,6 +8,7 @@ import {
   CloudIcon,
   Cog6ToothIcon,
   PencilSquareIcon,
+  QuestionMarkCircleIcon,
   UserCircleIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
@@ -26,13 +27,13 @@ export default function Sidebar(): JSX.Element {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigation = [
     {
-      name: 'Formulario',
+      name: 'Registro',
       href: '/app',
       icon: PencilSquareIcon,
       current: pathname === '/app'
     },
     {
-      name: 'Que ponerme',
+      name: '¿Qué ponerme?',
       href: '/app/ask',
       icon: BeakerIcon,
       current: pathname === '/app/ask'
@@ -55,6 +56,12 @@ export default function Sidebar(): JSX.Element {
       href: '/app/respuestas',
       icon: ClipboardDocumentIcon,
       current: pathname === '/app/respuestas'
+    },
+    {
+      name: 'Ayuda',
+      href: '/app/ayuda',
+      icon: QuestionMarkCircleIcon,
+      current: pathname === '/app/ayuda'
     },
     {
       name: 'Configuración',
