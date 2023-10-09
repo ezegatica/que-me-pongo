@@ -20,8 +20,8 @@ export default function OnboarderBanner({ user }: { user: User }): JSX.Element {
             </div>
             <div className="ml-3 flex-1 md:flex md:justify-between">
               <p className="text-sm text-blue-700">
-                ¡Bienvenido! Vamos a terminar de configurar tu cuenta para una
-                mejor experiencia.
+                ¡Bienvenido! Vamos a terminar de configurar tu cuenta para que
+                tengas una mejor experiencia.
               </p>
               <p className="mt-3 text-sm md:ml-6 md:mt-0">
                 <Link

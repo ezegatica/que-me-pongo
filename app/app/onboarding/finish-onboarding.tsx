@@ -20,6 +20,7 @@ export default function FinishOnboarding({
       icon: 'success'
     });
     router.push('/app');
+    router.refresh();
   };
   return (
     <form action={finishOnboarding}>
