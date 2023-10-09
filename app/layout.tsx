@@ -1,4 +1,5 @@
 import './globals.css';
+import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 import { Noto_Sans } from 'next/font/google';
 
@@ -51,7 +52,10 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html className={`h-full bg-gray-900 ${noto.className}`}>
-      <body className="h-full">{children}</body>
+      <body className="h-full">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

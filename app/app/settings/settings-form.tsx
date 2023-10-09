@@ -23,7 +23,6 @@ export default function SettingsForm({ user }: { user: User }): JSX.Element {
 
   async function updateUserCityHandler(city: CityResponse) {
     await updateUserCity(city);
-    await Promise.resolve();
     Toast.fire({
       title: '¡Ubicación actualizada!',
       icon: 'success',
