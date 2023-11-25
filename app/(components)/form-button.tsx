@@ -1,5 +1,8 @@
 'use client';
 import React from 'react';
+// -> https://github.com/vercel/next.js/issues/56041
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 
 export default function FormButton({
