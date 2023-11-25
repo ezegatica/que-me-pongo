@@ -6,7 +6,7 @@ import React from 'react';
 import { Toast } from '../../(components)/toast';
 import { CityResponse } from '../../utils';
 import { updateUserCity } from '../settings/actions';
-import CitySearcher from '../settings/search-city';
+import CitySearcher from '../settings/tabs/user-location/search-city';
 
 export default function OnboardingLocation({
   user

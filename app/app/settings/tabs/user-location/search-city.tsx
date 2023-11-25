@@ -3,8 +3,12 @@ import { Combobox } from '@headlessui/react';
 import { CheckIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { MapPinIcon } from '@heroicons/react/24/outline';
 import React, { startTransition, useEffect, useState } from 'react';
-import { CityResponse, classNames, formattedStringByCity } from '../../utils';
-import { reverseSearchCityApi, searchCityApi } from './actions';
+import {
+  CityResponse,
+  classNames,
+  formattedStringByCity
+} from '../../../../utils';
+import { reverseSearchCityApi, searchCityApi } from '../../actions';
 
 export default function CitySearcher({
   onCitySelected,
