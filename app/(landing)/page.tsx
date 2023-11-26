@@ -60,7 +60,13 @@ export default function LandingPage(): JSX.Element {
               />
             </Link>
           </div>
-          <div className="lg:flex lg:flex-1 lg:justify-end">
+          <div className="lg:flex lg:flex-1 lg:justify-end space-x-4">
+            <Link
+              href="/legales/privacidad"
+              className="text-sm font-semibold leading-6 text-gray-500"
+            >
+              Politica de privacidad
+            </Link>
             <Link
               href="/auth/login"
               className="text-sm font-semibold leading-6 text-gray-900"
