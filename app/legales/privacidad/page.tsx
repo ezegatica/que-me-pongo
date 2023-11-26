@@ -91,7 +91,7 @@ export default function PrivacidadPage(): JSX.Element {
           <p>
             No compartimos tus datos personales con terceros. Las consultas de
             clima se realizan de forma anónima usando como proxy los servidores
-            de la aplicación.
+            de la aplicación, por lo que nunca se asocian a tu usuario.
           </p>
 
           <h2>Derechos de los Usuarios</h2>
