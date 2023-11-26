@@ -6,7 +6,7 @@ import React from 'react';
 import FormButton from '../../(components)/form-button';
 import PersonalInfoTab from './tabs/personal-info/personal-info';
 import UserLocationTab from './tabs/user-location/user-location';
-import UserProfilesTab from './tabs/user-profiles/user-profiles';
+// import UserProfilesTab from './tabs/user-profiles/user-profiles';
 
 export default function SettingsForm({ user }: { user: User }): JSX.Element {
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function SettingsForm({ user }: { user: User }): JSX.Element {
     <div className="divide-y divide-white/5">
       <PersonalInfoTab user={user} />
 
-      <UserProfilesTab user={user} />
+      {/* <UserProfilesTab user={user} /> */}
 
       <UserLocationTab user={user} />
 
