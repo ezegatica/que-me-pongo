@@ -5,6 +5,14 @@ import { Content, Header, Title } from '@components/headers';
 
 const actions = [
   {
+    title: '¿Como instalo la aplicación para celulares?',
+    href: '/instalacion.mp4',
+    description:
+      'Para instalar la aplicación para celulares puedes seguir el instructivo en cliqueando aquí.',
+    action:
+      'Sino, puedes dirigirte a Configuración del sitio > Instalar "¿Que me pongo?"'
+  },
+  {
     title: '¿Como registro una prenda?',
     href: '/app',
     description:
