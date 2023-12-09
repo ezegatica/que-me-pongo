@@ -1,4 +1,5 @@
 import { User } from '@prisma/client';
+import { get } from '@vercel/edge-config';
 import { revalidateTag } from 'next/cache';
 import { NextAuthOptions, Session, getServerSession } from 'next-auth';
 import { prisma } from './db';
@@ -318,6 +319,22 @@ export async function getOutfitByWeatherRange(
     lower,
     upper
   };
+}
+
+export async function getAviso(): Promise<AvisoResponse> {
+  const aviso = await get('aviso_qmp');
+  if (!aviso) {
+    return {
+      mensaje: ''
+    };
+  }
+  return {
+    mensaje: aviso.toString()
+  };
+}
+
+interface AvisoResponse {
+  mensaje: string;
 }
 
 // Helper functions
