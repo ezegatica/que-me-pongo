@@ -32,8 +32,12 @@ export const Clothes = {
       displayName: 'Remera',
       emoji: '👕'
     },
-    hoodie: { value: 'hoodie', displayName: 'Bucito', emoji: '🧥' },
-    jacket: { value: 'jacket', displayName: 'Campera', emoji: '🧥+' }
+    hoodie: { value: 'hoodie', displayName: 'Remera & Bucito', emoji: '🧥' },
+    jacket: {
+      value: 'jacket',
+      displayName: 'Remera, Bucito & Campera',
+      emoji: '🧥+'
+    }
   },
   Lower: {
     value: 'lower',

@@ -1,7 +1,5 @@
 'use client';
-import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import { Report } from '@prisma/client';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useMemo, useRef, useState } from 'react';
 import { Clothes, Outfit } from '../../utils';
@@ -84,25 +82,9 @@ export default function WeatherForm({
       }}
       onReset={() => setFormData(defaultFormData)}
     >
-      {!report && (
-        <Link href="/app/pronostico" className="block lg:hidden">
-          <div className="rounded-md bg-blue-100 p-4">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <InformationCircleIcon
-                  className="h-5 w-5 text-blue-400"
-                  aria-hidden="true"
-                />
-              </div>
-              <div className="ml-3 flex-1 md:flex md:justify-between">
-                <p className="text-sm text-blue-700">
-                  Es recomendado ver el pronostico antes de responder.
-                </p>
-              </div>
-            </div>
-          </div>
-        </Link>
-      )}
+      <h2 className="text-lg font-semibold leading-7 text-white mb-2">
+        ¿Qué llevas puesto ahora?
+      </h2>
       <div className="space-y-5">
         <div className="border-b border-white/10 pb-6">
           <h2 className="text-base font-semibold leading-7 text-white">
