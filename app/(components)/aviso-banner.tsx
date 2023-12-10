@@ -13,14 +13,20 @@ export default function AvisoBanner({ aviso }: { aviso: string }): JSX.Element {
     if (hideAvisoStg === 'false') {
       setHideAviso(false);
     }
+    if (hideAvisoStg === null) {
+      localStorage.setItem('hideAviso', 'false');
+      setHideAviso(false);
+    }
   }, []);
 
   React.useEffect(() => {
     const lastAviso = localStorage.getItem('lastAviso');
     if (lastAviso && lastAviso !== aviso) {
-      console.info('Actualizando referencia al Aviso');
       setHideAviso(false);
       localStorage.setItem('hideAviso', 'false');
+      localStorage.setItem('lastAviso', aviso);
+    }
+    if (lastAviso === null) {
       localStorage.setItem('lastAviso', aviso);
     }
   }, [hideAviso, aviso]);
