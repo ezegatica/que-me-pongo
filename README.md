@@ -19,7 +19,7 @@ Los otros dos son la temperatura mínima y máxima en las distinas partes de la 
 ### Planes a futuro
 
 - [x] Agregar soporte para diferentes ciudades (por ahora solo funciona para la Ciudad de Buenos Aires)
-- [ ] Hacer que la Ciudad de Buenos Aires no sea la default, que haya cierto proceso de onboarding para que el usuario seleccione su ubicación al iniciar.
+- [x] Hacer que la Ciudad de Buenos Aires no sea la default, que haya cierto proceso de onboarding para que el usuario seleccione su ubicación al iniciar.
 - [X] Agregar la posibilidad de marcar un rango de horario, para que en base a las minimas y maximas de ese rango te recomiende llevar ropa extra. (PLANEAR SALIDA)
   - **Ejemplo**: Salís a la 1pm y volves a las 10pm, y en ese rango de horario la temperatura va a bajar de 20° a 10°, entonces te recomienda llevar un buzo para la vuelta, aunque vos salgas en remera.
   - Esta sería la pantalla default, y el Que ponerme quedaría a la derecha, mostrandose siempre.

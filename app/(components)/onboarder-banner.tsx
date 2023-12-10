@@ -9,7 +9,7 @@ export default function OnboarderBanner({ user }: { user: User }): JSX.Element {
   const pathname = usePathname();
   return (
     <>
-      {!user.onboarded && pathname !== '/app/onboarding' && (
+      {!user.onboarded && !pathname.startsWith('/app/onboarding') && (
         <div className="absolute items-center top-1 z-50 mx-auto rounded-md bg-blue-50 left-10 right-10 sm:right-20 sm:left-20 m-auto ">
           <div className="flex p-4">
             <div className="flex-shrink-0">
