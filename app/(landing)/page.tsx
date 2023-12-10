@@ -29,7 +29,7 @@ const features = [
     name: '¿Te vas de viaje?',
     comingSoon: true,
     description:
-      'Si vas a viajar a otra ciudad, vas a poder pronosticar el clima de los proximos días y ver que te conviene llevar. Así te evitas sorpresas al llegar a tu destino.',
+      'Si vas a viajar a otra ciudad, podes pronosticar el clima de los proximos días y ver que te conviene llevar. Así te evitas sorpresas al llegar a tu destino.',
     icon: ShoppingBagIcon
   },
   {
@@ -103,7 +103,7 @@ export default function LandingPage(): JSX.Element {
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
               Una aplicación para ayudarte a elegir que ponerte en base al clima
-              y a tus preferencias pasadas. ¡No más perder tiempo!
+              actual y a tus preferencias pasadas. ¡No más perder tiempo!
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link

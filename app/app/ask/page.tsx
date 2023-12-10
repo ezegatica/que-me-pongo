@@ -43,26 +43,34 @@ export default async function MisRespuestas(): Promise<JSX.Element> {
 
   const randomCompliment = () => {
     const compliments = [
-      'ademas de una buena sonrisa',
-      'ademas de contento',
-      'ademas de feliz'
+      'ademas de con una buena sonrisa',
+      'ademas de contento/a',
+      'ademas de feliz',
+      'ademas de tu hermosa sonrisa',
+      'ademas de facherisimo/a'
       // Proponé mas frases abriendo un PR!
     ];
 
     return compliments[Math.floor(Math.random() * compliments.length)];
   };
 
+  const randomFace = () => {
+    const emojis = ['😎', '😋', '🙂', '😒', '🤪'];
+    // Proponé mas caras abriendo un PR!
+
+    return emojis[Math.floor(Math.random() * emojis.length)];
+  };
+
   return (
     <div>
       <Header>
-        <Title>¿Qué me pongo?</Title>
+        <Title>¿Qué me pongo? - Outfit para {user.name}</Title>
       </Header>
       <Content>
         <p className="mb-2">
-          El día de hoy, {user.name}, te recomiendo ponerte,{' '}
-          {randomCompliment()}:
+          El día de hoy vas a salir, {randomCompliment()}, con:
         </p>
-        <p>😎</p>
+        <p>{randomFace()}</p>
         <p>
           {upper.emoji} {upper.displayName}
         </p>

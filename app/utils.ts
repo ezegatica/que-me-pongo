@@ -1,4 +1,5 @@
 import { User } from '@prisma/client';
+import { get } from '@vercel/edge-config';
 import { revalidateTag } from 'next/cache';
 import { NextAuthOptions, Session, getServerSession } from 'next-auth';
 import { prisma } from './db';
@@ -31,8 +32,12 @@ export const Clothes = {
       displayName: 'Remera',
       emoji: '👕'
     },
-    hoodie: { value: 'hoodie', displayName: 'Bucito', emoji: '🧥' },
-    jacket: { value: 'jacket', displayName: 'Campera', emoji: '🧥+' }
+    hoodie: { value: 'hoodie', displayName: 'Remera & Bucito', emoji: '🧥' },
+    jacket: {
+      value: 'jacket',
+      displayName: 'Remera, Bucito & Campera',
+      emoji: '🧥+'
+    }
   },
   Lower: {
     value: 'lower',
@@ -318,6 +323,22 @@ export async function getOutfitByWeatherRange(
     lower,
     upper
   };
+}
+
+export async function getAviso(): Promise<AvisoResponse> {
+  const aviso = await get('aviso_qmp');
+  if (!aviso) {
+    return {
+      mensaje: ''
+    };
+  }
+  return {
+    mensaje: aviso.toString()
+  };
+}
+
+interface AvisoResponse {
+  mensaje: string;
 }
 
 // Helper functions
