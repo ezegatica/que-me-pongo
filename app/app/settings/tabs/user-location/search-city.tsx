@@ -42,7 +42,6 @@ export default function CitySearcher({
 
   useEffect(() => {
     const triggerSearchCity = (cityName: string): void => {
-      // @ts-expect-error  Type 'Promise<void>' is not assignable to type 'VoidOrUndefinedOnly'.ts(2345)
       startTransition(async (): Promise<void> => {
         const data = await searchCityApi(cityName);
         setCities(data);

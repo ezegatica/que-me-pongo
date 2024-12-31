@@ -89,7 +89,7 @@
       },
       { "selector": "enumMember", "format": null }
     ],
-    "import/no-duplicates": ["error", {"considerQueryString": true}],
+    "import/no-duplicates": ["error", { "considerQueryString": true }],
     "@typescript-eslint/no-empty-function": "error",
     "@typescript-eslint/no-empty-interface": "error",
     "@typescript-eslint/no-explicit-any": "off",
