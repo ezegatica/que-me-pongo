@@ -1,9 +1,19 @@
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Noto_Sans } from 'next/font/google';
 
 const noto = Noto_Sans({ subsets: ['latin'], weight: ['400', '500'] });
+
+export const viewPort: Viewport = {
+  minimumScale: 1,
+  initialScale: 1,
+  width: 'device-width',
+  userScalable: false,
+  viewportFit: 'cover',
+  colorScheme: 'dark',
+  themeColor: '#eee7d8'
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://qmp.ezegatica.com/'),
@@ -11,8 +21,6 @@ export const metadata: Metadata = {
   title: '¿Qué me pongo?, by Eze Gatica',
   description:
     'Una aplicación para ayudarte a elegir que ponerte en base al clima y a tus preferencias pasadas. ¡No más perder tiempo!',
-  viewport:
-    'minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover',
   manifest: '/manifest.json',
   themeColor: '#eee7d8',
   twitter: {
