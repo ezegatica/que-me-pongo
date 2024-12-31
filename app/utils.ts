@@ -109,10 +109,10 @@ export async function getUserCityForecast(
   count: number = 6,
   noRefetch: boolean = false
 ): Promise<ForecastResponse> {
-  // const url = new URL('https://api.openweathermap.org/data/2.5/forecast');
-  const url = new URL(
-    'https://pro.openweathermap.org/data/2.5/forecast/hourly'
-  );
+  const url = new URL('https://api.openweathermap.org/data/2.5/forecast');
+  // const url = new URL(
+  //   'https://pro.openweathermap.org/data/2.5/forecast/hourly'
+  // );
   url.searchParams.append('lat', user.cityLat.toString());
   url.searchParams.append('lon', user.cityLon.toString());
   url.searchParams.append('appid', config.weatherApi.key || 'undefined');
