@@ -46,7 +46,8 @@ export default async function Pronostico(): Promise<JSX.Element> {
         </header>
         <div className="px-2">
           <h3 className="text-base font-semibold leading-6 text-white mb-2 mt-3">
-            Proximas 6hs
+            {/* Proximas 6hs */}
+            Proximas 15hs
           </h3>
           <dl className="mx-auto grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-6 gap-1.5 text-center">
             {forecast.list.map((weather, i) => {
