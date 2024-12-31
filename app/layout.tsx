@@ -22,7 +22,6 @@ export const metadata: Metadata = {
   description:
     'Una aplicación para ayudarte a elegir que ponerte en base al clima y a tus preferencias pasadas. ¡No más perder tiempo!',
   manifest: '/manifest.json',
-  themeColor: '#eee7d8',
   twitter: {
     card: 'summary',
     creator: '@ezegaticaa',
