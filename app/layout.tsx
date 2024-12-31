@@ -5,7 +5,7 @@ import { Noto_Sans } from 'next/font/google';
 
 const noto = Noto_Sans({ subsets: ['latin'], weight: ['400', '500'] });
 
-export const viewPort: Viewport = {
+export const viewport: Viewport = {
   minimumScale: 1,
   initialScale: 1,
   width: 'device-width',
