@@ -8,7 +8,7 @@ const withPWA = require('next-pwa')({
 const nextConfig = {
   images: {
     domains: ['i.ezegatica.com']
-  },
+  }
 };
 const isProduction = process.env.NODE_ENV === 'production';
 // module.exports = withPWA(nextConfig);
