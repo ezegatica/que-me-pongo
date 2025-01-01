@@ -100,7 +100,7 @@ export default function SalidaForm(): JSX.Element {
         }}
         onReset={() => setFormData(defaultFormData)}
       >
-        <label htmlFor="horaSalida">A que hora salis?</label>
+        {/* <label htmlFor="horaSalida">A que hora salis?</label>
         <input
           type="time"
           name="horaSalida"
@@ -111,7 +111,7 @@ export default function SalidaForm(): JSX.Element {
           onChange={onChange}
           value={formData.horaSalida}
           className="disabled:cursor-not-allowed text-2xl text-center text-black bg-white border-2 border-black rounded-lg w-2/3 h-16 mt-10 mb-10 mx-auto block focus:outline-none focus:border-black focus:ring-2 focus:ring-black focus:ring-opacity-50"
-        />
+        /> */}
 
         <label htmlFor="cantidadHoras">
           Cuantas horas vas a estar afuera? {formData.cantidadHoras}hs
@@ -128,10 +128,7 @@ export default function SalidaForm(): JSX.Element {
           value={formData.cantidadHoras}
           className="text-2xl text-center text-black bg-white border-2 border-black rounded-lg w-2/3 h-16 mt-10 mb-10 mx-auto block focus:outline-none focus:border-black focus:ring-2 focus:ring-black focus:ring-opacity-50"
         />
-        <div className="mt-2 sm:mt-2 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-          <FormButton type="reset" variant="secondary">
-            Reiniciar
-          </FormButton>
+        <div className="mt-2 sm:mt-2 sm:grid sm:grid-flow-row-dense sm:grid-cols-1 sm:gap-3">
           <FormButton type="submit" variant="primary">
             Predecir
           </FormButton>

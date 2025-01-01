@@ -104,9 +104,6 @@ export default function WeatherFormLoading(): React.ReactNode {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <FormButton disabled variant="secondary">
-          Reiniciar
-        </FormButton>
         <FormButton disabled variant="primary">
           Guardar
         </FormButton>
