@@ -1,7 +1,7 @@
 'use client';
 import { User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { type JSX } from 'react';
 import FormButton from '../../(components)/form-button';
 import { Toast } from '../../(components)/toast';
 import { finishOnboardingApi } from './actions';

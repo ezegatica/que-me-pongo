@@ -1,6 +1,6 @@
 import { MapPinIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import React from 'react';
+import React, { type JSX } from 'react';
 import FormButton from '../../../(components)/form-button';
 import { authOptions } from '../../../auth';
 import { getUser } from '../../../utils';

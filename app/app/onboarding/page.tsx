@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { type JSX } from 'react';
 import FormButton from '../../(components)/form-button';
 import { Content, Header, Title } from '@components/headers';
 

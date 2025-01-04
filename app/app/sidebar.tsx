@@ -17,7 +17,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Session } from 'next-auth';
 import { signIn, useSession } from 'next-auth/react';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, type JSX, useState } from 'react';
 import { classNames, proxy } from '../utils';
 
 export default function Sidebar(): JSX.Element {

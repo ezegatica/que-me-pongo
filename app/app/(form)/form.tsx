@@ -1,7 +1,7 @@
 'use client';
 import { Report } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { type JSX, useMemo, useRef, useState } from 'react';
 import { Clothes, Outfit } from '../../utils';
 import { Edit, Submit } from './actions';
 import FormButton from '@components/form-button';

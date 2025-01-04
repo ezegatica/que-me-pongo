@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Report } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { type JSX, useState } from 'react';
 import WeatherForm from '../(form)/form';
 import { Popup } from '../../(components)/toast';
 import { deleteReport } from './actions';

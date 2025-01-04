@@ -3,7 +3,7 @@ import {
   ArrowTrendingDownIcon,
   ArrowTrendingUpIcon
 } from '@heroicons/react/24/outline';
-import React from 'react';
+import React, { type JSX } from 'react';
 import RefetcherButton from '../(components)/refetcher-button';
 import WeatherAlerts from '../(components)/weather-alerts';
 import { authOptions } from '../auth';

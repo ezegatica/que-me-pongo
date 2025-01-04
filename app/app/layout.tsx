@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import { Providers } from '../(components)/provider';
 import Banners from './banners';
 import Infobar from './infobar';
 import Sidebar from './sidebar';
 
-export const revalidate = 3600 * (1 / 2); // 30 minutos
+// export const revalidate = 3600 * (1 / 2); // 30 minutos
 
 export default function RootLayout({
   children

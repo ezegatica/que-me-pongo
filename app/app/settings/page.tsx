@@ -1,6 +1,6 @@
 'use server';
 
-import React from 'react';
+import React, { type JSX } from 'react';
 import { authOptions } from '../../auth';
 import { getUser } from '../../utils';
 import SettingsForm from './settings-form';

@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 import Image from 'next/image';
-import React from 'react';
+import React, { type JSX } from 'react';
 import { proxy } from '../../../../utils';
 
 export default function PersonalInfoTab({ user }: { user: User }): JSX.Element {

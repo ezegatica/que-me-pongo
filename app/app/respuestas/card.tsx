@@ -1,5 +1,5 @@
 import { Report } from '@prisma/client';
-import React from 'react';
+import React, { type JSX } from 'react';
 import { Clothes, LowerType, UpperType, getDay, getHour } from '../../utils';
 import ActionButtons from './action-buttons';
 

@@ -1,6 +1,6 @@
 'use server';
 import Link from 'next/link';
-import React from 'react';
+import React, { type JSX } from 'react';
 import { authOptions } from '../../auth';
 import {
   getLower,

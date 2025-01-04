@@ -3,7 +3,7 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import { User } from '@prisma/client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import React, { type JSX } from 'react';
 
 export default function OnboarderBanner({ user }: { user: User }): JSX.Element {
   const pathname = usePathname();

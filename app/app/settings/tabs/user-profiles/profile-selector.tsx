@@ -1,7 +1,7 @@
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import Image from 'next/image';
-import { Fragment, useState } from 'react';
+import { Fragment, type JSX, useState } from 'react';
 import { classNames, proxy } from '../../../../utils';
 
 export default function Selector({ options }: { options: any[] }): JSX.Element {

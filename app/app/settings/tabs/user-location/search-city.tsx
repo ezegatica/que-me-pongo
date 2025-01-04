@@ -2,7 +2,7 @@
 import { Combobox } from '@headlessui/react';
 import { CheckIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { MapPinIcon } from '@heroicons/react/24/outline';
-import React, { startTransition, useEffect, useState } from 'react';
+import React, { type JSX, startTransition, useEffect, useState } from 'react';
 import {
   CityResponse,
   classNames,

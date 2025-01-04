@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
-import React from 'react';
+import React, { type JSX } from 'react';
 import { authOptions } from '../../auth';
 import LoginForm from './form';
 

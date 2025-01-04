@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { type JSX, Suspense } from 'react';
 import { authOptions } from '../../auth';
 import { config, getUser, userAnswered } from '../../utils';
 import WeatherForm from './form';
