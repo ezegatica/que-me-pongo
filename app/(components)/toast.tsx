@@ -14,12 +14,12 @@ export const Toast = ToastSwal.mixin({
 export const PopupSwal = withReactContent(SweetAlert);
 
 export const Popup = PopupSwal.mixin({
-  // customClass: {
-  //   denyButton:
-  //     'rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20',
-  //   cancelButton:
-  //     'rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600',
-  //   confirmButton:
-  //     'rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
-  // }
+  customClass: {
+    denyButton:
+      'rounded-md bg-indigo-100 px-3.5 py-2.5 text-sm font-semibold text-indigo-700 shadow-sm hover:bg-indigo/25',
+    cancelButton:
+      'rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600',
+    confirmButton:
+      'rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+  }
 });

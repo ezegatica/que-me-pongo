@@ -7,7 +7,7 @@ export const GET = async (): Promise<Response> => {
     return Response.json({ message: 'Database connection is healthy', result });
   } catch (error) {
     return Response.json({
-      message: 'Database connection is unhealthy',
+      message: JSON.stringify(error),
       result: null
     });
   }

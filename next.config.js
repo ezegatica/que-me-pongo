@@ -7,7 +7,7 @@ const withPWA = require('next-pwa')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['i.ezegatica.com']
+    remotePatterns: [{protocol: 'https', hostname: 'i.ezegatica.com'}]
   }
 };
 const isProduction = process.env.NODE_ENV === 'production';
