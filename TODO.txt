@@ -1,0 +1,2 @@
+Upgrade headlessui to v2
+https://github.com/tailwindlabs/headlessui/releases/tag/%40headlessui%2Freact%40v2.0.0#user-content-upgrading-from-v1
