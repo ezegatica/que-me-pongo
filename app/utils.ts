@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { type User } from '@prisma/client';
 import { get } from '@vercel/edge-config';
 import { revalidateTag } from 'next/cache';
 import { NextAuthOptions, Session, getServerSession } from 'next-auth';
@@ -87,7 +87,8 @@ export async function getUserCityWeather(
     next: {
       revalidate: config.weatherApi.revalidate,
       tags: [`weather:${user.cityName}-${user.cityCountry}`]
-    }
+    },
+    cache: 'force-cache'
   });
   const data = (await res.json()) as WeatherResponse;
   // Si la data fue fetcheada hace mas de N minutos, refetchear.
@@ -126,7 +127,8 @@ export async function getUserCityForecast(
       tags: [
         `forecast:${user.cityName}-${user.cityCountry}-${count.toString()}`
       ]
-    }
+    },
+    cache: 'force-cache'
   });
   const data = (await res.json()) as ForecastResponse;
 

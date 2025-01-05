@@ -54,8 +54,8 @@ export default function Selector({ options }: { options: any[] }): JSX.Element {
                     {({ selected: isSelected, active }) => (
                       <>
                         <div className="flex items-center">
-                          <img
-                            src={person.avatar}
+                          <Image
+                            src={proxy(person.avatar)}
                             alt=""
                             className="h-5 w-5 flex-shrink-0 rounded-full"
                           />
