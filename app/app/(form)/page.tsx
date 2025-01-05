@@ -5,6 +5,8 @@ import WeatherForm from './form';
 import WeatherFormLoading from './form-loading';
 import { Content, Header, RightText, Title } from '@components/headers';
 
+export const dynamic = 'force-dynamic';
+
 export default function FormPage(): JSX.Element {
   return (
     <div>
