@@ -1,5 +1,0 @@
-Upgrade headlessui to v2
-https://github.com/tailwindlabs/headlessui/releases/tag/%40headlessui%2Freact%40v2.0.0#user-content-upgrading-from-v1
-
-Arreglar el rendering dinamico
-https://nextjs.org/docs/app/building-your-application/rendering/server-components#server-rendering-strategies
