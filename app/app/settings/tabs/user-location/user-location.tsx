@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { type JSX } from 'react';
 import { Toast } from '../../../../(components)/toast';
 import { CityResponse } from '../../../../utils';
 import { updateUserCity } from '../../actions';

@@ -3,7 +3,7 @@ import {
   ArrowTrendingDownIcon,
   ArrowTrendingUpIcon
 } from '@heroicons/react/24/outline';
-import React from 'react';
+import React, { type JSX } from 'react';
 import { authOptions } from '../../auth';
 import {
   classNames,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import AvisoBanner from '../(components)/aviso-banner';
 import OnboarderBanner from '../(components)/onboarder-banner';
 import { authOptions } from '../auth';

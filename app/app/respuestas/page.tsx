@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { type JSX, Suspense } from 'react';
 import RespuestasLista from './respuestas-lista';
 import { Content, Header, RightText, Title } from '@components/headers';
 

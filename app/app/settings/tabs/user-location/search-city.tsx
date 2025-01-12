@@ -2,7 +2,7 @@
 import { Combobox } from '@headlessui/react';
 import { CheckIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { MapPinIcon } from '@heroicons/react/24/outline';
-import React, { startTransition, useEffect, useState } from 'react';
+import React, { type JSX, startTransition, useEffect, useState } from 'react';
 import {
   CityResponse,
   classNames,
@@ -116,14 +116,14 @@ export default function CitySearcher({
                   Promise.resolve(e);
                 }}
                 disabled={city === selectedCity}
-                className={({ active }) =>
+                className={({ focus }) =>
                   classNames(
                     'relative cursor-pointer select-none py-2 pl-3 pr-9',
-                    active ? 'bg-indigo-600 text-gray-200' : 'text-white'
+                    focus ? 'bg-indigo-600 text-gray-200' : 'text-white'
                   )
                 }
               >
-                {({ active, selected }) => (
+                {({ focus, selected }) => (
                   <>
                     <span
                       className={classNames(
@@ -138,7 +138,7 @@ export default function CitySearcher({
                       <span
                         className={classNames(
                           'absolute inset-y-0 right-0 flex items-center pr-4',
-                          active ? 'text-white' : 'text-indigo-600'
+                          focus ? 'text-white' : 'text-indigo-600'
                         )}
                       >
                         <CheckIcon className="h-5 w-5" aria-hidden="true" />

@@ -1,6 +1,6 @@
 'use server';
 
-import React from 'react';
+import React, { type JSX } from 'react';
 import { authOptions } from '../../auth';
 import { prisma } from '../../db';
 import { getUser } from '../../utils';

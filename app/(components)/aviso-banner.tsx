@@ -3,7 +3,7 @@ import {
   ExclamationTriangleIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
-import React from 'react';
+import React, { type JSX } from 'react';
 
 export default function AvisoBanner({ aviso }: { aviso: string }): JSX.Element {
   const [hideAviso, setHideAviso] = React.useState(true);

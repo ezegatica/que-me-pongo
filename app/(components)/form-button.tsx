@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { type JSX } from 'react';
 import { useFormStatus } from 'react-dom';
 
 export default function FormButton({

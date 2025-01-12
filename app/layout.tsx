@@ -3,6 +3,8 @@ import { Analytics } from '@vercel/analytics/react';
 import type { Metadata, Viewport } from 'next';
 import { Noto_Sans } from 'next/font/google';
 
+import type { JSX } from 'react';
+
 const noto = Noto_Sans({ subsets: ['latin'], weight: ['400', '500'] });
 
 export const viewport: Viewport = {
