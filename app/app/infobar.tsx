@@ -1,3 +1,4 @@
+"use server";
 import {
   ArrowRightIcon,
   ArrowTrendingDownIcon,
@@ -16,8 +17,6 @@ import {
   getUserCityWeather,
   round
 } from '../utils';
-
-export const dynamic = 'force-dynamic';
 
 export default async function Infobar(): Promise<JSX.Element> {
   const { user } = await getUser(authOptions);
