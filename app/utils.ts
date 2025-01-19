@@ -1,6 +1,6 @@
 import { type User } from '@prisma/client';
 import { get } from '@vercel/edge-config';
-import { revalidateTag } from 'next/cache';
+import getConfig from 'next/config';
 import { NextAuthOptions, Session, getServerSession } from 'next-auth';
 import { prisma } from './db';
 
@@ -21,7 +21,10 @@ export const config = {
   rateLimits: {
     formAnswer: 30, // Minutos
     maxHoursOut: 12 // Horas a futuro
-  }
+  },
+  // Generated at runtime so the server can access the secret without exposing it or storing it
+  // 32 bytes of random data as a string
+  runtimeSecret: getConfig()?.serverRuntimeConfig?.runtimeSecret || ''
 };
 
 export const Clothes = {
@@ -83,10 +86,11 @@ export async function getUserCityWeather(
   url.searchParams.append('appid', config.weatherApi.key || 'undefined');
   url.searchParams.append('units', 'metric');
   url.searchParams.append('lang', 'es');
+  const cacheTag = `weather:${user.cityName}-${user.cityCountry}`;
   const res = await fetch(url.toString(), {
     next: {
       revalidate: config.weatherApi.revalidate,
-      tags: [`weather:${user.cityName}-${user.cityCountry}`]
+      tags: [cacheTag]
     },
     cache: 'force-cache'
   });
@@ -96,10 +100,7 @@ export async function getUserCityWeather(
     Date.now() - data.dt * 1000 > config.weatherApi.revalidate * 1000 &&
     !noRefetch
   ) {
-    revalidateTag(`weather:${user.cityName}-${user.cityCountry}`);
-    console.info(
-      `> Revalidando: 'weather:${user.cityName}-${user.cityCountry}' `
-    );
+    await purgeTag(cacheTag);
     return getUserCityWeather(user, true);
   }
   return data;
@@ -121,12 +122,13 @@ export async function getUserCityForecast(
   url.searchParams.append('mode', 'json');
   url.searchParams.append('units', 'metric');
   url.searchParams.append('lang', 'es');
+  const cacheTag = `forecast:${user.cityName}-${
+    user.cityCountry
+  }-${count.toString()}`;
   const res = await fetch(url.toString(), {
     next: {
       revalidate: config.weatherApi.revalidate,
-      tags: [
-        `forecast:${user.cityName}-${user.cityCountry}-${count.toString()}`
-      ]
+      tags: [cacheTag]
     },
     cache: 'force-cache'
   });
@@ -137,14 +139,7 @@ export async function getUserCityForecast(
     Date.now() - data.list[0].dt * 1000 > config.weatherApi.revalidate &&
     !noRefetch
   ) {
-    revalidateTag(
-      `forecast:${user.cityName}-${user.cityCountry}-${count.toString()}`
-    );
-    console.info(
-      `> Revalidando: 'forecast:${user.cityName}-${
-        user.cityCountry
-      }-${count.toString()}' `
-    );
+    await purgeTag(cacheTag);
     return getUserCityForecast(user, count, true);
   }
   return data;
@@ -205,6 +200,40 @@ export async function userAnswered(user: User): Promise<{
 
   return lastReport;
 }
+
+export async function purgeTag(tag: string): Promise<Response> {
+  const url = new URL(`${getAppUrl()}/api/secure/revalidate`);
+  url.searchParams.append('tag', tag);
+  url.searchParams.append('secret', config.runtimeSecret);
+  const response = await fetch(url, {
+    method: 'POST'
+  });
+
+  if (!response.ok) {
+    const body = await response.json();
+    console.error(`Couldn't purge tag ${tag}`);
+    console.error({ body });
+  }
+
+  return response;
+}
+
+export const getAppUrl = (): string => {
+  // If it has the default Vercel URL, return it (https://vercel.com/docs/projects/environment-variables/system-environment-variables#VERCEL_URL)
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+
+  // Else, manually map it though the VERCEL_ENV variable (https://vercel.com/docs/projects/environment-variables/system-environment-variables#VERCEL_ENV)
+  switch (process.env.VERCEL_ENV) {
+    case 'production':
+      return 'https://qmp.ezegatica.com';
+    case 'preview':
+      return 'https://qmp.preview.ezegatica.com';
+    default:
+      return 'http://localhost:3000';
+  }
+};
 
 export async function getOutfitByActualWeather(user: User): Promise<Outfit> {
   const clima = await getUserCityWeather(user);

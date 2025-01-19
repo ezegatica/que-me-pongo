@@ -31,6 +31,7 @@
     "postcss": "^8.4.31",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "server-only": "^0.0.1",
     "sharp": "^0.32.6",
     "sweetalert2": "^11.15.10",
     "sweetalert2-react-content": "^5.1.0",
