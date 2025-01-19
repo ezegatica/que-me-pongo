@@ -1,9 +1,10 @@
+'use server';
 import {
   ArrowRightIcon,
   ArrowTrendingDownIcon,
   ArrowTrendingUpIcon
 } from '@heroicons/react/24/outline';
-import React from 'react';
+import React, { type JSX } from 'react';
 import RefetcherButton from '../(components)/refetcher-button';
 import WeatherAlerts from '../(components)/weather-alerts';
 import { authOptions } from '../auth';
@@ -16,8 +17,6 @@ import {
   getUserCityWeather,
   round
 } from '../utils';
-
-export const dynamic = 'force-dynamic';
 
 export default async function Infobar(): Promise<JSX.Element> {
   const { user } = await getUser(authOptions);

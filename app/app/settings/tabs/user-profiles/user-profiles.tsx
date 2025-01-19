@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import React from 'react';
+import React, { type JSX } from 'react';
 import Selector from './profile-selector';
 
 export default function UserProfilesTab({ user }: { user: User }): JSX.Element {

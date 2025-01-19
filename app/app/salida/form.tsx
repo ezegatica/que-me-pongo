@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { type JSX, useState } from 'react';
 import FormButton from '../../(components)/form-button';
 import { Popup } from '../../(components)/toast';
 import { config, getHour, getLower, getUpper } from '../../utils';

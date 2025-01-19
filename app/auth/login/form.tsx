@@ -1,6 +1,6 @@
 'use client';
 import { signIn } from 'next-auth/react';
-import React from 'react';
+import React, { type JSX } from 'react';
 
 export default function LoginForm(): JSX.Element {
   async function login(): Promise<void> {

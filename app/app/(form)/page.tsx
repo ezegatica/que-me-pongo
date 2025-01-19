@@ -1,9 +1,11 @@
-import React, { Suspense } from 'react';
+import React, { type JSX, Suspense } from 'react';
 import { authOptions } from '../../auth';
 import { config, getUser, userAnswered } from '../../utils';
 import WeatherForm from './form';
 import WeatherFormLoading from './form-loading';
 import { Content, Header, RightText, Title } from '@components/headers';
+
+export const dynamic = 'force-dynamic';
 
 export default function FormPage(): JSX.Element {
   return (

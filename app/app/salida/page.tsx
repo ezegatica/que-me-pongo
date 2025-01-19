@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import SalidaForm from './form';
 import { Content, Header, Title } from '@components/headers';
 

@@ -1,5 +1,10 @@
 'use client';
-import { Dialog, Transition } from '@headlessui/react';
+import {
+  Dialog,
+  DialogPanel,
+  Transition,
+  TransitionChild
+} from '@headlessui/react';
 import {
   Bars3Icon,
   BeakerIcon,
@@ -17,7 +22,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Session } from 'next-auth';
 import { signIn, useSession } from 'next-auth/react';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, type JSX, useState } from 'react';
 import { classNames, proxy } from '../utils';
 
 export default function Sidebar(): JSX.Element {
@@ -79,13 +84,13 @@ export default function Sidebar(): JSX.Element {
 
   return (
     <div>
-      <Transition.Root show={sidebarOpen} as={Fragment}>
+      <Transition show={sidebarOpen} as={Fragment}>
         <Dialog
           as="div"
           className="relative z-50 xl:hidden"
           onClose={setSidebarOpen}
         >
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
             enterFrom="opacity-0"
@@ -95,10 +100,10 @@ export default function Sidebar(): JSX.Element {
             leaveTo="opacity-0"
           >
             <div className="fixed inset-0 bg-gray-900/80" />
-          </Transition.Child>
+          </TransitionChild>
 
           <div className="fixed inset-0 flex">
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="transition ease-in-out duration-300 transform"
               enterFrom="-translate-x-full"
@@ -107,8 +112,8 @@ export default function Sidebar(): JSX.Element {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
-                <Transition.Child
+              <DialogPanel className="relative mr-16 flex w-full max-w-xs flex-1">
+                <TransitionChild
                   as={Fragment}
                   enter="ease-in-out duration-300"
                   enterFrom="opacity-0"
@@ -130,7 +135,7 @@ export default function Sidebar(): JSX.Element {
                       />
                     </button>
                   </div>
-                </Transition.Child>
+                </TransitionChild>
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 ring-1 ring-white/10">
                   <div className="flex h-16 shrink-0 items-center">
@@ -184,11 +189,11 @@ export default function Sidebar(): JSX.Element {
                     </ul>
                   </nav>
                 </div>
-              </Dialog.Panel>
-            </Transition.Child>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </Dialog>
-      </Transition.Root>
+      </Transition>
 
       {/* Static sidebar for desktop */}
       <div className="hidden xl:fixed xl:inset-y-0 xl:z-40 xl:flex xl:w-72 xl:flex-col">

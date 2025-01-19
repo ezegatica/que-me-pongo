@@ -1,7 +1,7 @@
 'use client';
 
 import { SessionProvider } from 'next-auth/react';
-import React from 'react';
+import React, { type JSX } from 'react';
 
 export function Providers({
   children

@@ -2,7 +2,7 @@
 import { User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import React from 'react';
+import React, { type JSX } from 'react';
 import FormButton from '../../(components)/form-button';
 import PersonalInfoTab from './tabs/personal-info/personal-info';
 import UserLocationTab from './tabs/user-location/user-location';
