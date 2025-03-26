@@ -4,6 +4,7 @@ import {
   ArrowTrendingUpIcon
 } from '@heroicons/react/24/outline';
 import React, { type JSX } from 'react';
+import WeatherAlerts from '../../(components)/weather-alerts';
 import { authOptions } from '../../auth';
 import {
   classNames,
@@ -25,11 +26,12 @@ export default async function Pronostico(): Promise<JSX.Element> {
   return (
     <div>
       <Header>
-        <Title>Pronostico de las proximas 6hs</Title>
+        <Title>Pronostico de las proximas 15hs</Title>
       </Header>
       <Content>
         <header>
           <div className="flex-auto truncate font-regular text-white text-center">
+            <WeatherAlerts clima={clima} pronostico={forecast} />
             <h3 className="text-base font-semibold leading-6 text-white mb-2 mt-3 text-left">
               Clima actual
             </h3>
